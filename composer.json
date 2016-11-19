@@ -1,0 +1,23 @@
+{
+  "name": "delboy1978uk/blank",
+  "description": "A blank project",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Derek McLean",
+      "email": "delboy1978uk@gmail.com"
+    }
+  ],
+  "require": {
+    "delboy1978uk/common" : "*"
+  },
+  "require-dev": {
+    "codeception/codeception": "dev-master"
+  },
+  "autoload": {
+    "psr-4": {
+      "Del\\Form\\": "src/",
+      "DelTesting\\Form\\": "tests/unit/Del/Form/"
+    }
+  }
+}

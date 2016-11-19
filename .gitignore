@@ -15,11 +15,12 @@ data/sessions/
 data/tmp/
 temp/
 
-#Doctrine 2
-data/DoctrineORMModule/Proxy/
-data/DoctrineORMModule/cache/
-
-
 # Legacy ZF1
 demos/
 extras/documentation
+
+#ide
+.idea/
+
+#test output
+tests/_output
