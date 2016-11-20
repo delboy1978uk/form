@@ -50,4 +50,59 @@ interface FormInterface
      */
     public function render();
 
+    /**
+     * @param string $url
+     * @return FormInterface
+     */
+    public function setAction($url);
+
+    /**
+     * @return string
+     */
+    public function getAction();
+
+    /**
+     * @return string
+     */
+    public function getId();
+
+    /**
+     * @param string $id
+     * @return FormInterface
+     */
+    public function setId($id);
+
+    /**
+     * @param string $encType
+     * @return $this
+     */
+    public function setEncType($encType);
+
+    /**
+     * @return string
+     */
+    public function getEncType();
+
+    /**
+     * @param string $method
+     * @return FormInterface
+     */
+    public function setMethod($method);
+
+    /**
+     * @return string
+     */
+    public function getMethod();
+
+    /**
+     * @param string $class
+     * @return FormInterface
+     */
+    public function setClass($class);
+
+    /**
+     * @return string
+     */
+    public function getClass();
+
 }

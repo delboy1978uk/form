@@ -9,7 +9,7 @@
     }
   ],
   "require": {
-    "delboy1978uk/common" : "*"
+    "delboy1978uk/common" : "^2.3.12"
   },
   "require-dev": {
     "codeception/codeception": "dev-master"
