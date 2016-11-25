@@ -78,4 +78,39 @@ class FormTest extends Test
         $this->assertArrayHasKey('username', $values);
         $this->assertEquals('delboy1978uk', $values['username']);
     }
+
+    public function testFindFieldInCollectionByName()
+    {
+        $form = new TestForm('test');
+        $text = new Text('username', 'delboy1978uk');
+        $text->setId('user');
+        $class = $text->getClass().' extra-class';
+        $text->setClass($class);
+        $form->addField($text);
+        $fields = $form->getFields();
+        $field = $fields->findByName('username');
+        $this->assertInstanceOf('Del\Form\Field\Text', $field);
+        $this->assertEquals('form-control extra-class', $field->getClass());
+        $this->assertEquals('user', $field->getId());
+        $this->assertEquals('delboy1978uk', $field->getValue());
+        $this->assertEquals('input', $field->getTag());
+        $this->assertEquals('text', $field->getTagType());
+    }
+
+    public function testFindFieldInCollectionByNameReturnsNull()
+    {
+        $form = new TestForm('test');
+        $fields = $form->getFields();
+        $field = $fields->findByName('username');
+        $this->assertNull($field);
+    }
+
+    public function testGetField()
+    {
+        $form = new TestForm('test');
+        $text = new Text('username', 'delboy1978uk');
+        $form->addField($text);
+        $field = $form->getField('username');
+        $this->assertInstanceOf('Del\Form\Field\Text', $field);
+    }
 }
