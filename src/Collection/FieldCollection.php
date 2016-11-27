@@ -25,6 +25,7 @@ class FieldCollection extends AbstractCollection implements CollectionInterface
             if($field->getName() == $name) {
                 return $field;
             }
+            $this->next();
         }
         $this->rewind();
         return null;

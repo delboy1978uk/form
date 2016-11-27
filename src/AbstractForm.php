@@ -120,14 +120,7 @@ abstract class AbstractForm implements FormInterface
         while ($this->fieldCollection->valid()) {
             /** @var FieldInterface $current */
             $current = $this->fieldCollection->current();
-            $child = $this->dom->createElement($current->getTag());
-
-            $child->setAttribute('type', $current->getTagType());
-            $child->setAttribute('name', $current->getName());
-            $child->setAttribute('id', $current->getId());
-            $child->setAttribute('value', $current->getValue());
-            $child->setAttribute('class', $current->getClass());
-
+            $child = $this->createChildElement($current);
             $this->form->appendChild($child);
             $this->fieldCollection->next();
         }
@@ -136,6 +129,23 @@ abstract class AbstractForm implements FormInterface
         $this->dom->appendChild($this->form);
 
         return $this->dom->saveHTML();
+    }
+
+    /**
+     * @param FieldInterface $field
+     * @return DOMElement
+     */
+    private function createChildElement(FieldInterface $field)
+    {
+        $child = $this->dom->createElement($field->getTag());
+
+        $child->setAttribute('type', $field->getTagType());
+        $child->setAttribute('name', $field->getName());
+        $child->setAttribute('id', $field->getId());
+        $child->setAttribute('value', $field->getValue());
+        $child->setAttribute('class', $field->getClass());
+
+        return $child;
     }
 
     /**

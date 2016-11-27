@@ -30,10 +30,10 @@ abstract class FieldAbstract implements FieldInterface
      */
     abstract public function getTagType();
 
-    public function __construct($name, $value)
+    public function __construct($name, $value = null)
     {
         $this->setName($name);
-        $this->setValue($value);
+        is_null($value) ? null : $this->setValue($value);
     }
 
     /**

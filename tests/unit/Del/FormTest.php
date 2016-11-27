@@ -95,6 +95,29 @@ class FormTest extends Test
         $this->assertEquals('delboy1978uk', $field->getValue());
         $this->assertEquals('input', $field->getTag());
         $this->assertEquals('text', $field->getTagType());
+
+        $form = new TestForm('test');
+        $text = new Text('username', 'delboy1978uk');
+        $text->setId('user');
+        $class = $text->getClass().' extra-class';
+        $text->setClass($class);
+        $form->addField($text);
+        $text = new Text('firstname', 'delboy1978uk');
+        $text->setId('firstname');
+        $form->addField($text);
+        $text = new Text('lastname', 'delboy1978uk');
+        $text->setId('lastname');
+        $form->addField($text);
+        $fields = $form->getFields();
+        $field = $fields->findByName('username');
+        $this->assertInstanceOf('Del\Form\Field\Text', $field);
+        $this->assertEquals('user', $field->getId());
+        $field = $fields->findByName('firstname');
+        $this->assertInstanceOf('Del\Form\Field\Text', $field);
+        $this->assertEquals('firstname', $field->getId());
+        $field = $fields->findByName('lastname');
+        $this->assertInstanceOf('Del\Form\Field\Text', $field);
+        $this->assertEquals('lastname', $field->getId());
     }
 
     public function testFindFieldInCollectionByNameReturnsNull()
@@ -112,5 +135,35 @@ class FormTest extends Test
         $form->addField($text);
         $field = $form->getField('username');
         $this->assertInstanceOf('Del\Form\Field\Text', $field);
+    }
+
+    public function testPopulate()
+    {
+        $form = new TestForm('test');
+        $text = new Text('username');
+        $text->setId('user');
+        $form->addField($text);
+        $text = new Text('firstname');
+        $text->setId('firstname');
+        $form->addField($text);
+        $text = new Text('lastname');
+        $text->setId('lastname');
+        $form->addField($text);
+
+        $data = [
+            'username' => 'delboy1978uk',
+            'firstname' => 'Derek',
+            'lastname' => 'McLean',
+        ];
+
+        $form->populate($data);
+
+        $values = $form->getValues();
+        $this->assertArrayHasKey('username', $values);
+        $this->assertArrayHasKey('firstname', $values);
+        $this->assertArrayHasKey('lastname', $values);
+        $this->assertEquals('delboy1978uk', $values['username']);
+        $this->assertEquals('Derek', $values['firstname']);
+        $this->assertEquals('McLean', $values['lastname']);
     }
 }
