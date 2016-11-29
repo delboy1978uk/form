@@ -3,6 +3,8 @@
 namespace DelTesting\Form;
 
 use Codeception\TestCase\Test;
+use Del\Form\Collection\FilterCollection;
+use Del\Form\Collection\ValidatorCollection;
 use Del\Form\Field\Text;
 use Del\Form\Filter\Adapter\FilterAdapterZf;
 use Del\Form\Validator\Adapter\ValidatorAdapterZf;
@@ -243,6 +245,20 @@ class FormTest extends Test
         $this->assertEquals(2, count($filters));
         $this->assertArrayHasKey('username', $values);
         $this->assertEquals('Delboy1978uk', $values['username']);
+    }
+
+    public function testValidatorCollectionThrowsInvalidArgumentException()
+    {
+        $this->expectException('InvalidArgumentException');
+        $collection = new ValidatorCollection();
+        $collection->append(12345);
+    }
+
+    public function testFilterCollectionThrowsInvalidArgumentException()
+    {
+        $this->expectException('InvalidArgumentException');
+        $collection = new FilterCollection();
+        $collection->append(12345);
     }
 
 }

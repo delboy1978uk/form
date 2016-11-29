@@ -10,6 +10,7 @@ namespace Del\Form\Collection;
 use Del\Common\Collection\AbstractCollection;
 use Del\Common\Collection\CollectionInterface;
 use Del\Form\Validator\ValidatorInterface;
+use InvalidArgumentException;
 
 class ValidatorCollection extends AbstractCollection implements CollectionInterface
 {
@@ -17,8 +18,11 @@ class ValidatorCollection extends AbstractCollection implements CollectionInterf
      * @param ValidatorInterface $validator
      * @return $this
      */
-    public function append(ValidatorInterface $validator)
+    public function append($validator)
     {
+        if(!$validator instanceof ValidatorInterface) {
+            throw new InvalidArgumentException('You can only append a Del\Form\Validator\ValidatorInterface.');
+        }
         parent::append($validator);
         return $this;
     }

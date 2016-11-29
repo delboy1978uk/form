@@ -10,6 +10,7 @@ namespace Del\Form\Collection;
 use Del\Common\Collection\AbstractCollection;
 use Del\Common\Collection\CollectionInterface;
 use Del\Form\Filter\FilterInterface;
+use InvalidArgumentException;
 
 class FilterCollection extends AbstractCollection implements CollectionInterface
 {
@@ -17,8 +18,11 @@ class FilterCollection extends AbstractCollection implements CollectionInterface
      * @param FilterInterface $filter
      * @return $this
      */
-    public function append(FilterInterface $filter)
+    public function append($filter)
     {
+        if(!$filter instanceof FilterInterface) {
+            throw new InvalidArgumentException('You can only append a Del\Form\Filter\FilterInterface.');
+        }
         parent::append($filter);
         return $this;
     }
