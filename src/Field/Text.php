@@ -9,6 +9,9 @@ namespace Del\Form\Field;
 
 class Text extends FieldAbstract
 {
+    /** @var string $placeholder */
+    private $placeholder;
+
     /**
      * @return string
      */
@@ -23,6 +26,22 @@ class Text extends FieldAbstract
     public function getTagType()
     {
         return 'text';
+    }
+
+    /**
+     * @return string
+     */
+    public function getPlaceholder()
+    {
+        return $this->placeholder;
+    }
+
+    /**
+     * @param string $placeholder
+     */
+    public function setPlaceholder($placeholder)
+    {
+        $this->placeholder = $placeholder;
     }
 
 

@@ -35,6 +35,9 @@ abstract class FieldAbstract implements FieldInterface
     /** @var array $errorMessages */
     private $errorMessages;
 
+    /** @var string $label */
+    private $label;
+
     /**
      * @return string
      */
@@ -209,5 +212,23 @@ abstract class FieldAbstract implements FieldInterface
     public function getMessages()
     {
         return array_values($this->errorMessages);
+    }
+
+    /**
+     * @return string
+     */
+    public function getLabel()
+    {
+        return $this->label;
+    }
+
+    /**
+     * @param string $label
+     * @return FieldAbstract
+     */
+    public function setLabel($label)
+    {
+        $this->label = $label;
+        return $this;
     }
 }

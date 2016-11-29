@@ -27,6 +27,17 @@ interface FieldInterface
     public function getValue();
 
     /**
+     * @param string $label
+     * @return FieldInterface
+     */
+    public function setLabel($label);
+
+    /**
+     * @return string
+     */
+    public function getLabel();
+
+    /**
      * @return string
      */
     public function getId();

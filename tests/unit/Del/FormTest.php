@@ -6,6 +6,9 @@ use Codeception\TestCase\Test;
 use Del\Form\Collection\FilterCollection;
 use Del\Form\Collection\ValidatorCollection;
 use Del\Form\Form;
+use Del\Form\Field\CheckBox;
+use Del\Form\Field\Radio;
+use Del\Form\Field\Submit;
 use Del\Form\Field\Text;
 use Del\Form\Filter\Adapter\FilterAdapterZf;
 use Del\Form\Validator\Adapter\ValidatorAdapterZf;
@@ -72,7 +75,7 @@ class FormTest extends Test
         $this->assertEquals('/here', $form->getAction());
         $this->assertEquals('testId', $form->getId());
         $this->assertEquals('random-class', $form->getClass());
-        $this->assertEquals('<form name="test" action="/here" id="testId" class="random-class" enctype="multipart/form-data" method="get"></form>'."\n", $html);
+        $this->assertEquals('<form name="test" id="testId" method="get" class="random-class" action="/here" enctype="multipart/form-data"></form>'."\n", $html);
     }
 
     public function testTextField()
@@ -83,7 +86,7 @@ class FormTest extends Test
         $form->addField($text);
         $values = $form->getValues();
         $html = $form->render();
-        $this->assertEquals('<form name="test" id="test" method="post" action=""><input type="text" name="username" id="user" value="delboy1978uk" class="form-control"></form>'."\n", $html);
+        $this->assertEquals('<form name="test" id="test" method="post" class="" action="" enctype=""><div class="form-group"><label for="user"></label><input type="text" name="username" id="user" value="delboy1978uk" class="form-control"></div></form>'."\n", $html);
         $this->assertArrayHasKey('username', $values);
         $this->assertEquals('delboy1978uk', $values['username']);
     }
@@ -262,4 +265,46 @@ class FormTest extends Test
         $collection->append(12345);
     }
 
+    public function testOtherFieldTypes()
+    {
+        $form = new Form('testform');
+
+        $validator = new ValidatorAdapterZf(new NotEmpty());
+        $filter = new FilterAdapterZf(new StripTags());
+
+        $name = new Text('Username');
+        $email = new Text('Email');
+        $radio = new Radio('Radio');
+        $check = new CheckBox('Radio');
+        $submit = new Submit('submit');
+
+        $name->addValidator($validator);
+        $name->addFilter($filter);
+        $name->setPlaceholder('Enter Some Text');
+        $this->assertEquals('Enter Some Text', $name->getPlaceholder());
+        $name->setLabel('User Name');
+        $email->setLabel('User Name');
+
+        $form->addField($name);
+        $form->addField($email);
+        $form->addField($radio);
+        $form->addField($check);
+        $form->addField($submit);
+
+        $html = $form->render();
+        $this->assertEquals('<form name="testform" id="testform" method="post" class="" action="" enctype=""><div class="form-group"><label for="">User Name</label><input type="text" name="Username" id="" value="" class="form-control"></div><div class="form-group"><label for="">User Name</label><input type="text" name="Email" id="" value="" class="form-control"></div><div class="form-group"><label for=""></label><input type="radio" name="Radio" id="" value="" class="form-control"></div><div class="form-group"><label for=""></label><input type="checkbox" name="Radio" id="" value="" class="form-control"></div><div class="form-group"><label for=""></label><input type="submit" name="submit" id="" value="submit" class="btn btn-primary"></div></form>'."\n", $html);
+    }
+
+
+    public function testRenderWithErrors()
+    {
+        $form = new Form('testform');
+        $validator = new ValidatorAdapterZf(new NotEmpty());
+        $text = new Text('text');
+        $text->addValidator($validator);
+        $form->addField($text);
+        $form->populate(['text' => null]);
+        $html = $form->render();
+        $this->assertEquals('<form name="testform" id="testform" method="post" class="" action="" enctype=""><div class="form-group has-error"><label for=""></label><input type="text" name="text" id="" value="" class="form-control"><span class="help-block">Value is required and can\'t be empty'."\n".'</span></div></form>'."\n", $html);
+    }
 }

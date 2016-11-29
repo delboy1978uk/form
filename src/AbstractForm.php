@@ -9,8 +9,6 @@ namespace Del\Form;
 
 use Del\Form\Collection\FieldCollection;
 use Del\Form\Field\FieldInterface;
-use DOMDocument;
-use DOMElement;
 
 abstract class AbstractForm implements FormInterface
 {
@@ -21,16 +19,19 @@ abstract class AbstractForm implements FormInterface
     /** @var FieldCollection $fieldCollection */
     private $fieldCollection;
 
-    /** @var DOMDocument $dom */
-    private $dom;
-
-    /** @var DomElement $form */
-    private $form;
+    /** @var FormRenderer  */
+    private $formRenderer;
 
     /**
      * @var array
      */
     private $errorMessages;
+
+    /** @var array $attributes */
+    private $attributes;
+
+    /** @var bool $displayErrors */
+    private $displayErrors;
 
     /**
      * AbstractForm constructor.
@@ -39,10 +40,15 @@ abstract class AbstractForm implements FormInterface
     public function __construct($name)
     {
         $this->fieldCollection = new FieldCollection();
-        $this->dom = new DOMDocument();
-        $form = $this->dom->createElement('form');
-        $form->setAttribute('name', $name);
-        $this->form = $form;
+        $this->formRenderer = new FormRenderer($name);
+        $this->attributes = [
+            'name' => null,
+            'id' => null,
+            'class' => null,
+            'enc-type' => null,
+            'method' => self::METHOD_POST,
+        ];
+        $this->displayErrors = false;
         $this->init();
     }
 
@@ -53,6 +59,7 @@ abstract class AbstractForm implements FormInterface
      */
     public function isValid()
     {
+        $this->hasBeenPopulatedOrValidated = true;
         $this->errorMessages = [];
         $this->fieldCollection->rewind();
         while ($this->fieldCollection->valid()) {
@@ -106,6 +113,7 @@ abstract class AbstractForm implements FormInterface
             $this->fieldCollection->next();
         }
         $this->fieldCollection->rewind();
+        $this->displayErrors = true;
         return $this;
     }
 
@@ -141,44 +149,7 @@ abstract class AbstractForm implements FormInterface
      */
     public function render()
     {
-        $method = $this->form->getAttribute('method') ?: self::METHOD_POST;
-        $id = $this->form->getAttribute('id') ?: $this->form->getAttribute('name');
-        $action = $this->form->getAttribute('action') ?: $this->form->getAttribute('action');
-
-        $this->form->setAttribute('id', $id);
-        $this->form->setAttribute('method', $method);
-        $this->form->setAttribute('action', $action);
-
-        $this->fieldCollection->rewind();
-        while ($this->fieldCollection->valid()) {
-            /** @var FieldInterface $current */
-            $current = $this->fieldCollection->current();
-            $child = $this->createChildElement($current);
-            $this->form->appendChild($child);
-            $this->fieldCollection->next();
-        }
-        $this->fieldCollection->rewind();
-
-        $this->dom->appendChild($this->form);
-
-        return $this->dom->saveHTML();
-    }
-
-    /**
-     * @param FieldInterface $field
-     * @return DOMElement
-     */
-    private function createChildElement(FieldInterface $field)
-    {
-        $child = $this->dom->createElement($field->getTag());
-
-        $child->setAttribute('type', $field->getTagType());
-        $child->setAttribute('name', $field->getName());
-        $child->setAttribute('id', $field->getId());
-        $child->setAttribute('value', $field->getValue());
-        $child->setAttribute('class', $field->getClass());
-
-        return $child;
+        return $this->formRenderer->render($this, $this->displayErrors);
     }
 
     /**
@@ -187,7 +158,7 @@ abstract class AbstractForm implements FormInterface
      */
     public function setAction($url)
     {
-        $this->form->setAttribute('action', $url);
+        $this->setAttribute('action', $url);
         return $this;
     }
 
@@ -196,7 +167,7 @@ abstract class AbstractForm implements FormInterface
      */
     public function getAction()
     {
-        return $this->form->getAttribute('action');
+        return $this->getAttribute('action');
     }
 
     /**
@@ -204,7 +175,7 @@ abstract class AbstractForm implements FormInterface
      */
     public function getId()
     {
-        return $this->form->getAttribute('id');
+        return $this->getAttribute('id');
     }
 
     /**
@@ -213,7 +184,7 @@ abstract class AbstractForm implements FormInterface
      */
     public function setId($id)
     {
-        $this->form->setAttribute('id', $id);
+        $this->setAttribute('id', $id);
         return $this;
     }
 
@@ -223,7 +194,7 @@ abstract class AbstractForm implements FormInterface
      */
     public function setEncType($encType)
     {
-        $this->form->setAttribute('enctype', $encType);
+        $this->setAttribute('enctype', $encType);
         return $this;
     }
 
@@ -232,7 +203,7 @@ abstract class AbstractForm implements FormInterface
      */
     public function getEncType()
     {
-        return $this->form->getAttribute('enctype');
+        return $this->getAttribute('enctype');
     }
 
     /**
@@ -241,7 +212,7 @@ abstract class AbstractForm implements FormInterface
      */
     public function setMethod($method)
     {
-        $this->form->setAttribute('method', $method);
+        $this->setAttribute('method', $method);
         return $this;
     }
 
@@ -250,7 +221,7 @@ abstract class AbstractForm implements FormInterface
      */
     public function getMethod()
     {
-        return $this->form->getAttribute('method');
+        return $this->getAttribute('method');
     }
 
     /**
@@ -259,7 +230,7 @@ abstract class AbstractForm implements FormInterface
      */
     public function setClass($class)
     {
-        $this->form->setAttribute('class', $class);
+        $this->setAttribute('class', $class);
         return $this;
     }
 
@@ -268,6 +239,27 @@ abstract class AbstractForm implements FormInterface
      */
     public function getClass()
     {
-        return $this->form->getAttribute('class');
+        return $this->getAttribute('class');
     }
+
+    /**
+     * @param $key
+     * @return mixed|string
+     */
+    public function getAttribute($key)
+    {
+        return isset($this->attributes[$key]) ? $this->attributes[$key] : null;
+    }
+
+    /**
+     * @param $key
+     * @param $value
+     * @return $this
+     */
+    public function setAttribute($key, $value)
+    {
+        $this->attributes[$key] = $value;
+        return $this;
+    }
+
 }
