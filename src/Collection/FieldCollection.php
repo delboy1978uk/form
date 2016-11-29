@@ -30,4 +30,12 @@ class FieldCollection extends AbstractCollection implements CollectionInterface
         $this->rewind();
         return null;
     }
+
+    /**
+     * @return FieldInterface
+     */
+    public function current()
+    {
+        return parent::current();
+    }
 }

@@ -7,6 +7,12 @@
 
 namespace Del\Form\Field;
 
+use Del\Form\Collection\FilterCollection;
+use Del\Form\Collection\ValidatorCollection;
+use Del\Form\Filter\FilterInterface;
+use Del\Form\Validator\ValidatorInterface;
+use Exception;
+
 interface FieldInterface
 {
     /**
@@ -44,4 +50,38 @@ interface FieldInterface
      * @return mixed
      */
     public function getTagType();
+
+    /**
+     * @param ValidatorInterface $validator
+     * @return $this
+     */
+    public function addValidator(ValidatorInterface $validator);
+
+    /**
+     * @return ValidatorCollection
+     */
+    public function getValidators();
+
+    /**
+     * @param FilterInterface $filter
+     * @return $this
+     */
+    public function addFilter(FilterInterface $filter);
+
+    /**
+     * @return FilterCollection
+     */
+    public function getFilters();
+
+    /**
+     * @param  mixed $value
+     * @return bool
+     * @throws Exception If validation of $value is impossible
+     */
+    public function isValid();
+
+    /**
+     * @return array
+     */
+    public function getMessages();
 }

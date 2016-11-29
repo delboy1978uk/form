@@ -27,6 +27,15 @@ abstract class AbstractForm implements FormInterface
     /** @var DomElement $form */
     private $form;
 
+    /**
+     * @var array
+     */
+    private $errorMessages;
+
+    /**
+     * AbstractForm constructor.
+     * @param $name
+     */
     public function __construct($name)
     {
         $this->fieldCollection = new FieldCollection();
@@ -44,7 +53,24 @@ abstract class AbstractForm implements FormInterface
      */
     public function isValid()
     {
-        return false;
+        $this->errorMessages = [];
+        $this->fieldCollection->rewind();
+        while ($this->fieldCollection->valid()) {
+            $this->checkForErrors($this->fieldCollection->current());
+            $this->fieldCollection->next();
+        }
+        $this->fieldCollection->rewind();
+        return count($this->errorMessages) == 0;
+    }
+
+    /**
+     * @param FieldInterface $field
+     */
+    private function checkForErrors(FieldInterface $field)
+    {
+        if ($field->isValid()) {
+            $this->errorMessages[$field->getName()] = $field->getMessages();
+        }
     }
 
     /**
@@ -53,10 +79,13 @@ abstract class AbstractForm implements FormInterface
     public function getValues()
     {
         $values = [];
-        /** @var FieldInterface $field */
-        foreach ($this->fieldCollection as $field) {
+        $this->fieldCollection->rewind();
+        while ($this->fieldCollection->valid()) {
+            $field = $this->fieldCollection->current();
             $values[$field->getName()] = $field->getValue();
+            $this->fieldCollection->next();
         }
+        $this->fieldCollection->rewind();
         return $values;
     }
 
@@ -66,13 +95,16 @@ abstract class AbstractForm implements FormInterface
      */
     public function populate(array $data)
     {
-        /** @var FieldInterface $field */
-        foreach ($this->fieldCollection as $field) {
+        $this->fieldCollection->rewind();
+        while ($this->fieldCollection->valid()) {
+            $field = $this->fieldCollection->current();
             $name = $field->getName();
             if (isset($data[$name])) {
                 $field->setValue($data[$name]);
             }
+            $this->fieldCollection->next();
         }
+        $this->fieldCollection->rewind();
         return $this;
     }
 

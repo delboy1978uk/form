@@ -4,6 +4,12 @@ namespace DelTesting\Form;
 
 use Codeception\TestCase\Test;
 use Del\Form\Field\Text;
+use Del\Form\Filter\Adapter\FilterAdapterZf;
+use Del\Form\Validator\Adapter\ValidatorAdapterZf;
+use Zend\Filter\StripTags;
+use Zend\Filter\UpperCaseWords;
+use Zend\Validator\NotEmpty;
+use Zend\Validator\StringLength;
 
 class FormTest extends Test
 {
@@ -166,4 +172,77 @@ class FormTest extends Test
         $this->assertEquals('Derek', $values['firstname']);
         $this->assertEquals('McLean', $values['lastname']);
     }
+
+    public function testAddAndGetValidators()
+    {
+        $form = new TestForm('test');
+        $text = new Text('username');
+
+        $notEmptyValidator = new NotEmpty();
+        $adapter = new ValidatorAdapterZf($notEmptyValidator);
+
+        $stringLength = new StringLength();
+        $stringLength->setMax(10);
+        $stringLength->setMin(2);
+        $adapter2 = new ValidatorAdapterZf($stringLength);
+
+        $text->setId('user');
+        $text->addValidator($adapter);
+        $text->addValidator($adapter2);
+
+        $form->addField($text);
+        $validators = $text->getValidators();
+        $this->assertInstanceOf('Del\Form\Collection\ValidatorCollection', $validators);
+        $this->assertEquals(2, count($validators));
+    }
+
+    public function testValidateForm()
+    {
+        $form = new TestForm('test');
+        $text = new Text('username');
+
+        $notEmptyValidator = new NotEmpty();
+        $adapter = new ValidatorAdapterZf($notEmptyValidator);
+
+        $stringLength = new StringLength();
+        $stringLength->setMax(10);
+        $stringLength->setMin(2);
+        $adapter2 = new ValidatorAdapterZf($stringLength);
+
+        $text->setId('user');
+        $text->addValidator($adapter);
+        $text->addValidator($adapter2);
+
+        $form->addField($text);
+        $this->assertFalse($form->isValid());
+        $form->getField('username')->setValue('Derek');
+        $this->assertTrue($form->isValid());
+    }
+
+
+
+    public function testAddAndGetFilters()
+    {
+        $form = new TestForm('test');
+        $text = new Text('username');
+
+        $stripTags = new StripTags();
+        $upperCase = new UpperCaseWords();
+        $adapter = new FilterAdapterZf($stripTags);
+        $adapter2 = new FilterAdapterZf($upperCase);
+
+        $text->setId('user');
+        $text->addFilter($adapter);
+        $text->addFilter($adapter2);
+        $text->setValue('delboy1978uk');
+
+        $form->addField($text);
+        $filters = $text->getFilters();
+        $values = $form->getValues();
+        $this->assertInstanceOf('Del\Form\Collection\FilterCollection', $filters);
+        $this->assertEquals(2, count($filters));
+        $this->assertArrayHasKey('username', $values);
+        $this->assertEquals('Delboy1978uk', $values['username']);
+    }
+
 }

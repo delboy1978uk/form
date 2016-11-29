@@ -7,6 +7,12 @@
 
 namespace Del\Form\Field;
 
+use Del\Form\Collection\FilterCollection;
+use Del\Form\Collection\ValidatorCollection;
+use Del\Form\Filter\FilterInterface;
+use Del\Form\Validator\ValidatorInterface;
+use Exception;
+
 abstract class FieldAbstract implements FieldInterface
 {
     /** @var string $name */
@@ -18,7 +24,16 @@ abstract class FieldAbstract implements FieldInterface
     /** @var string $class  */
     private $class;
 
+    /**  @var FilterCollection $filterCollection */
+    private $filterCollection;
+
+    /**  @var ValidatorCollection $validatorCollection */
+    private $validatorCollection;
+
     private $value;
+
+    /** @var array $errorMessages */
+    private $errorMessages;
 
     /**
      * @return string
@@ -32,6 +47,8 @@ abstract class FieldAbstract implements FieldInterface
 
     public function __construct($name, $value = null)
     {
+        $this->filterCollection = new FilterCollection();
+        $this->validatorCollection = new ValidatorCollection();
         $this->setName($name);
         is_null($value) ? null : $this->setValue($value);
     }
@@ -105,6 +122,91 @@ abstract class FieldAbstract implements FieldInterface
     public function setValue($value)
     {
         $this->value = $value;
+        $this->filterValue();
         return $this;
+    }
+
+    /**
+     * @param ValidatorInterface $validator
+     * @return $this
+     */
+    public function addValidator(ValidatorInterface $validator)
+    {
+        $this->validatorCollection->append($validator);
+        return $this;
+    }
+
+    /**
+     * @return ValidatorCollection
+     */
+    public function getValidators()
+    {
+        return $this->validatorCollection;
+    }
+
+    /**
+     * @param FilterInterface $filter
+     * @return $this
+     */
+    public function addFilter(FilterInterface $filter)
+    {
+        $this->filterCollection->append($filter);
+        return $this;
+    }
+
+    /**
+     * @return FilterCollection
+     */
+    public function getFilters()
+    {
+        return $this->filterCollection;
+    }
+
+    /**
+     * @param  mixed $value
+     * @return bool
+     * @throws Exception If validation of $value is impossible
+     */
+    public function isValid()
+    {
+        $this->errorMessages = [];
+        $this->validatorCollection->rewind();
+        while ($this->validatorCollection->valid()) {
+            $this->checkForErrors($this->validatorCollection->current());
+            $this->validatorCollection->next();
+        }
+        return count($this->errorMessages) == 0;
+    }
+
+    /**
+     * @param FieldInterface $field
+     */
+    private function checkForErrors(ValidatorInterface $validator)
+    {
+        $value = $this->getValue();
+
+        if ($validator->isValid($value)) {
+            $this->errorMessages[] = $validator->getMessages();
+        }
+    }
+
+    private function filterValue()
+    {
+        $value = $this->value;
+        $this->filterCollection->rewind();
+        while ($this->filterCollection->valid()) {
+            $value = $this->filterCollection->current()->filter($value);
+            $this->filterCollection->next();
+        }
+        $this->filterCollection->rewind();
+        $this->value = $value;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMessages()
+    {
+        return array_values($this->errorMessages);
     }
 }
