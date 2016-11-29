@@ -175,7 +175,8 @@ abstract class FieldAbstract implements FieldInterface
             $this->checkForErrors($this->validatorCollection->current());
             $this->validatorCollection->next();
         }
-        return count($this->errorMessages) == 0;
+        $count = count($this->errorMessages);
+        return $count == 0;
     }
 
     /**
@@ -185,7 +186,7 @@ abstract class FieldAbstract implements FieldInterface
     {
         $value = $this->getValue();
 
-        if ($validator->isValid($value)) {
+        if (!$validator->isValid($value)) {
             $this->errorMessages[] = $validator->getMessages();
         }
     }

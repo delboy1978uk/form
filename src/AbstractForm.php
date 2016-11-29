@@ -60,7 +60,8 @@ abstract class AbstractForm implements FormInterface
             $this->fieldCollection->next();
         }
         $this->fieldCollection->rewind();
-        return count($this->errorMessages) == 0;
+        $count = count($this->errorMessages);
+        return $count == 0;
     }
 
     /**
@@ -68,7 +69,7 @@ abstract class AbstractForm implements FormInterface
      */
     private function checkForErrors(FieldInterface $field)
     {
-        if ($field->isValid()) {
+        if (!$field->isValid()) {
             $this->errorMessages[$field->getName()] = $field->getMessages();
         }
     }
