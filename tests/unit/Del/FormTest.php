@@ -5,6 +5,7 @@ namespace DelTesting\Form;
 use Codeception\TestCase\Test;
 use Del\Form\Collection\FilterCollection;
 use Del\Form\Collection\ValidatorCollection;
+use Del\Form\Form;
 use Del\Form\Field\Text;
 use Del\Form\Filter\Adapter\FilterAdapterZf;
 use Del\Form\Validator\Adapter\ValidatorAdapterZf;
@@ -22,37 +23,37 @@ class FormTest extends Test
 
     public function testGetSetId()
     {
-        $form = new TestForm('test');
+        $form = new Form('test');
         $form->setId('testId');
         $this->assertEquals('testId', $form->getId());
     }
 
     public function testGetSetClass()
     {
-        $form = new TestForm('test');
+        $form = new Form('test');
         $form->setClass('some-class');
         $this->assertEquals('some-class', $form->getClass());
     }
 
     public function testGetSetMethod()
     {
-        $form = new TestForm('test');
-        $form->setMethod(TestForm::METHOD_GET);
-        $this->assertEquals(TestForm::METHOD_GET, $form->getMethod());
+        $form = new Form('test');
+        $form->setMethod(Form::METHOD_GET);
+        $this->assertEquals(Form::METHOD_GET, $form->getMethod());
     }
 
     public function testGetSetAction()
     {
-        $form = new TestForm('test');
+        $form = new Form('test');
         $form->setAction('/some/url');
         $this->assertEquals('/some/url', $form->getAction());
     }
 
     public function testGetSetEncType()
     {
-        $form = new TestForm('test');
-        $form->setEncType(TestForm::ENC_TYPE_MULTIPART_FORM_DATA);
-        $this->assertEquals(TestForm::ENC_TYPE_MULTIPART_FORM_DATA, $form->getEncType());
+        $form = new Form('test');
+        $form->setEncType(Form::ENC_TYPE_MULTIPART_FORM_DATA);
+        $this->assertEquals(Form::ENC_TYPE_MULTIPART_FORM_DATA, $form->getEncType());
     }
 
     /**
@@ -60,12 +61,12 @@ class FormTest extends Test
      */
     public function testRender()
     {
-        $form = new TestForm('test');
+        $form = new Form('test');
         $form->setAction('/here');
         $form->setId('testId');
         $form->setClass('random-class');
-        $form->setEncType(TestForm::ENC_TYPE_MULTIPART_FORM_DATA);
-        $form->setMethod(TestForm::METHOD_GET);
+        $form->setEncType(Form::ENC_TYPE_MULTIPART_FORM_DATA);
+        $form->setMethod(Form::METHOD_GET);
         $html = $form->render();
 
         $this->assertEquals('/here', $form->getAction());
@@ -76,7 +77,7 @@ class FormTest extends Test
 
     public function testTextField()
     {
-        $form = new TestForm('test');
+        $form = new Form('test');
         $text = new Text('username', 'delboy1978uk');
         $text->setId('user');
         $form->addField($text);
@@ -89,7 +90,7 @@ class FormTest extends Test
 
     public function testFindFieldInCollectionByName()
     {
-        $form = new TestForm('test');
+        $form = new Form('test');
         $text = new Text('username', 'delboy1978uk');
         $text->setId('user');
         $class = $text->getClass().' extra-class';
@@ -104,7 +105,7 @@ class FormTest extends Test
         $this->assertEquals('input', $field->getTag());
         $this->assertEquals('text', $field->getTagType());
 
-        $form = new TestForm('test');
+        $form = new Form('test');
         $text = new Text('username', 'delboy1978uk');
         $text->setId('user');
         $class = $text->getClass().' extra-class';
@@ -130,7 +131,7 @@ class FormTest extends Test
 
     public function testFindFieldInCollectionByNameReturnsNull()
     {
-        $form = new TestForm('test');
+        $form = new Form('test');
         $fields = $form->getFields();
         $field = $fields->findByName('username');
         $this->assertNull($field);
@@ -138,7 +139,7 @@ class FormTest extends Test
 
     public function testGetField()
     {
-        $form = new TestForm('test');
+        $form = new Form('test');
         $text = new Text('username', 'delboy1978uk');
         $form->addField($text);
         $field = $form->getField('username');
@@ -147,7 +148,7 @@ class FormTest extends Test
 
     public function testPopulate()
     {
-        $form = new TestForm('test');
+        $form = new Form('test');
         $text = new Text('username');
         $text->setId('user');
         $form->addField($text);
@@ -177,7 +178,7 @@ class FormTest extends Test
 
     public function testAddAndGetValidators()
     {
-        $form = new TestForm('test');
+        $form = new Form('test');
         $text = new Text('username');
 
         $notEmptyValidator = new NotEmpty();
@@ -200,7 +201,7 @@ class FormTest extends Test
 
     public function testValidateForm()
     {
-        $form = new TestForm('test');
+        $form = new Form('test');
         $text = new Text('username');
 
         $notEmptyValidator = new NotEmpty();
@@ -225,7 +226,7 @@ class FormTest extends Test
 
     public function testAddAndGetFilters()
     {
-        $form = new TestForm('test');
+        $form = new Form('test');
         $text = new Text('username');
 
         $stripTags = new StripTags();
