@@ -7,6 +7,7 @@
 
 namespace Del\Form;
 
+use Del\Form\Collection\FieldCollection;
 use Del\Form\Field\FieldInterface;
 use DOMDocument;
 use DOMElement;
@@ -30,9 +31,28 @@ class FormRenderer
         $this->form = $form;
     }
 
-    public function render(AbstractForm $form, $displayErrors = true)
+    /**
+     * @param AbstractForm $form
+     * @param bool $displayErrors
+     * @return string
+     */
+    public function render(FormInterface $form, $displayErrors = true)
     {
         $this->displayErrors = $displayErrors;
+        $this->setFormAttributes($form);
+
+        $fields = $form->getFields();
+        $this->processFields($fields);
+
+        $this->dom->appendChild($this->form);
+        return $this->dom->saveHTML();
+    }
+
+    /**
+     * @param FormInterface $form
+     */
+    private function setFormAttributes(FormInterface $form)
+    {
         $method = $form->getMethod() ?: AbstractForm::METHOD_POST;
         $id = $form->getId() ?: $this->form->getAttribute('name');
         $action = $form->getAction() ?: $this->form->getAttribute('action');
@@ -44,9 +64,10 @@ class FormRenderer
         $this->form->setAttribute('class', $class);
         $this->form->setAttribute('action', $action);
         $this->form->setAttribute('enctype', $encType);
+    }
 
-        $fields = $form->getFields();
-
+    private function processFields(FieldCollection $fields)
+    {
         $fields->rewind();
         while ($fields->valid()) {
             $current = $fields->current();
@@ -55,13 +76,7 @@ class FormRenderer
             $fields->next();
         }
         $fields->rewind();
-
-        $this->dom->appendChild($this->form);
-
-        return $this->dom->saveHTML();
     }
-
-
 
     /**
      * @param FieldInterface $field
