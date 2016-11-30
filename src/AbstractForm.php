@@ -59,7 +59,6 @@ abstract class AbstractForm implements FormInterface
      */
     public function isValid()
     {
-        $this->hasBeenPopulatedOrValidated = true;
         $this->errorMessages = [];
         $this->fieldCollection->rewind();
         while ($this->fieldCollection->valid()) {

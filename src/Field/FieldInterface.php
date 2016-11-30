@@ -85,7 +85,6 @@ interface FieldInterface
     public function getFilters();
 
     /**
-     * @param  mixed $value
      * @return bool
      * @throws Exception If validation of $value is impossible
      */

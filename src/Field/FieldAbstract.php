@@ -166,7 +166,6 @@ abstract class FieldAbstract implements FieldInterface
     }
 
     /**
-     * @param  mixed $value
      * @return bool
      * @throws Exception If validation of $value is impossible
      */

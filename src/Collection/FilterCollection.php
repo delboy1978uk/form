@@ -15,7 +15,7 @@ use InvalidArgumentException;
 class FilterCollection extends AbstractCollection implements CollectionInterface
 {
     /**
-     * @param FilterInterface $filter
+     * @param FilterInterface $filter Pass in a filter
      * @return $this
      */
     public function append($filter)
