@@ -21,5 +21,9 @@
       "Del\\Form\\": "src/",
       "DelTesting\\Form\\": "tests/unit/Del/Form/"
     }
+  },
+  "suggest": {
+    "delboy1978uk/cdn": "Handy class generating <head> links to popular CDN libraries",
+    "delboy1978uk/icon": "Simple class for generating Font Awesome icons",
   }
 }
