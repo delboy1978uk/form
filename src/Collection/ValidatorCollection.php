@@ -15,7 +15,7 @@ use InvalidArgumentException;
 class ValidatorCollection extends AbstractCollection implements CollectionInterface
 {
     /**
-     * @param ValidatorInterface $validator
+     * @param ValidatorInterface $validator Pass in a validator
      * @return $this
      */
     public function append($validator)

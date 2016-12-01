@@ -7,6 +7,7 @@
 
 namespace Del\Form;
 
+use Del\Form\Collection\FieldCollection;
 use Del\Form\Field\FieldInterface;
 use DOMDocument;
 use DOMElement;
@@ -30,13 +31,32 @@ class FormRenderer
         $this->form = $form;
     }
 
-    public function render(AbstractForm $form, $displayErrors = true)
+    /**
+     * @param FormInterface $form
+     * @param bool $displayErrors
+     * @return string
+     */
+    public function render(FormInterface $form, $displayErrors = true)
     {
         $this->displayErrors = $displayErrors;
-        $method = $form->getMethod() ?: AbstractForm::METHOD_POST;
-        $id = $form->getId() ?: $this->form->getAttribute('name');
-        $action = $form->getAction() ?: $this->form->getAttribute('action');
-        $encType = $form->getEncType() ?: $this->form->getAttribute('enc-type');
+        $this->setFormAttributes($form);
+
+        $fields = $form->getFields();
+        $this->processFields($fields);
+
+        $this->dom->appendChild($this->form);
+        return $this->dom->saveHTML();
+    }
+
+    /**
+     * @param FormInterface $form
+     */
+    private function setFormAttributes(FormInterface $form)
+    {
+        $method = $this->getMethod($form);
+        $id = $this->getId($form);
+        $action = $this->getAction($form);
+        $encType = $this->getEncType($form);
         $class = $form->getClass();
 
         $this->form->setAttribute('id', $id);
@@ -44,9 +64,46 @@ class FormRenderer
         $this->form->setAttribute('class', $class);
         $this->form->setAttribute('action', $action);
         $this->form->setAttribute('enctype', $encType);
+    }
 
-        $fields = $form->getFields();
+    /**
+     * @param FormInterface $form
+     * @return string
+     */
+    private function getMethod(FormInterface $form)
+    {
+        return $form->getMethod() ?: AbstractForm::METHOD_POST;
+    }
 
+    /**
+     * @param FormInterface $form
+     * @return string
+     */
+    private function getId(FormInterface $form)
+    {
+        return $form->getId() ?: $this->form->getAttribute('name');
+    }
+
+    /**
+     * @param FormInterface $form
+     * @return string
+     */
+    private function getAction(FormInterface $form)
+    {
+        return $form->getAction() ?: $this->form->getAttribute('action');
+    }
+
+    /**
+     * @param FormInterface $form
+     * @return string
+     */
+    private function getEncType(FormInterface $form)
+    {
+        return $form->getEncType() ?: $this->form->getAttribute('enc-type');
+    }
+
+    private function processFields(FieldCollection $fields)
+    {
         $fields->rewind();
         while ($fields->valid()) {
             $current = $fields->current();
@@ -55,13 +112,7 @@ class FormRenderer
             $fields->next();
         }
         $fields->rewind();
-
-        $this->dom->appendChild($this->form);
-
-        return $this->dom->saveHTML();
     }
-
-
 
     /**
      * @param FieldInterface $field
@@ -81,7 +132,7 @@ class FormRenderer
         $formGroup->appendChild($label);
         $formGroup->appendChild($formField);
 
-        if (!$field->isValid() && $this->displayErrors == true) {
+        if (!$field->isValid() && $this->displayErrors === true) {
             $formGroup = $this->createHelpBlock($formGroup, $field->getMessages());
         }
 

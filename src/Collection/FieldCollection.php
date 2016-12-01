@@ -15,6 +15,7 @@ class FieldCollection extends AbstractCollection implements CollectionInterface
 {
     /**
      * @param $name
+     * @return FieldInterface|null
      */
     public function findByName($name)
     {
