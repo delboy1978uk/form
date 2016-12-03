@@ -94,4 +94,20 @@ interface FieldInterface
      * @return array
      */
     public function getMessages();
+
+    /**
+     * @param string $message
+     * @return FieldInterface
+     */
+    public function setCustomErrorMessage($message);
+
+    /**
+     * @return bool
+     */
+    public function hasCustomErrorMessage();
+
+    /**
+     * @return string
+     */
+    public function getCustomErrorMessage();
 }

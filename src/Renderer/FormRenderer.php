@@ -5,12 +5,15 @@
  * Time: 19:44
  */
 
-namespace Del\Form;
+namespace Del\Form\Renderer;
 
 use Del\Form\Collection\FieldCollection;
 use Del\Form\Field\FieldInterface;
+use Del\Form\AbstractForm;
+use Del\Form\FormInterface;
 use DOMDocument;
 use DOMElement;
+use DOMText;
 
 class FormRenderer
 {
@@ -133,33 +136,73 @@ class FormRenderer
         $formGroup->appendChild($formField);
 
         if (!$field->isValid() && $this->displayErrors === true) {
-            $formGroup = $this->createHelpBlock($formGroup, $field->getMessages());
+            $formGroup = $this->createHelpBlock($formGroup, $field);
         }
 
         return $formGroup;
     }
 
-    private function createHelpBlock(DOMElement $formGroup, array $messages)
+    /**
+     * @param DOMElement $formGroup
+     * @param FieldInterface $field
+     * @return DOMElement]
+     */
+    private function createHelpBlock(DOMElement $formGroup, FieldInterface $field)
     {
         $formGroup->setAttribute('class', 'form-group has-error');
         $helpBlock = $this->dom->createElement('span');
         $helpBlock->setAttribute('class', 'help-block');
-        $errorMessages = '';
-        foreach ($messages as $message) {
-            if(is_array($message)) {
-                foreach ($message as $m) {
-                    $errorMessages .= $m."\n";
-                }
-            } else {
-                $errorMessages .= $message."\n";
-            }
+
+        if ($field->hasCustomErrorMessage()) {
+            $helpBlock = $this->addCustomErrorMessage($helpBlock, $field);
+        } else {
+            $helpBlock = $this->addErrorMessages($helpBlock, $field);
         }
-        $helpBlock->textContent = $errorMessages;
         $formGroup->appendChild($helpBlock);
         return $formGroup;
     }
 
+    /**
+     * @param DOMElement $helpBlock
+     * @param FieldInterface $field
+     * @return DOMElement
+     */
+    private function addCustomErrorMessage(DOMElement $helpBlock, FieldInterface $field)
+    {
+        $message = $field->getCustomErrorMessage();
+        $text = new DOMText($message);
+        $helpBlock->appendChild($text);
+        return $helpBlock;
+    }
 
+    /**
+     * @param DOMElement $helpBlock
+     * @param FieldInterface $field
+     * @return DOMElement]
+     */
+    private function addErrorMessages(DOMElement $helpBlock, FieldInterface $field)
+    {
+        $messages = $field->getMessages();
+
+        foreach ($messages as $message) {
+            $helpBlock = $this->appendMessage($helpBlock, $message);
+        }
+        return $helpBlock;
+    }
+
+    /**
+     * @param DOMElement $helpBlock
+     * @param $message
+     * @return DOMElement
+     */
+    private function appendMessage(DOMElement $helpBlock, $message)
+    {
+        $text = new DOMText($message);
+        $br = $this->dom->createElement('br');
+        $helpBlock->appendChild($text);
+        $helpBlock->appendChild($br);
+        return $helpBlock;
+    }
 
     /**
      * @param FieldInterface $field

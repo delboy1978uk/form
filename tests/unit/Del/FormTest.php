@@ -305,6 +305,20 @@ class FormTest extends Test
         $form->addField($text);
         $form->populate(['text' => null]);
         $html = $form->render();
-        $this->assertEquals('<form name="testform" id="testform" method="post" class="" action="" enctype=""><div class="form-group has-error"><label for=""></label><input type="text" name="text" id="" value="" class="form-control"><span class="help-block">Value is required and can\'t be empty'."\n".'</span></div></form>'."\n", $html);
+        $this->assertEquals('<form name="testform" id="testform" method="post" class="" action="" enctype=""><div class="form-group has-error"><label for=""></label><input type="text" name="text" id="" value="" class="form-control"><span class="help-block">Value is required and can\'t be empty<br></span></div></form>'."\n", $html);
+    }
+
+
+    public function testRenderWithCustomErrors()
+    {
+        $form = new Form('testform');
+        $validator = new ValidatorAdapterZf(new NotEmpty());
+        $text = new Text('text');
+        $text->addValidator($validator);
+        $text->setCustomErrorMessage('This can\'t be empty!');
+        $form->addField($text);
+        $form->populate(['text' => null]);
+        $html = $form->render();
+        $this->assertEquals('<form name="testform" id="testform" method="post" class="" action="" enctype=""><div class="form-group has-error"><label for=""></label><input type="text" name="text" id="" value="" class="form-control"><span class="help-block">This can\'t be empty!</span></div></form>'."\n", $html);
     }
 }

@@ -35,6 +35,9 @@ abstract class FieldAbstract implements FieldInterface
     /** @var array $errorMessages */
     private $errorMessages;
 
+    /** @var string $customErrorMessage */
+    private $customErrorMessage;
+
     /** @var string $label */
     private $label;
 
@@ -189,7 +192,7 @@ abstract class FieldAbstract implements FieldInterface
         $value = $this->getValue();
 
         if (!$validator->isValid($value)) {
-            $this->errorMessages[] = $validator->getMessages();
+            $this->errorMessages = array_merge($this->errorMessages, $validator->getMessages());
         }
     }
 
@@ -230,4 +233,32 @@ abstract class FieldAbstract implements FieldInterface
         $this->label = $label;
         return $this;
     }
+
+    /**
+     * @param string $message
+     * @return $this
+     */
+    public function setCustomErrorMessage($message)
+    {
+        $this->customErrorMessage = $message;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasCustomErrorMessage()
+    {
+        return $this->customErrorMessage != null;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCustomErrorMessage()
+    {
+        return $this->customErrorMessage;
+    }
+
+
 }
