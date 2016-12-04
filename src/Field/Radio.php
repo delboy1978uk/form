@@ -17,12 +17,10 @@ class Radio extends FieldAbstract
         return 'input';
     }
 
-    /**
-     * @return string
-     */
-    public function getTagType()
+    public function init()
     {
-        return 'radio';
+        $this->setAttribute('type', 'radio');
+        $this->setAttribute('class', 'form-control');
     }
 
 

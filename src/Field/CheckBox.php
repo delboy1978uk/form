@@ -17,12 +17,10 @@ class CheckBox extends FieldAbstract
         return 'input';
     }
 
-    /**
-     * @return string
-     */
-    public function getTagType()
+    public function init()
     {
-        return 'checkbox';
+        $this->setAttribute('type', 'checkbox');
+        $this->setAttribute('class', 'form-control');
     }
 
 

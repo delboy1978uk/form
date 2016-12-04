@@ -58,11 +58,6 @@ interface FieldInterface
     public function getClass();
 
     /**
-     * @return mixed
-     */
-    public function getTagType();
-
-    /**
      * @param ValidatorInterface $validator
      * @return $this
      */
@@ -110,4 +105,30 @@ interface FieldInterface
      * @return string
      */
     public function getCustomErrorMessage();
+
+    /**
+     * @param $key
+     * @return mixed|string
+     */
+    public function getAttribute($key);
+
+    /**
+     * @param $key
+     * @param $value
+     * @return $this
+     */
+    public function setAttribute($key, $value);
+
+    /**
+     * @param array $attributes
+     * @return $this
+     */
+    public function setAttributes(array $attributes);
+
+    /**
+     * @return array
+     */
+    public function getAttributes();
+
+    public function init();
 }

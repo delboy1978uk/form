@@ -10,6 +10,7 @@ namespace Del\Form;
 use Del\Form\Collection\FieldCollection;
 use Del\Form\Field\FieldInterface;
 use Del\Form\Renderer\FormRenderer;
+use Del\Form\Traits\HasAttributesTrait;
 
 abstract class AbstractForm implements FormInterface
 {
@@ -23,16 +24,13 @@ abstract class AbstractForm implements FormInterface
     /** @var FormRenderer  */
     private $formRenderer;
 
-    /**
-     * @var array
-     */
+    /** @var array $errorMessages */
     private $errorMessages;
-
-    /** @var array $attributes */
-    private $attributes;
 
     /** @var bool $displayErrors */
     private $displayErrors;
+
+    use HasAttributesTrait;
 
     /**
      * AbstractForm constructor.
@@ -241,25 +239,4 @@ abstract class AbstractForm implements FormInterface
     {
         return $this->getAttribute('class');
     }
-
-    /**
-     * @param $key
-     * @return mixed|string
-     */
-    public function getAttribute($key)
-    {
-        return isset($this->attributes[$key]) ? $this->attributes[$key] : null;
-    }
-
-    /**
-     * @param $key
-     * @param $value
-     * @return $this
-     */
-    public function setAttribute($key, $value)
-    {
-        $this->attributes[$key] = $value;
-        return $this;
-    }
-
 }

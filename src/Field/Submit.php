@@ -17,12 +17,9 @@ class Submit extends FieldAbstract
         return 'input';
     }
 
-    /**
-     * @return string
-     */
-    public function getTagType()
+    public function init()
     {
-        return 'submit';
+        $this->setAttribute('type', 'submit');
     }
 
     public function __construct($name, $value = null)

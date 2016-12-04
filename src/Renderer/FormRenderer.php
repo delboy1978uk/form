@@ -212,11 +212,9 @@ class FormRenderer
     {
         $child = $this->dom->createElement($field->getTag());
 
-        $child->setAttribute('type', $field->getTagType());
-        $child->setAttribute('name', $field->getName());
-        $child->setAttribute('id', $field->getId());
-        $child->setAttribute('value', $field->getValue());
-        $child->setAttribute('class', $field->getClass());
+        foreach ($field->getAttributes() as $key => $value) {
+            $child->setAttribute($key, $value);
+        }
 
         return $child;
     }

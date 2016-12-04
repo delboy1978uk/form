@@ -105,4 +105,28 @@ interface FormInterface
      */
     public function getClass();
 
+    /**
+     * @param $key
+     * @return mixed|string
+     */
+    public function getAttribute($key);
+
+    /**
+     * @param $key
+     * @param $value
+     * @return $this
+     */
+    public function setAttribute($key, $value);
+
+    /**
+     * @param array $attributes
+     * @return $this
+     */
+    public function setAttributes(array $attributes);
+
+    /**
+     * @return array
+     */
+    public function getAttributes();
+
 }
