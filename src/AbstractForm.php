@@ -15,6 +15,9 @@ use Del\Form\Traits\HasAttributesTrait;
 abstract class AbstractForm implements FormInterface
 {
     const ENC_TYPE_MULTIPART_FORM_DATA = 'multipart/form-data';
+    const ENC_TYPE_URL_ENCODED = 'application/x-www-form-urlencoded';
+    const ENC_TYPE_TEXT_PLAIN = 'text/plain';
+
     const METHOD_POST = 'post';
     const METHOD_GET = 'get';
 
@@ -41,10 +44,6 @@ abstract class AbstractForm implements FormInterface
         $this->fieldCollection = new FieldCollection();
         $this->formRenderer = new FormRenderer($name);
         $this->attributes = [
-            'name' => null,
-            'id' => null,
-            'class' => null,
-            'enc-type' => null,
             'method' => self::METHOD_POST,
         ];
         $this->displayErrors = false;
@@ -147,7 +146,7 @@ abstract class AbstractForm implements FormInterface
      */
     public function render()
     {
-        return $this->formRenderer->render($this, $this->displayErrors);
+        return $this->formRenderer->render($this, $this->isDisplayErrors());
     }
 
     /**
@@ -238,5 +237,23 @@ abstract class AbstractForm implements FormInterface
     public function getClass()
     {
         return $this->getAttribute('class');
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isDisplayErrors()
+    {
+        return $this->displayErrors;
+    }
+
+    /**
+     * @param boolean $displayErrors
+     * @return AbstractForm
+     */
+    public function setDisplayErrors($displayErrors)
+    {
+        $this->displayErrors = $displayErrors;
+        return $this;
     }
 }

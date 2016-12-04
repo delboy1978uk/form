@@ -129,4 +129,14 @@ interface FormInterface
      */
     public function getAttributes();
 
+    /**
+     * @return boolean
+     */
+    public function isDisplayErrors();
+
+    /**
+     * @param boolean $displayErrors
+     * @return AbstractForm
+     */
+    public function setDisplayErrors($displayErrors);
 }

@@ -59,6 +59,15 @@ class FormTest extends Test
         $this->assertEquals(Form::ENC_TYPE_MULTIPART_FORM_DATA, $form->getEncType());
     }
 
+    public function testGetSetDisplayErrors()
+    {
+        $form = new Form('test');
+        $form->setDisplayErrors(false);
+        $this->assertFalse($form->isDisplayErrors());
+        $form->setDisplayErrors(true);
+        $this->assertTrue($form->isDisplayErrors());
+    }
+
     /**
      * Check tests are working
      */
@@ -201,7 +210,7 @@ class FormTest extends Test
         $form->addField($text);
         $validators = $text->getValidators();
         $this->assertInstanceOf('Del\Form\Collection\ValidatorCollection', $validators);
-        $this->assertEquals(2, count($validators));
+        $this->assertEquals(3, count($validators));
     }
 
     public function testValidateForm()
@@ -248,7 +257,7 @@ class FormTest extends Test
         $filters = $text->getFilters();
         $values = $form->getValues();
         $this->assertInstanceOf('Del\Form\Collection\FilterCollection', $filters);
-        $this->assertEquals(2, count($filters));
+        $this->assertEquals(4, count($filters));
         $this->assertArrayHasKey('username', $values);
         $this->assertEquals('Delboy1978uk', $values['username']);
     }
