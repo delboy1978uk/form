@@ -181,7 +181,7 @@ abstract class FieldAbstract implements FieldInterface
     }
 
     /**
-     * @param FieldInterface $field
+     * @param ValidatorInterface $validator
      */
     private function checkForErrors(ValidatorInterface $validator)
     {

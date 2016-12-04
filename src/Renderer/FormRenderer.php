@@ -11,14 +11,13 @@ use Del\Form\Collection\FieldCollection;
 use Del\Form\AbstractForm;
 use Del\Form\FormInterface;
 use DOMDocument;
-use DOMElement;
 
 class FormRenderer
 {
     /** @var DOMDocument $dom */
     private $dom;
 
-    /** @var DomElement $form */
+    /** @var \DomElement $form */
     private $form;
 
     /** @var bool $displayErrors */

@@ -20,7 +20,7 @@ class ValidatorCollection extends AbstractCollection implements CollectionInterf
      */
     public function append($validator)
     {
-        if(!$validator instanceof ValidatorInterface) {
+        if (!$validator instanceof ValidatorInterface) {
             throw new InvalidArgumentException('You can only append a Del\Form\Validator\ValidatorInterface.');
         }
         parent::append($validator);
