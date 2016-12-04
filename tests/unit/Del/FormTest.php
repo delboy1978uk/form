@@ -10,7 +10,10 @@ use Del\Form\Field\CheckBox;
 use Del\Form\Field\Radio;
 use Del\Form\Field\Submit;
 use Del\Form\Field\Text;
+use Del\Form\Field\Text\EmailAddress;
+use Del\Form\Field\Text\Password;
 use Del\Form\Filter\Adapter\FilterAdapterZf;
+use Del\Form\Renderer\Field\DefaultRender;
 use Del\Form\Validator\Adapter\ValidatorAdapterZf;
 use Zend\Filter\StripTags;
 use Zend\Filter\UpperCaseWords;
@@ -331,5 +334,29 @@ class FormTest extends Test
         $form->populate(['text' => null]);
         $html = $form->render();
         $this->assertEquals('<form name="testform" id="testform" method="post" class="" action="" enctype=""><div class="form-group has-error"><label for=""></label><input name="text" type="text" class="form-control"><span class="help-block">This can\'t be empty!</span></div></form>'."\n", $html);
+    }
+
+    public function testGetAndSetRenderer()
+    {
+        $text = new Text('test');
+        $text->setRenderer(new DefaultRender());
+        $this->assertInstanceOf('Del\Form\Renderer\Field\DefaultRender', $text->getRenderer());
+    }
+
+
+    public function testGetAndSetEmailField()
+    {
+        $text = new EmailAddress('test');
+        $this->assertFalse($text->isValid());
+        $text->setValue('delboy1978uk@gmail.com');
+        $this->assertTrue($text->isValid());
+    }
+
+
+    public function testGetAndSetPasswordField()
+    {
+        $text = new Password('test', 'hello');
+        $this->assertEquals('hello', $text->getValue());
+
     }
 }
