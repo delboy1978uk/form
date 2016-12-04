@@ -13,7 +13,7 @@ use Del\Form\Field\Text;
 use Del\Form\Field\Text\EmailAddress;
 use Del\Form\Field\Text\Password;
 use Del\Form\Filter\Adapter\FilterAdapterZf;
-use Del\Form\Renderer\Field\DefaultRender;
+use Del\Form\Renderer\Field\TextRender;
 use Del\Form\Validator\Adapter\ValidatorAdapterZf;
 use Zend\Filter\StripTags;
 use Zend\Filter\UpperCaseWords;
@@ -339,8 +339,8 @@ class FormTest extends Test
     public function testGetAndSetRenderer()
     {
         $text = new Text('test');
-        $text->setRenderer(new DefaultRender());
-        $this->assertInstanceOf('Del\Form\Renderer\Field\DefaultRender', $text->getRenderer());
+        $text->setRenderer(new TextRender());
+        $this->assertInstanceOf('Del\Form\Renderer\Field\TextRender', $text->getRenderer());
     }
 
 

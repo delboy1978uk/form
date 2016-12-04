@@ -12,6 +12,7 @@ use Del\Form\Collection\ValidatorCollection;
 use Del\Form\Filter\FilterInterface;
 use Del\Form\Renderer\Field\DefaultRender;
 use Del\Form\Renderer\Field\FieldRendererInterface;
+use Del\Form\Renderer\Field\TextRender;
 use Del\Form\Traits\HasAttributesTrait;
 use Del\Form\Validator\ValidatorInterface;
 use Exception;
@@ -49,7 +50,7 @@ abstract class FieldAbstract implements FieldInterface
     {
         $this->filterCollection = new FilterCollection();
         $this->validatorCollection = new ValidatorCollection();
-        $this->renderer = new DefaultRender();
+        $this->renderer = new TextRender();
         $this->setName($name);
         is_null($value) ? null : $this->setValue($value);
         $this->init();
