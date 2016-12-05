@@ -7,8 +7,11 @@
 
 namespace Del\Form\Field;
 
+use Del\Form\Renderer\Field\RadioRender;
+
 class Radio extends FieldAbstract
 {
+
     /**
      * @return string
      */
@@ -17,13 +20,10 @@ class Radio extends FieldAbstract
         return 'input';
     }
 
-    /**
-     * @return string
-     */
-    public function getTagType()
+    public function init()
     {
-        return 'radio';
+        $this->setAttribute('type', 'radio');
+        $this->setAttribute('class', 'form-control');
+        $this->setRenderer(new RadioRender());
     }
-
-
 }

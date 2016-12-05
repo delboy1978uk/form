@@ -10,27 +10,23 @@ namespace Del\Form\Field;
 use Del\Form\Collection\FilterCollection;
 use Del\Form\Collection\ValidatorCollection;
 use Del\Form\Filter\FilterInterface;
+use Del\Form\Renderer\Field\DefaultRender;
+use Del\Form\Renderer\Field\FieldRendererInterface;
+use Del\Form\Renderer\Field\TextRender;
+use Del\Form\Traits\HasAttributesTrait;
 use Del\Form\Validator\ValidatorInterface;
 use Exception;
 
 abstract class FieldAbstract implements FieldInterface
 {
-    /** @var string $name */
-    private $name;
-
-    /** @var string $id */
-    private $id;
-
-    /** @var string $class  */
-    private $class;
-
     /**  @var FilterCollection $filterCollection */
     private $filterCollection;
 
     /**  @var ValidatorCollection $validatorCollection */
     private $validatorCollection;
 
-    private $value;
+    /** @var FieldRendererInterface $renderer  */
+    private $renderer;
 
     /** @var array $errorMessages */
     private $errorMessages;
@@ -41,22 +37,23 @@ abstract class FieldAbstract implements FieldInterface
     /** @var string $label */
     private $label;
 
+    use HasAttributesTrait;
+
     /**
      * @return string
      */
     abstract public function getTag();
 
-    /**
-     * @return mixed
-     */
-    abstract public function getTagType();
+    abstract public function init();
 
     public function __construct($name, $value = null)
     {
         $this->filterCollection = new FilterCollection();
         $this->validatorCollection = new ValidatorCollection();
+        $this->renderer = new TextRender();
         $this->setName($name);
         is_null($value) ? null : $this->setValue($value);
+        $this->init();
     }
 
     /**
@@ -64,7 +61,7 @@ abstract class FieldAbstract implements FieldInterface
      */
     public function getName()
     {
-        return $this->name;
+        return $this->getAttribute('name');
     }
 
     /**
@@ -73,7 +70,7 @@ abstract class FieldAbstract implements FieldInterface
      */
     public function setName($name)
     {
-        $this->name = $name;
+        $this->setAttribute('name', $name);
         return $this;
     }
 
@@ -82,7 +79,7 @@ abstract class FieldAbstract implements FieldInterface
      */
     public function getId()
     {
-        return $this->id;
+        return $this->getAttribute('id');
     }
 
     /**
@@ -91,7 +88,7 @@ abstract class FieldAbstract implements FieldInterface
      */
     public function setId($id)
     {
-        $this->id = $id;
+        $this->setAttribute('id', $id);
         return $this;
     }
 
@@ -100,7 +97,7 @@ abstract class FieldAbstract implements FieldInterface
      */
     public function getClass()
     {
-        return $this->class ?: 'form-control';
+        return $this->getAttribute('class') ?: 'form-control';
     }
 
     /**
@@ -109,7 +106,7 @@ abstract class FieldAbstract implements FieldInterface
      */
     public function setClass($class)
     {
-        $this->class = $class;
+        $this->setAttribute('class', $class);
         return $this;
     }
 
@@ -118,7 +115,7 @@ abstract class FieldAbstract implements FieldInterface
      */
     public function getValue()
     {
-        return $this->value;
+        return $this->getAttribute('value');
     }
 
     /**
@@ -127,7 +124,7 @@ abstract class FieldAbstract implements FieldInterface
      */
     public function setValue($value)
     {
-        $this->value = $value;
+        $this->setAttribute('value', $value);
         $this->filterValue();
         return $this;
     }
@@ -185,7 +182,7 @@ abstract class FieldAbstract implements FieldInterface
     }
 
     /**
-     * @param FieldInterface $field
+     * @param ValidatorInterface $validator
      */
     private function checkForErrors(ValidatorInterface $validator)
     {
@@ -198,14 +195,14 @@ abstract class FieldAbstract implements FieldInterface
 
     private function filterValue()
     {
-        $value = $this->value;
+        $value = $this->getAttribute('value');
         $this->filterCollection->rewind();
         while ($this->filterCollection->valid()) {
             $value = $this->filterCollection->current()->filter($value);
             $this->filterCollection->next();
         }
         $this->filterCollection->rewind();
-        $this->value = $value;
+        $this->setAttribute('value', $value);
     }
 
     /**
@@ -258,6 +255,24 @@ abstract class FieldAbstract implements FieldInterface
     public function getCustomErrorMessage()
     {
         return $this->customErrorMessage;
+    }
+
+    /**
+     * @return FieldRendererInterface
+     */
+    public function getRenderer()
+    {
+        return $this->renderer;
+    }
+
+    /**
+     * @param FieldRendererInterface $renderer
+     * @return $this
+     */
+    public function setRenderer(FieldRendererInterface $renderer)
+    {
+        $this->renderer = $renderer;
+        return $this;
     }
 
 

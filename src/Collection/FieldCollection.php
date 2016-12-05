@@ -23,7 +23,7 @@ class FieldCollection extends AbstractCollection implements CollectionInterface
         while ($this->valid()) {
             /** @var FieldInterface $field */
             $field = $this->current();
-            if($field->getName() == $name) {
+            if ($field->getName() == $name) {
                 return $field;
             }
             $this->next();

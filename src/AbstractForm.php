@@ -10,10 +10,14 @@ namespace Del\Form;
 use Del\Form\Collection\FieldCollection;
 use Del\Form\Field\FieldInterface;
 use Del\Form\Renderer\FormRenderer;
+use Del\Form\Traits\HasAttributesTrait;
 
 abstract class AbstractForm implements FormInterface
 {
     const ENC_TYPE_MULTIPART_FORM_DATA = 'multipart/form-data';
+    const ENC_TYPE_URL_ENCODED = 'application/x-www-form-urlencoded';
+    const ENC_TYPE_TEXT_PLAIN = 'text/plain';
+
     const METHOD_POST = 'post';
     const METHOD_GET = 'get';
 
@@ -23,16 +27,13 @@ abstract class AbstractForm implements FormInterface
     /** @var FormRenderer  */
     private $formRenderer;
 
-    /**
-     * @var array
-     */
+    /** @var array $errorMessages */
     private $errorMessages;
-
-    /** @var array $attributes */
-    private $attributes;
 
     /** @var bool $displayErrors */
     private $displayErrors;
+
+    use HasAttributesTrait;
 
     /**
      * AbstractForm constructor.
@@ -43,10 +44,6 @@ abstract class AbstractForm implements FormInterface
         $this->fieldCollection = new FieldCollection();
         $this->formRenderer = new FormRenderer($name);
         $this->attributes = [
-            'name' => null,
-            'id' => null,
-            'class' => null,
-            'enc-type' => null,
             'method' => self::METHOD_POST,
         ];
         $this->displayErrors = false;
@@ -149,7 +146,7 @@ abstract class AbstractForm implements FormInterface
      */
     public function render()
     {
-        return $this->formRenderer->render($this, $this->displayErrors);
+        return $this->formRenderer->render($this, $this->isDisplayErrors());
     }
 
     /**
@@ -243,23 +240,20 @@ abstract class AbstractForm implements FormInterface
     }
 
     /**
-     * @param $key
-     * @return mixed|string
+     * @return boolean
      */
-    public function getAttribute($key)
+    public function isDisplayErrors()
     {
-        return isset($this->attributes[$key]) ? $this->attributes[$key] : null;
+        return $this->displayErrors;
     }
 
     /**
-     * @param $key
-     * @param $value
-     * @return $this
+     * @param boolean $displayErrors
+     * @return AbstractForm
      */
-    public function setAttribute($key, $value)
+    public function setDisplayErrors($displayErrors)
     {
-        $this->attributes[$key] = $value;
+        $this->displayErrors = $displayErrors;
         return $this;
     }
-
 }

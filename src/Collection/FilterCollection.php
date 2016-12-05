@@ -20,7 +20,7 @@ class FilterCollection extends AbstractCollection implements CollectionInterface
      */
     public function append($filter)
     {
-        if(!$filter instanceof FilterInterface) {
+        if (!$filter instanceof FilterInterface) {
             throw new InvalidArgumentException('You can only append a Del\Form\Filter\FilterInterface.');
         }
         parent::append($filter);

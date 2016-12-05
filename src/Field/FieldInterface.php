@@ -11,6 +11,7 @@ use Del\Form\Collection\FilterCollection;
 use Del\Form\Collection\ValidatorCollection;
 use Del\Form\Filter\FilterInterface;
 use Del\Form\Validator\ValidatorInterface;
+use Del\Form\Renderer\Field\FieldRendererInterface;
 use Exception;
 
 interface FieldInterface
@@ -56,11 +57,6 @@ interface FieldInterface
      * @return mixed
      */
     public function getClass();
-
-    /**
-     * @return mixed
-     */
-    public function getTagType();
 
     /**
      * @param ValidatorInterface $validator
@@ -110,4 +106,41 @@ interface FieldInterface
      * @return string
      */
     public function getCustomErrorMessage();
+
+    /**
+     * @param $key
+     * @return mixed|string
+     */
+    public function getAttribute($key);
+
+    /**
+     * @param $key
+     * @param $value
+     * @return $this
+     */
+    public function setAttribute($key, $value);
+
+    /**
+     * @param array $attributes
+     * @return $this
+     */
+    public function setAttributes(array $attributes);
+
+    /**
+     * @return array
+     */
+    public function getAttributes();
+
+    /**
+     * @return FieldRendererInterface
+     */
+    public function getRenderer();
+
+    /**
+     * @param FieldRendererInterface $renderer
+     * @return $this
+     */
+    public function setRenderer(FieldRendererInterface $renderer);
+
+    public function init();
 }

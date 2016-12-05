@@ -7,11 +7,14 @@
 
 namespace Del\Form\Field;
 
+use Del\Form\Filter\Adapter\FilterAdapterZf;
+use Del\Form\Validator\Adapter\ValidatorAdapterZf;
+use Zend\Filter\StringTrim;
+use Zend\Filter\StripTags;
+use Zend\Validator\NotEmpty;
+
 class Text extends FieldAbstract
 {
-    /** @var string $placeholder */
-    private $placeholder;
-
     /**
      * @return string
      */
@@ -20,12 +23,17 @@ class Text extends FieldAbstract
         return 'input';
     }
 
-    /**
-     * @return string
-     */
-    public function getTagType()
+
+    public function init()
     {
-        return 'text';
+        $this->setAttribute('type', 'text');
+        $this->setAttribute('class', 'form-control');
+        $stringTrim = new FilterAdapterZf(new StringTrim());
+        $stripTags = new FilterAdapterZf(new StripTags());
+        $notEmpty = new ValidatorAdapterZf(new NotEmpty());
+        $this->addFilter($stringTrim)
+            ->addFilter($stripTags)
+            ->addValidator($notEmpty);
     }
 
     /**
@@ -33,7 +41,7 @@ class Text extends FieldAbstract
      */
     public function getPlaceholder()
     {
-        return $this->placeholder;
+        return $this->getAttribute('placeholder');
     }
 
     /**
@@ -41,7 +49,7 @@ class Text extends FieldAbstract
      */
     public function setPlaceholder($placeholder)
     {
-        $this->placeholder = $placeholder;
+        $this->setAttribute('placeholder', $placeholder);
     }
 
 
