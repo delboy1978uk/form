@@ -11,6 +11,7 @@ use Del\Form\Renderer\Field\RadioRender;
 
 class Radio extends FieldAbstract
 {
+
     /**
      * @return string
      */

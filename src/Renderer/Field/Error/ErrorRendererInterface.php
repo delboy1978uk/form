@@ -8,15 +8,13 @@
 namespace Del\Form\Renderer\Field\Error;
 
 use Del\Form\Field\FieldInterface;
-use DOMElement;
 
 
 interface ErrorRendererInterface
 {
     /**
-     * @param DOMElement $div
      * @param FieldInterface $field
-     * @return DOMElement
+     * @return mixed
      */
-    public function render(DOMElement $div, FieldInterface $field);
+    public function render(FieldInterface $field);
 }

@@ -7,6 +7,8 @@
 
 namespace Del\Form\Field;
 
+use Del\Form\Renderer\Field\RadioRender;
+
 class CheckBox extends FieldAbstract
 {
     /**
@@ -21,6 +23,7 @@ class CheckBox extends FieldAbstract
     {
         $this->setAttribute('type', 'checkbox');
         $this->setAttribute('class', 'form-control');
+        $this->setRenderer(new RadioRender());
     }
 
 

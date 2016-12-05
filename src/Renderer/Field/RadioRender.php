@@ -8,20 +8,26 @@
 namespace Del\Form\Renderer\Field;
 
 use Del\Form\Field\FieldInterface;
-use DOMDocument;
 use DOMElement;
 
-class RadioRender extends FieldRender implements FieldRendererInterface
+class RadioRender extends AbstractFieldRender implements FieldRendererInterface
 {
     /**
-     * @param DOMDocument $dom
      * @param FieldInterface $field
-     * @param bool $displayErrors
+     * @param DOMElement $fieldBlock
+     * @param DOMElement $labelBlock
+     * @param DOMElement $element
+     * @param DOMElement|null $errorBlock
      * @return DOMElement
      */
-    public function render(DOMDocument $dom, FieldInterface $field, $displayErrors = true)
+    public function renderFieldBlock(FieldInterface $field, DOMElement $fieldBlock, DOMElement $labelBlock, DOMElement $element, DOMElement $errorBlock = null)
     {
-        return parent::render($dom, $field, $displayErrors);
+        $labelBlock->appendChild($element);
+        $fieldBlock->appendChild($labelBlock);
+        if ($errorBlock) {
+            $fieldBlock->appendChild($errorBlock);
+        }
+        return $fieldBlock;
     }
 
 }

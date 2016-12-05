@@ -19,9 +19,8 @@ class DefaultErrorRender extends AbstractErrorRender implements ErrorRendererInt
      * @param FieldInterface $field
      * @return DOMElement
      */
-    public function render(DOMElement $div, FieldInterface $field)
+    public function render(FieldInterface $field)
     {
-        $div->setAttribute('class', 'form-group has-error');
         $helpBlock = $this->dom->createElement('span');
         $helpBlock->setAttribute('class', 'help-block');
 
@@ -30,8 +29,7 @@ class DefaultErrorRender extends AbstractErrorRender implements ErrorRendererInt
         } else {
             $helpBlock = $this->addErrorMessages($helpBlock, $field);
         }
-        $div->appendChild($helpBlock);
-        return $div;
+        return $helpBlock;
     }
 
     /**
