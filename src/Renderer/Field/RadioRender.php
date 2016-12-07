@@ -20,7 +20,7 @@ class RadioRender extends AbstractFieldRender implements FieldRendererInterface
      * @param DOMElement|null $errorBlock
      * @return DOMElement
      */
-    public function renderFieldBlock(FieldInterface $field, DOMElement $fieldBlock, DOMElement $labelBlock, DOMElement $element, DOMElement $errorBlock = null)
+    public function renderBlock(FieldInterface $field, DOMElement $fieldBlock, DOMElement $labelBlock, DOMElement $element, DOMElement $errorBlock = null)
     {
         $labelBlock->appendChild($element);
         $fieldBlock->appendChild($labelBlock);

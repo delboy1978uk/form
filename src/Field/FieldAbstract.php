@@ -274,6 +274,4 @@ abstract class FieldAbstract implements FieldInterface
         $this->renderer = $renderer;
         return $this;
     }
-
-
 }

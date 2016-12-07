@@ -21,7 +21,7 @@ class SelectRender extends AbstractFieldRender implements FieldRendererInterface
      * @param DOMElement $element
      * @param DOMElement|null $errorBlock
      */
-    public function renderFieldBlock(FieldInterface $field, DOMElement $fieldBlock, DOMElement $labelBlock, DOMElement $element, DOMElement $errorBlock = null)
+    public function renderBlock(FieldInterface $field, DOMElement $fieldBlock, DOMElement $labelBlock, DOMElement $element, DOMElement $errorBlock = null)
     {
         if (!$field instanceof Select) {
             throw new InvalidArgumentException('Must be a Del\Form\Field\Select');
@@ -34,7 +34,7 @@ class SelectRender extends AbstractFieldRender implements FieldRendererInterface
         }
         $fieldBlock->appendChild($labelBlock);
         $fieldBlock->appendChild($element);
-        if ($errorBlock) {
+        if ($errorBlock instanceof DOMElement) {
             $fieldBlock->appendChild($errorBlock);
         }
         return $fieldBlock;

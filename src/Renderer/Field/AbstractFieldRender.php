@@ -13,7 +13,7 @@ use Del\Form\Renderer\Field\Error\ErrorRendererInterface;
 use DOMDocument;
 use DOMElement;
 
-abstract class AbstractFieldRender
+abstract class AbstractFieldRender implements FieldRendererInterface
 {
     /** @var DOMDocument $dom  */
     protected $dom;
@@ -48,7 +48,7 @@ abstract class AbstractFieldRender
         $labelBlock = $this->createLabelBlock($field);
         $element = $this->createElement($field);
         $errorBlock = $this->createErrorBlock($fieldBlock, $field);
-        return $field->getRenderer()->renderFieldBlock($field, $fieldBlock, $labelBlock, $element, $errorBlock);
+        return $this->renderBlock($field, $fieldBlock, $labelBlock, $element, $errorBlock);
     }
 
     /**

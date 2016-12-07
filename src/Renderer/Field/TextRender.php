@@ -8,7 +8,6 @@
 namespace Del\Form\Renderer\Field;
 
 use Del\Form\Field\FieldInterface;
-use DOMDocument;
 use DOMElement;
 
 class TextRender extends AbstractFieldRender implements FieldRendererInterface
@@ -21,7 +20,7 @@ class TextRender extends AbstractFieldRender implements FieldRendererInterface
      * @param DOMElement|null $errorBlock
      * @return DOMElement
      */
-    public function renderFieldBlock(FieldInterface $field, DOMElement $fieldBlock, DOMElement $labelBlock, DOMElement $element, DOMElement $errorBlock = null)
+    public function renderBlock(FieldInterface $field, DOMElement $fieldBlock, DOMElement $labelBlock, DOMElement $element, DOMElement $errorBlock = null)
     {
         $fieldBlock->appendChild($labelBlock);
         $fieldBlock->appendChild($element);

@@ -9,7 +9,9 @@ namespace Del\Form;
 
 use Del\Form\Collection\FieldCollection;
 use Del\Form\Field\FieldInterface;
+use Del\Form\Renderer\Field\FieldRendererInterface;
 use Del\Form\Renderer\FormRenderer;
+use Del\Form\Renderer\FormRendererInterface;
 use Del\Form\Traits\HasAttributesTrait;
 
 abstract class AbstractForm implements FormInterface
@@ -24,7 +26,7 @@ abstract class AbstractForm implements FormInterface
     /** @var FieldCollection $fieldCollection */
     private $fieldCollection;
 
-    /** @var FormRenderer  */
+    /** @var FormRendererInterface  */
     private $formRenderer;
 
     /** @var array $errorMessages */
@@ -254,6 +256,16 @@ abstract class AbstractForm implements FormInterface
     public function setDisplayErrors($displayErrors)
     {
         $this->displayErrors = $displayErrors;
+        return $this;
+    }
+
+    /**
+     * @param FieldRendererInterface $displayErrors
+     * @return AbstractForm
+     */
+    public function setFormRenderer(FieldRendererInterface $renderer)
+    {
+        $this->formRenderer = $renderer;
         return $this;
     }
 }
