@@ -13,18 +13,11 @@ use DOMElement;
 
 interface FieldRendererInterface
 {
-    /**
-     * @param FieldInterface $field
-     * @param DOMElement $fieldBlock
-     * @param DOMElement $labelBlock
-     * @param DOMElement $element
-     * @param DOMElement|null $errorBlock
-     * @return DOMElement
-     */
-    public function renderBlock(FieldInterface $field, DOMElement $fieldBlock, DOMElement $labelBlock, DOMElement $element, DOMElement $errorBlock = null);
 
     /**
+     * @param DOMDocument $dom
+     * @param FieldInterface $field
      * @return DOMElement
      */
-    public function render(DOMDocument $dom, FieldInterface $field, $displayErrors);
+    public function render(DOMDocument $dom, FieldInterface $field);
 }

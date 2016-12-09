@@ -12,7 +12,7 @@ use Del\Form\AbstractForm;
 use Del\Form\FormInterface;
 use DOMDocument;
 
-class HorizontalFormRenderer
+class HorizontalFormRenderer implements FormRendererInterface
 {
     /** @var DOMDocument $dom */
     private $dom;

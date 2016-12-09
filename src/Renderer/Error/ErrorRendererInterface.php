@@ -5,7 +5,7 @@
  * Time: 23:37
  */
 
-namespace Del\Form\Renderer\Field\Error;
+namespace Del\Form\Renderer\Error;
 
 use Del\Form\Field\FieldInterface;
 

@@ -8,6 +8,7 @@
 namespace Del\Form\Renderer;
 
 use Del\Form\FormInterface;
+use DOMElement;
 
 interface FormRendererInterface
 {
@@ -16,4 +17,14 @@ interface FormRendererInterface
      * @return string of HTML
      */
     public function render(FormInterface $form, $displayErrors = true);
+
+    /**
+     * @return DOMElement
+     */
+    public function renderFieldLabel();
+
+    /**
+     * @return DOMElement
+     */
+    public function renderFieldBlock();
 }

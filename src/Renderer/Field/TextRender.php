@@ -20,14 +20,9 @@ class TextRender extends AbstractFieldRender implements FieldRendererInterface
      * @param DOMElement|null $errorBlock
      * @return DOMElement
      */
-    public function renderBlock(FieldInterface $field, DOMElement $fieldBlock, DOMElement $labelBlock, DOMElement $element, DOMElement $errorBlock = null)
+    public function renderBlock(FieldInterface $field, DOMElement $element)
     {
-        $fieldBlock->appendChild($labelBlock);
-        $fieldBlock->appendChild($element);
-        if ($errorBlock) {
-            $fieldBlock->appendChild($errorBlock);
-        }
-        return $fieldBlock;
+        return $element;
     }
 
 }

@@ -11,6 +11,8 @@ use Del\Form\Collection\FieldCollection;
 use Del\Form\AbstractForm;
 use Del\Form\Field\FieldInterface;
 use Del\Form\FormInterface;
+use Del\Form\Renderer\Error\DefaultErrorRender;
+use Del\Form\Renderer\Error\ErrorRendererInterface;
 use DOMDocument;
 use DomElement;
 
@@ -25,9 +27,28 @@ abstract class AbstractFormRenderer implements FormRendererInterface
     /** @var bool $displayErrors */
     protected $displayErrors;
 
+    /** @var ErrorRendererInterface $errorRenderer */
+    protected $errorRenderer;
+
+    /** @var DomElement $label The label element*/
+    protected $label;
+
+    /** @var DomElement $element the field element */
+    protected $element;
+
+    /** @var DomElement $errors The error block html*/
+    protected $errors;
+
+    /** @var DomElement $block The containing html block */
+    protected $block;
+
+    /** @var FieldInterface $field The current field being processed */
+    protected $field;
+
     public function __construct($name)
     {
         $this->dom = new DOMDocument();
+        $this->errorRenderer = new DefaultErrorRender($this->dom);
         $form = $this->dom->createElement('form');
         $form->setAttribute('name', $name);
         $this->form = $form;
@@ -90,20 +111,30 @@ abstract class AbstractFormRenderer implements FormRendererInterface
     {
         $fields->rewind();
         while ($fields->valid()) {
-            /** @todo $this these vars, move field abstract logic in here or extending class */
-            $current = $fields->current();
-            $label = $this->renderLabel();
-            $element = $current->getRenderer()->render($this->dom, $current, $this->displayErrors);
-            $errors = $current->isValid() ? $this->renderError($element) : null;
-            $contents = $this->renderEntireBlock();
-            $this->form->appendChild($contents);
+            $this->block = $this->dom->createElement('div');
+            $this->field = $fields->current();
+            $this->label = $this->renderFieldLabel();
+            $this->element = $this->field->getRenderer()->render($this->dom, $this->field);
+            $this->errors = $this->field->isValid() ? null : $this->renderError();
+            $this->block = $this->renderFieldBlock();
+            $this->form->appendChild($this->block);
             $fields->next();
         }
         $fields->rewind();
     }
 
-    abstract public function renderEntireBlock();
-    abstract public function renderError();
-    abstract public function renderLabel();
-    abstract public function renderField();
+
+
+    /**
+     * @return DOMElement|null
+     */
+    public function renderError()
+    {
+        $errorBlock = null;
+        if (!$this->field->isValid() && $this->displayErrors === true) {
+            $this->block->setAttribute('class', 'has-error ');
+            $errorBlock = $this->errorRenderer->render($this->field);
+        }
+        return $errorBlock;
+    }
 }

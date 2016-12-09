@@ -20,6 +20,6 @@ class SelectTest extends Test
         $select->setOption(2, 'world');
         $form->addField($select);
         $html = $form->render();
-        $this->assertEquals('<form name="dropdown" id="dropdown" method="post" class="" action="" enctype=""><div class="form-group"><label for=""></label><select name="selection" type="text" class="form-control"><option value="1">hello</option><option value="2">world</option></select></div></form>'."\n", $html);
+        $this->assertEquals('<form name="dropdown" method="post" id="dropdown"><div class="form-group"><label for=""></label><select name="selection" type="text" class="form-control"><option value="1">hello</option><option value="2">world</option></select></div></form>'."\n", $html);
     }
 }

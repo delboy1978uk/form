@@ -5,7 +5,7 @@
  * Time: 23:50
  */
 
-namespace Del\Form\Renderer\Field\Error;
+namespace Del\Form\Renderer\Error;
 
 use DOMDocument;
 
