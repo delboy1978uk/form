@@ -124,7 +124,7 @@ abstract class AbstractFormRenderer implements FormRendererInterface
 
 
     /**
-     * @return DOMElement|null
+     * @return \DOMElement|null
      */
     public function renderError()
     {

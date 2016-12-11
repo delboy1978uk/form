@@ -47,7 +47,7 @@ class DefaultErrorRender extends AbstractErrorRender implements ErrorRendererInt
     /**
      * @param DOMElement $helpBlock
      * @param FieldInterface $field
-     * @return DOMElement]
+     * @return DOMElement
      */
     private function addErrorMessages(DOMElement $helpBlock, FieldInterface $field)
     {
