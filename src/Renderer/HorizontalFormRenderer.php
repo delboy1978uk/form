@@ -7,9 +7,6 @@
 
 namespace Del\Form\Renderer;
 
-use Del\Form\Field\CheckBox;
-use Del\Form\Field\Radio;
-use Del\Form\Field\Submit;
 use Del\Form\Renderer\Error\HorizontalFormErrorRender;
 use DOMElement;
 use DOMText;

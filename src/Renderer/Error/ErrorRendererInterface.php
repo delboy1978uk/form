@@ -17,4 +17,10 @@ interface ErrorRendererInterface
      * @return mixed
      */
     public function render(FieldInterface $field);
+
+    /**
+     * @param FieldInterface $field
+     * @return bool
+     */
+    public function shouldRender(FieldInterface $field);
 }

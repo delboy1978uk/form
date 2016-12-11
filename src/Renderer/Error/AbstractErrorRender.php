@@ -8,6 +8,7 @@
 namespace Del\Form\Renderer\Error;
 
 use DOMDocument;
+use Del\Form\Field\FieldInterface;
 
 abstract class AbstractErrorRender implements ErrorRendererInterface
 {
@@ -21,5 +22,14 @@ abstract class AbstractErrorRender implements ErrorRendererInterface
     public function __construct(DOMDocument $dom)
     {
         $this->dom = $dom;
+    }
+
+    /**
+     * @param FieldInterface $field
+     * @return bool
+     */
+    public function shouldRender(FieldInterface $field)
+    {
+        return !$field->isValid() && ($field->isRequired() || !empty($field->getValue()));
     }
 }

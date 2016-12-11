@@ -15,6 +15,7 @@ use Del\Form\Renderer\Error\DefaultErrorRender;
 use Del\Form\Renderer\Error\ErrorRendererInterface;
 use DOMDocument;
 use DomElement;
+use DOMText;
 
 abstract class AbstractFormRenderer implements FormRendererInterface
 {
@@ -129,7 +130,7 @@ abstract class AbstractFormRenderer implements FormRendererInterface
     public function renderError()
     {
         $errorBlock = null;
-        if (!$this->field->isValid() && $this->displayErrors === true) {
+        if ($this->errorRenderer->shouldRender($this->field) && $this->displayErrors === true) {
             $this->block->setAttribute('class', 'has-error ');
             $errorBlock = $this->errorRenderer->render($this->field);
         }
@@ -143,6 +144,20 @@ abstract class AbstractFormRenderer implements FormRendererInterface
     {
         $label = $this->dom->createElement('label');
         $label->setAttribute('for', $this->field->getId());
+        if ($this->field->isRequired()) {
+            $label = $this->addRequiredAsterisk($label);
+        }
+        return $label;
+    }
+
+
+    public function addRequiredAsterisk(DomElement $label)
+    {
+        $span = $this->dom->createElement('span');
+        $span->setAttribute('class', 'text-danger');
+        $text = new DOMText('* ');
+        $span->appendChild($text);
+        $label->appendChild($span);
         return $label;
     }
 
