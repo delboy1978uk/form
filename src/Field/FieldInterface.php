@@ -10,6 +10,7 @@ namespace Del\Form\Field;
 use Del\Form\Collection\FilterCollection;
 use Del\Form\Collection\ValidatorCollection;
 use Del\Form\Filter\FilterInterface;
+use Del\Form\Renderer\Field\SelectRender;
 use Del\Form\Validator\ValidatorInterface;
 use Del\Form\Renderer\Field\FieldRendererInterface;
 use Exception;
@@ -143,4 +144,15 @@ interface FieldInterface
     public function setRenderer(FieldRendererInterface $renderer);
 
     public function init();
+
+    /**
+     * @param bool $required
+     * @return $this
+     */
+    public function setRequired($required);
+
+    /**
+     * @return bool
+     */
+    public function isRequired();
 }

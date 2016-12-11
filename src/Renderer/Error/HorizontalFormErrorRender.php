@@ -23,10 +23,10 @@ class HorizontalFormErrorRender extends AbstractErrorRender implements ErrorRend
         $helpBlock = $this->dom->createElement('span');
         $helpBlock->setAttribute('class', 'help-block');
 
-        if ($field->hasCustomErrorMessage()) {
-            $helpBlock = $this->addCustomErrorMessage($helpBlock, $field);
-        } else {
-            $helpBlock = $this->addErrorMessages($helpBlock, $field);
+        if ($this->shouldRender($field)) {
+            $helpBlock = $field->hasCustomErrorMessage()
+                ? $this->addCustomErrorMessage($helpBlock, $field)
+                : $this->addErrorMessages($helpBlock, $field);
         }
 
         $div = $this->dom->createElement('div');

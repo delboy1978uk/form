@@ -37,6 +37,9 @@ abstract class FieldAbstract implements FieldInterface
     /** @var string $label */
     private $label;
 
+    /** @var bool $required */
+    private $required;
+
     use HasAttributesTrait;
 
     /**
@@ -48,6 +51,7 @@ abstract class FieldAbstract implements FieldInterface
 
     public function __construct($name, $value = null)
     {
+        $this->required = false;
         $this->filterCollection = new FilterCollection();
         $this->validatorCollection = new ValidatorCollection();
         $this->renderer = new TextRender();
@@ -272,6 +276,24 @@ abstract class FieldAbstract implements FieldInterface
     public function setRenderer(FieldRendererInterface $renderer)
     {
         $this->renderer = $renderer;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isRequired()
+    {
+        return $this->required;
+    }
+
+    /**
+     * @param boolean $required
+     * @return FieldAbstract
+     */
+    public function setRequired($required)
+    {
+        $this->required = $required;
         return $this;
     }
 }

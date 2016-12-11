@@ -315,11 +315,12 @@ class FormTest extends Test
         $form = new Form('testform');
         $validator = new ValidatorAdapterZf(new NotEmpty());
         $text = new Text('text');
-        $text->addValidator($validator);
+        $text->addValidator($validator)
+        ->setRequired(true);
         $form->addField($text);
         $form->populate(['text' => null]);
         $html = $form->render();
-        $this->assertEquals('<form name="testform" method="post" id="testform"><div class="has-error form-group"><label for=""></label><input name="text" type="text" class="form-control"><span class="help-block">Value is required and can\'t be empty<br></span></div></form>'."\n", $html);
+        $this->assertEquals('<form name="testform" method="post" id="testform"><div class="has-error form-group"><label for=""><span class="text-danger">* </span></label><input name="text" type="text" class="form-control"><span class="help-block">Value is required and can\'t be empty<br></span></div></form>'."\n", $html);
     }
 
 
@@ -328,12 +329,13 @@ class FormTest extends Test
         $form = new Form('testform');
         $validator = new ValidatorAdapterZf(new NotEmpty());
         $text = new Text('text');
-        $text->addValidator($validator);
-        $text->setCustomErrorMessage('This can\'t be empty!');
+        $text->addValidator($validator)
+            ->setCustomErrorMessage('This can\'t be empty!')
+            ->setRequired(true);
         $form->addField($text);
         $form->populate(['text' => null]);
         $html = $form->render();
-        $this->assertEquals('<form name="testform" method="post" id="testform"><div class="has-error form-group"><label for=""></label><input name="text" type="text" class="form-control"><span class="help-block">This can\'t be empty!</span></div></form>'."\n", $html);
+        $this->assertEquals('<form name="testform" method="post" id="testform"><div class="has-error form-group"><label for=""><span class="text-danger">* </span></label><input name="text" type="text" class="form-control"><span class="help-block">This can\'t be empty!</span></div></form>'."\n", $html);
     }
 
     public function testGetAndSetRenderer()
