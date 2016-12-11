@@ -10,6 +10,7 @@ namespace Del\Form\Renderer;
 use Del\Form\Field\CheckBox;
 use Del\Form\Field\Radio;
 use Del\Form\Field\Submit;
+use Del\Form\Renderer\Error\HorizontalFormErrorRender;
 use DOMElement;
 use DOMText;
 
@@ -21,6 +22,7 @@ class HorizontalFormRenderer extends AbstractFormRenderer  implements FormRender
 
         // Add horizontal form class
         $this->form->setAttribute('class', 'form-horizontal');
+        $this->errorRenderer = new HorizontalFormErrorRender($this->dom);
     }
 
     /**
@@ -42,7 +44,8 @@ class HorizontalFormRenderer extends AbstractFormRenderer  implements FormRender
     public function renderFieldBlock()
     {
         $formGroup = $this->block;
-        $formGroup->setAttribute('class', 'form-group');
+        $class = $formGroup->getAttribute('class').'form-group';
+        $formGroup->setAttribute('class', $class);
 
         $div = $this->dom->createElement('div');
         $div->setAttribute('class', 'col-sm-offset-2 col-sm-10');

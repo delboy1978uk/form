@@ -35,4 +35,24 @@ class SelectTest extends Test
         $this->expectException('InvalidArgumentException');
         $form->render();
     }
+
+
+    public function testGetSetOptions()
+    {
+        $form = new Form('dropdown');
+        $select = new Select('selection');
+        $select->setOptions([
+            1 => 'hello',
+            2 => 'world',
+        ]);
+        $options = $select->getOptions();
+        $this->assertArrayHasKey(1, $options);
+        $this->assertArrayHasKey(2, $options);
+        $this->assertEquals('hello', $options[1]);
+        $this->assertEquals('world', $options[2]);
+        $this->assertEquals('world', $select->getOption(2));
+        $form->addField($select);
+        $html = $form->render();
+        $this->assertEquals('<form name="dropdown" method="post" id="dropdown"><div class="form-group"><label for=""></label><select name="selection" type="text" class="form-control"><option value="1">hello</option><option value="2">world</option></select></div></form>'."\n", $html);
+    }
 }
