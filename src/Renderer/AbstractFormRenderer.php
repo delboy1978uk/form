@@ -45,13 +45,11 @@ abstract class AbstractFormRenderer implements FormRendererInterface
     /** @var FieldInterface $field The current field being processed */
     protected $field;
 
-    public function __construct($name)
+    public function __construct()
     {
         $this->dom = new DOMDocument();
+        $this->form = $this->dom->createElement('form');
         $this->errorRenderer = new DefaultErrorRender($this->dom);
-        $form = $this->dom->createElement('form');
-        $form->setAttribute('name', $name);
-        $this->form = $form;
     }
 
     /**
@@ -137,4 +135,7 @@ abstract class AbstractFormRenderer implements FormRendererInterface
         }
         return $errorBlock;
     }
+
+
+
 }

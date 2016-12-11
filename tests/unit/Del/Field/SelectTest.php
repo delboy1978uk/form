@@ -3,8 +3,11 @@
 namespace DelTesting\Form\Field;
 
 use Codeception\TestCase\Test;
+use Del\Form\Field\Text;
 use Del\Form\Field\Select;
 use Del\Form\Form;
+use Del\Form\Renderer\Field\SelectRender;
+
 /**
  * User: delboy1978uk
  * Date: 05/12/2016
@@ -21,5 +24,15 @@ class SelectTest extends Test
         $form->addField($select);
         $html = $form->render();
         $this->assertEquals('<form name="dropdown" method="post" id="dropdown"><div class="form-group"><label for=""></label><select name="selection" type="text" class="form-control"><option value="1">hello</option><option value="2">world</option></select></div></form>'."\n", $html);
+    }
+
+    public function testSelectThrowsException()
+    {
+        $form = new Form('dropdown');
+        $text = new Text('selection');
+        $text->setRenderer(new SelectRender());
+        $form->addField($text);
+        $this->expectException('InvalidArgumentException');
+        $form->render();
     }
 }

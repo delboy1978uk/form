@@ -7,93 +7,86 @@
 
 namespace Del\Form\Renderer;
 
-use Del\Form\Collection\FieldCollection;
-use Del\Form\AbstractForm;
-use Del\Form\FormInterface;
-use DOMDocument;
+use Del\Form\Field\CheckBox;
+use Del\Form\Field\Radio;
+use Del\Form\Field\Submit;
+use DOMElement;
+use DOMText;
 
-class HorizontalFormRenderer implements FormRendererInterface
+class HorizontalFormRenderer extends AbstractFormRenderer  implements FormRendererInterface
 {
-    /** @var DOMDocument $dom */
-    private $dom;
-
-    /** @var \DomElement $form */
-    private $form;
-
-    /** @var bool $displayErrors */
-    private $displayErrors;
-
-    public function __construct($name)
+    public function __construct()
     {
-        $this->dom = new DOMDocument();
-        $form = $this->dom->createElement('form');
-        $form->setAttribute('name', $name);
-        $this->form = $form;
+        parent::__construct();
+
+        // Add horizontal form class
+        $this->form->setAttribute('class', 'form-horizontal');
     }
 
     /**
-     * @param FormInterface $form
-     * @param bool $displayErrors
-     * @return string
+     * @return DOMElement
      */
-    public function render(FormInterface $form, $displayErrors = true)
+    public function renderFieldLabel()
     {
-        $this->displayErrors = $displayErrors;
-        $this->setFormAttributes($form);
-
-        $fields = $form->getFields();
-        $this->processFields($fields);
-
-        $this->dom->appendChild($this->form);
-        return $this->dom->saveHTML();
+        $label = $this->dom->createElement('label');
+        $label->setAttribute('for', $this->field->getId());
+        $label->setAttribute('class', 'col-sm-2 control-label');
+        $text = new DOMText($this->field->getLabel());
+        $label->appendChild($text);
+        return $label;
     }
 
     /**
-     * @param FormInterface $form
+     * @return DOMElement
      */
-    private function setFormAttributes(FormInterface $form)
+    public function renderFieldBlock()
     {
-        $attributes = $form->getAttributes();
-        foreach ($attributes as $key => $value) {
-            $this->form->setAttribute($key, $value);
+        $formGroup = $this->block;
+        $formGroup->setAttribute('class', 'form-group');
+
+        $div = $this->dom->createElement('div');
+        $div->setAttribute('class', 'col-sm-offset-2 col-sm-10');
+
+        switch (get_class($this->field)) {
+            case 'Del\Form\Field\Submit':
+                $div->appendChild($this->element);
+                break;
+            case 'Del\Form\Field\Radio':
+                $radioDiv = $this->surroundInDiv($this->element, 'radio');
+                $div->appendChild($radioDiv);
+                break;
+            case 'Del\Form\Field\CheckBox':
+                $checkboxDiv = $this->surroundInDiv($this->element, 'checkbox');
+                $div->appendChild($checkboxDiv);
+                break;
+            default:
+                $formGroup->appendChild($this->label);
+                $div->setAttribute('class', 'col-sm-10');
+                $div->appendChild($this->element);
         }
 
-        // set Id as name or method as post if not set
-        $method = $this->getMethod($form);
-        $id = $this->getId($form);
+        $formGroup->appendChild($div);
 
-        $this->form->setAttribute('id', $id);
-        $this->form->setAttribute('method', $method);
-    }
-
-    /**
-     * @param FormInterface $form
-     * @return string
-     */
-    private function getMethod(FormInterface $form)
-    {
-        return $form->getMethod() ?: AbstractForm::METHOD_POST;
-    }
-
-    /**
-     * @param FormInterface $form
-     * @return string
-     */
-    private function getId(FormInterface $form)
-    {
-        return $form->getId() ?: $this->form->getAttribute('name');
-    }
-
-    private function processFields(FieldCollection $fields)
-    {
-        $fields->rewind();
-        while ($fields->valid()) {
-            $current = $fields->current();
-            $child = $current->getRenderer()->render($this->dom, $current, $this->displayErrors);
-            $this->form->appendChild($child);
-            $fields->next();
+        if (!is_null($this->errors)) {
+            $formGroup->appendChild($this->errors);
         }
-        $fields->rewind();
+
+        return $formGroup;
+    }
+
+    /**
+     * Surround an element in a div with a given class
+     *
+     * @param DOMElement $element
+     * @param $class
+     * @return DOMElement
+     */
+    private function surroundInDiv(DOMElement $element, $class)
+    {
+        $div = $this->dom->createElement('div');
+        $div->setAttribute('class', $class);
+        $div->appendChild($element);
+        return $div;
     }
 
 }

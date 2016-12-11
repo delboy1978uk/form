@@ -44,8 +44,9 @@ abstract class AbstractForm implements FormInterface
     public function __construct($name)
     {
         $this->fieldCollection = new FieldCollection();
-        $this->formRenderer = new FormRenderer($name);
+        $this->formRenderer = new FormRenderer();
         $this->attributes = [
+            'name' => $name,
             'method' => self::METHOD_POST,
         ];
         $this->displayErrors = false;
@@ -260,10 +261,10 @@ abstract class AbstractForm implements FormInterface
     }
 
     /**
-     * @param FieldRendererInterface $displayErrors
+     * @param FormRendererInterface $displayErrors
      * @return AbstractForm
      */
-    public function setFormRenderer(FieldRendererInterface $renderer)
+    public function setFormRenderer(FormRendererInterface $renderer)
     {
         $this->formRenderer = $renderer;
         return $this;

@@ -22,7 +22,6 @@ class CheckBox extends FieldAbstract
     public function init()
     {
         $this->setAttribute('type', 'checkbox');
-        $this->setAttribute('class', 'form-control');
         $this->setRenderer(new RadioRender());
     }
 

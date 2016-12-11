@@ -306,7 +306,7 @@ class FormTest extends Test
         $form->addField($submit);
 
         $html = $form->render();
-        $this->assertEquals('<form name="testform" method="post" id="testform"><div class="form-group"><label for="">User Name</label><input name="Username" type="text" class="form-control" placeholder="Enter Some Text"></div><div class="form-group"><label for="">Email Address</label><input name="Email" type="text" class="form-control"></div><div class="form-group"><label for=""><input name="Radio" type="radio" class="form-control"></label></div><div class="form-group"><label for=""><input name="Radio" type="checkbox" class="form-control"></label></div><div class="form-group"><label for=""></label><input name="submit" value="submit" type="submit" class="btn btn-primary"></div></form>'."\n", $html);
+        $this->assertEquals('<form name="testform" method="post" id="testform"><div class="form-group"><label for="">User Name</label><input name="Username" type="text" class="form-control" placeholder="Enter Some Text"></div><div class="form-group"><label for="">Email Address</label><input name="Email" type="text" class="form-control"></div><div class="form-group"><label for=""><input name="Radio" type="radio"></label></div><div class="form-group"><label for=""><input name="Radio" type="checkbox"></label></div><div class="form-group"><label for=""></label><input name="submit" value="submit" type="submit" class="btn btn-primary"></div></form>'."\n", $html);
     }
 
 

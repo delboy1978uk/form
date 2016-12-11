@@ -9,6 +9,7 @@ namespace Del\Form\Renderer\Field;
 
 use Del\Form\Field\FieldInterface;
 use DOMElement;
+use DOMText;
 
 class RadioRender extends AbstractFieldRender implements FieldRendererInterface
 {
@@ -22,11 +23,12 @@ class RadioRender extends AbstractFieldRender implements FieldRendererInterface
      */
     public function renderBlock(FieldInterface $field, DOMElement $element)
     {
-        /*
-         * @todo take form renderer arg instead of field
-         * @todo getters setters for error label etc in form renderer abstract
-         */
-        return $element;
+        $label = $this->dom->createElement('label');
+        $label->setAttribute('for', $field->getId());
+        $label->appendChild($element);
+        $text = new DOMText($field->getLabel());
+        $label->appendChild($text);
+        return $label;
     }
 
 }

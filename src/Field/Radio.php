@@ -23,7 +23,6 @@ class Radio extends FieldAbstract
     public function init()
     {
         $this->setAttribute('type', 'radio');
-        $this->setAttribute('class', 'form-control');
         $this->setRenderer(new RadioRender());
     }
 }
