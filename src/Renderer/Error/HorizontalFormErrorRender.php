@@ -15,7 +15,6 @@ use DOMText;
 class HorizontalFormErrorRender extends AbstractErrorRender implements ErrorRendererInterface
 {
     /**
-     * @param DOMElement $div
      * @param FieldInterface $field
      * @return DOMElement
      */

@@ -16,10 +16,8 @@ class SelectRender extends AbstractFieldRender implements FieldRendererInterface
 {
     /**
      * @param FieldInterface $field
-     * @param DOMElement $fieldBlock
-     * @param DOMElement $labelBlock
      * @param DOMElement $element
-     * @param DOMElement|null $errorBlock
+     * @return DOMElement
      */
     public function renderBlock(FieldInterface $field, DOMElement $element)
     {

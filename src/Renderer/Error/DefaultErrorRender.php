@@ -15,7 +15,6 @@ use DOMText;
 class DefaultErrorRender extends AbstractErrorRender implements ErrorRendererInterface
 {
     /**
-     * @param DOMElement $div
      * @param FieldInterface $field
      * @return DOMElement
      */

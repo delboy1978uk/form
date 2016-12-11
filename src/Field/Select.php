@@ -57,7 +57,8 @@ class Select extends FieldAbstract
     }
 
     /**
-     * @param array $options
+     * @param $key
+     * @param $value
      * @return $this
      */
     public function setOption($key, $value)

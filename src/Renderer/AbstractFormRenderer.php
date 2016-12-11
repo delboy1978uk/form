@@ -137,7 +137,7 @@ abstract class AbstractFormRenderer implements FormRendererInterface
     }
 
     /**
-     * @return DOMElement
+     * @return \DOMElement
      */
     protected function createLabelElement()
     {

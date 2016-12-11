@@ -9,7 +9,6 @@ namespace Del\Form;
 
 use Del\Form\Collection\FieldCollection;
 use Del\Form\Field\FieldInterface;
-use Del\Form\Renderer\Field\FieldRendererInterface;
 use Del\Form\Renderer\FormRenderer;
 use Del\Form\Renderer\FormRendererInterface;
 use Del\Form\Traits\HasAttributesTrait;
@@ -261,7 +260,7 @@ abstract class AbstractForm implements FormInterface
     }
 
     /**
-     * @param FormRendererInterface $displayErrors
+     * @param FormRendererInterface $renderer
      * @return AbstractForm
      */
     public function setFormRenderer(FormRendererInterface $renderer)

@@ -41,5 +41,5 @@ abstract class AbstractFieldRender implements FieldRendererInterface
         return $element;
     }
 
-    abstract public function renderBlock(FieldInterface $field, DOMElement $element );
+    abstract public function renderBlock(FieldInterface $field, DOMElement $element);
 }
