@@ -14,7 +14,7 @@ use Del\Form\Renderer\Error\HorizontalFormErrorRender;
 use DOMElement;
 use DOMText;
 
-class HorizontalFormRenderer extends AbstractFormRenderer  implements FormRendererInterface
+class HorizontalFormRenderer extends AbstractFormRenderer implements FormRendererInterface
 {
     public function __construct()
     {
@@ -30,8 +30,7 @@ class HorizontalFormRenderer extends AbstractFormRenderer  implements FormRender
      */
     public function renderFieldLabel()
     {
-        $label = $this->dom->createElement('label');
-        $label->setAttribute('for', $this->field->getId());
+        $label = $this->createLabelElement();
         $label->setAttribute('class', 'col-sm-2 control-label');
         $text = new DOMText($this->field->getLabel());
         $label->appendChild($text);
@@ -43,13 +42,25 @@ class HorizontalFormRenderer extends AbstractFormRenderer  implements FormRender
      */
     public function renderFieldBlock()
     {
-        $formGroup = $this->block;
-        $class = $formGroup->getAttribute('class').'form-group';
-        $formGroup->setAttribute('class', $class);
+        $class = $this->block->getAttribute('class').'form-group';
+        $this->block->setAttribute('class', $class);
 
         $div = $this->dom->createElement('div');
         $div->setAttribute('class', 'col-sm-offset-2 col-sm-10');
 
+        $this->processField($div);
+
+        $this->block->appendChild($div);
+
+        if (!is_null($this->errors)) {
+            $this->block->appendChild($this->errors);
+        }
+
+        return $this->block;
+    }
+
+    private function processField(DOMElement $div)
+    {
         switch (get_class($this->field)) {
             case 'Del\Form\Field\Submit':
                 $div->appendChild($this->element);
@@ -63,18 +74,10 @@ class HorizontalFormRenderer extends AbstractFormRenderer  implements FormRender
                 $div->appendChild($checkboxDiv);
                 break;
             default:
-                $formGroup->appendChild($this->label);
+                $this->block->appendChild($this->label);
                 $div->setAttribute('class', 'col-sm-10');
                 $div->appendChild($this->element);
         }
-
-        $formGroup->appendChild($div);
-
-        if (!is_null($this->errors)) {
-            $formGroup->appendChild($this->errors);
-        }
-
-        return $formGroup;
     }
 
     /**

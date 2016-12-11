@@ -19,8 +19,7 @@ class FormRenderer extends AbstractFormRenderer implements FormRendererInterface
      */
     public function renderFieldLabel()
     {
-        $label = $this->dom->createElement('label');
-        $label->setAttribute('for', $this->field->getId());
+        $label = $this->createLabelElement();
         $text = new DOMText($this->field->getLabel());
         $label->appendChild($text);
         return $label;

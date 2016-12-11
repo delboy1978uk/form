@@ -136,6 +136,14 @@ abstract class AbstractFormRenderer implements FormRendererInterface
         return $errorBlock;
     }
 
-
+    /**
+     * @return DOMElement
+     */
+    protected function createLabelElement()
+    {
+        $label = $this->dom->createElement('label');
+        $label->setAttribute('for', $this->field->getId());
+        return $label;
+    }
 
 }
