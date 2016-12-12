@@ -25,11 +25,25 @@ class SelectRender extends AbstractFieldRender implements FieldRendererInterface
             throw new InvalidArgumentException('Must be a Del\Form\Field\Select');
         }
         foreach ($field->getOptions() as $value => $label) {
-            $option = $this->dom->createElement('option');
-            $option->setAttribute('value', $value);
-            $option->textContent = $label;
+            $option = $this->processOption($field, $value, $label);
             $element->appendChild($option);
         }
         return $element;
+    }
+
+    /**
+     * @param FieldInterface $field
+     * @param DOMElement $option
+     * @return DOMElement
+     */
+    private function processOption(FieldInterface $field, $value, $label)
+    {
+        $option = $this->dom->createElement('option');
+        $option->setAttribute('value', $value);
+        $option->textContent = $label;
+        if($field->getValue() == $option->getAttribute('value')) {
+            $option->setAttribute('selected', 'selected');
+        }
+        return $option;
     }
 }

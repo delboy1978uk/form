@@ -51,6 +51,4 @@ class Text extends FieldAbstract
     {
         $this->setAttribute('placeholder', $placeholder);
     }
-
-
 }
