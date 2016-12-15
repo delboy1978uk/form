@@ -58,7 +58,7 @@ class CheckboxRender extends AbstractFieldRender implements FieldRendererInterfa
     private function processOption(FieldInterface $field, $value, $labelText, $inline)
     {
         if ($inline === true) {
-            return $this->renderRadioInline($field, $value, $labelText);
+            return $this->renderCheckboxInline($field, $value, $labelText);
         }
         return $this->renderRadio($field, $value, $labelText);
     }
