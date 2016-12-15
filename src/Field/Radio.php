@@ -8,10 +8,11 @@
 namespace Del\Form\Field;
 
 use Del\Form\Renderer\Field\RadioRender;
+use Del\Form\Traits\HasOptionsTrait;
 
 class Radio extends FieldAbstract
 {
-
+    use HasOptionsTrait;
     /**
      * @return string
      */
