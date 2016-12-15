@@ -93,7 +93,7 @@ class CheckboxRender extends AbstractFieldRender implements FieldRendererInterfa
 
         $radio = $this->dom->createElement('input');
         $radio->setAttribute('type', 'checkbox');
-        $radio->setAttribute('name', $field->getName());
+        $radio->setAttribute('name', $field->getName().'[]');
         $radio->setAttribute('value', $value);
         $text = new DOMText($labelText);
 
