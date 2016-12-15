@@ -9,25 +9,28 @@ namespace Del\Form\Renderer\Field;
 
 use Del\Form\Field\FieldInterface;
 use Del\Form\Field\Radio;
+use DOMDocumentFragment;
 use DOMElement;
+use DOMNode;
 use DOMText;
 use InvalidArgumentException;
 
 class RadioRender extends AbstractFieldRender implements FieldRendererInterface
 {
-    /** @var DOMElement $div */
-    private $div;
+    /** @var DOMDocumentFragment $div */
+    private $fragment;
 
     /**
      * @param FieldInterface $field
      * @param DOMElement $element
-     * @return DOMElement
+     * @return DOMNode
      */
     public function renderBlock(FieldInterface $field, DOMElement $element)
     {
-        // Since it's a containing div, remove the name
-        $element->removeAttribute('name');
-        $this->div = $element;
+        // We don't really want a containing div, so we'll ignore $element
+        // and instead create a DOMDocumentFragment
+        unset($element);
+        $this->fragment = $this->dom->createDocumentFragment();
 
         // Make sure the FieldInterface is actually a Radio
         if (!$field instanceof Radio) {
@@ -39,10 +42,10 @@ class RadioRender extends AbstractFieldRender implements FieldRendererInterface
         // Loop through each radio element (the options)
         foreach ($field->getOptions() as $value => $label) {
             $radio = $this->processOption($field, $value, $label, $inline);
-            $element->appendChild($radio);
+            $this->fragment->appendChild($radio);
         }
 
-        return $element;
+        return $this->fragment;
     }
 
 
