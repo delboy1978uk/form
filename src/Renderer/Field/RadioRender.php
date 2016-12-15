@@ -76,6 +76,7 @@ class RadioRender extends AbstractFieldRender implements FieldRendererInterface
     {
         $label = $this->dom->createElement('label');
         $label->setAttribute('for', $field->getId());
+        $label->setAttribute('class', 'radio-inline');
 
         $radio = $this->dom->createElement('input');
         $radio->setAttribute('type', 'radio');
