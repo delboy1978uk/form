@@ -7,22 +7,30 @@
 
 namespace Del\Form\Field;
 
-use Del\Form\Renderer\Field\RadioRender;
+use Del\Form\Renderer\Field\CheckboxRender;
+use Del\Form\Traits\CanRenderInlineTrait;
+use Del\Form\Traits\HasOptionsTrait;
 
 class CheckBox extends FieldAbstract
 {
+
+    use CanRenderInlineTrait;
+    use HasOptionsTrait;
+
     /**
+     * We end up ignoring this during rendering Checkboxes, see the renderer for info
+     *
      * @return string
      */
     public function getTag()
     {
-        return 'input';
+        return 'div';
     }
 
     public function init()
     {
-        $this->setAttribute('type', 'checkbox');
-        $this->setRenderer(new RadioRender());
+        $this->renderInline = false;
+        $this->setRenderer(new CheckboxRender());
     }
 
 

@@ -8,14 +8,14 @@
 namespace Del\Form\Renderer\Field;
 
 use Del\Form\Field\FieldInterface;
-use Del\Form\Field\Radio;
+use Del\Form\Field\CheckBox;
 use DOMDocumentFragment;
 use DOMElement;
 use DOMNode;
 use DOMText;
 use InvalidArgumentException;
 
-class RadioRender extends AbstractFieldRender implements FieldRendererInterface
+class CheckboxRender extends AbstractFieldRender implements FieldRendererInterface
 {
     /** @var DOMDocumentFragment $div */
     private $fragment;
@@ -33,8 +33,8 @@ class RadioRender extends AbstractFieldRender implements FieldRendererInterface
         $this->fragment = $this->dom->createDocumentFragment();
 
         // Make sure the FieldInterface is actually a Radio
-        if (!$field instanceof Radio) {
-            throw new InvalidArgumentException('Must be a Del\Form\Field\Radio');
+        if (!$field instanceof CheckBox) {
+            throw new InvalidArgumentException('Must be a Del\Form\Field\Checkbox');
         }
 
         $inline = $field->isRenderInline();
@@ -72,8 +72,8 @@ class RadioRender extends AbstractFieldRender implements FieldRendererInterface
     private function renderRadio(FieldInterface $field, $value, $labelText)
     {
         $div = $this->dom->createElement('div');
-        $div->setAttribute('class', 'radio');
-        $radio = $this->renderRadioInline($field, $value, $labelText);
+        $div->setAttribute('class', 'checkbox');
+        $radio = $this->renderCheckboxInline($field, $value, $labelText);
         $radio->removeAttribute('class');
         $div->appendChild($radio);
         return $div;
@@ -85,11 +85,11 @@ class RadioRender extends AbstractFieldRender implements FieldRendererInterface
      * @param $labelText
      * @return DOMElement
      */
-    private function renderRadioInline(FieldInterface $field, $value, $labelText)
+    private function renderCheckboxInline(FieldInterface $field, $value, $labelText)
     {
         $label = $this->dom->createElement('label');
         $label->setAttribute('for', $field->getId());
-        $label->setAttribute('class', 'radio-inline');
+        $label->setAttribute('class', 'checkbox-inline');
 
         $radio = $this->dom->createElement('input');
         $radio->setAttribute('type', 'radio');

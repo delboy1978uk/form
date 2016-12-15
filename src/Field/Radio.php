@@ -17,6 +17,8 @@ class Radio extends FieldAbstract
     use HasOptionsTrait;
 
     /**
+     * We end up ignoring this during rendering Radios, see the renderer for info
+     *
      * @return string
      */
     public function getTag()
@@ -27,7 +29,6 @@ class Radio extends FieldAbstract
     public function init()
     {
         $this->renderInline = false;
-        $this->setAttribute('class', 'radio');
         $this->setRenderer(new RadioRender());
     }
 }
