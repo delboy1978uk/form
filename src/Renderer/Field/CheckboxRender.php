@@ -92,7 +92,7 @@ class CheckboxRender extends AbstractFieldRender implements FieldRendererInterfa
         $label->setAttribute('class', 'checkbox-inline');
 
         $radio = $this->dom->createElement('input');
-        $radio->setAttribute('type', 'radio');
+        $radio->setAttribute('type', 'checkbox');
         $radio->setAttribute('name', $field->getName());
         $radio->setAttribute('value', $value);
         $text = new DOMText($labelText);
