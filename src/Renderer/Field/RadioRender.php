@@ -62,7 +62,11 @@ class RadioRender extends AbstractFieldRender implements FieldRendererInterface
 
     private function renderRadio(FieldInterface $field, $value, $labelText)
     {
-
+        $div = $this->dom->createElement('div');
+        $div->setAttribute('class', 'radio');
+        $radio = $this->renderRadioInline($field, $value, $labelText);
+        $div->appendChild($radio);
+        return $div;
     }
 
     private function renderRadioInline(FieldInterface $field, $value, $labelText)
