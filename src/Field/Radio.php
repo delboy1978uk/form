@@ -18,12 +18,12 @@ class Radio extends FieldAbstract
      */
     public function getTag()
     {
-        return 'input';
+        return 'div';
     }
 
     public function init()
     {
-        $this->setAttribute('type', 'radio');
+        $this->setAttribute('class', 'radio');
         $this->setRenderer(new RadioRender());
     }
 }
