@@ -292,6 +292,18 @@ class FormTest extends Test
         $check = new CheckBox('Radio');
         $submit = new Submit('submit');
 
+        $radio->setLabel('Choose your meal');
+        $radio->setOptions([
+            1 => 'Chicken',
+            2 => 'Beef',
+            3 => 'Pork',
+        ]);
+
+        $check->setLabel('Mailing List');
+        $check->setOptions([
+            'spam' => 'Spam my inbox',
+        ]);
+
         $name->addValidator($validator);
         $name->addFilter($filter);
         $name->setPlaceholder('Enter Some Text');

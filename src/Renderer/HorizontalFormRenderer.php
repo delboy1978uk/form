@@ -9,6 +9,7 @@ namespace Del\Form\Renderer;
 
 use Del\Form\Renderer\Error\HorizontalFormErrorRender;
 use DOMElement;
+use DOMNode;
 use DOMText;
 
 class HorizontalFormRenderer extends AbstractFormRenderer implements FormRendererInterface
@@ -84,7 +85,7 @@ class HorizontalFormRenderer extends AbstractFormRenderer implements FormRendere
      * @param $class
      * @return DOMElement
      */
-    private function surroundInDiv(DOMElement $element, $class)
+    private function surroundInDiv(DOMNode $element, $class)
     {
         $div = $this->dom->createElement('div');
         $div->setAttribute('class', $class);

@@ -14,6 +14,7 @@ use DOMElement;
 use DOMNode;
 use DOMText;
 use InvalidArgumentException;
+use LogicException;
 
 class CheckboxRender extends AbstractFieldRender implements FieldRendererInterface
 {
@@ -39,8 +40,13 @@ class CheckboxRender extends AbstractFieldRender implements FieldRendererInterfa
 
         $inline = $field->isRenderInline();
 
-        // Loop through each radio element (the options)
-        foreach ($field->getOptions() as $value => $label) {
+        $options = $field->getOptions();
+        if (empty($options)) {
+            throw new LogicException('You must set at least one option.');
+        }
+
+        // Loop through each checvbox element (the options)
+        foreach ($options as $value => $label) {
             $radio = $this->processOption($field, $value, $label, $inline);
             $this->fragment->appendChild($radio);
         }

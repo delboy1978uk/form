@@ -42,6 +42,9 @@ class HorizontalFormRendererTest extends Test
         $remember = new CheckBox('remember');
         $remember->setId('remember');
         $remember->setLabel('Remember me');
+        $remember->setOptions([
+            'remember' => 'Remember Me',
+        ]);
         $submit = new Submit('submit');
         $submit->setValue('Sign in');
 
@@ -77,6 +80,10 @@ class HorizontalFormRendererTest extends Test
         $remember = new Radio('choose');
         $remember->setId('choose');
         $remember->setLabel('Choose');
+        $remember->setOptions([
+            'choose' => 'Choose Me!',
+            'choose2' => 'Or Me!',
+        ]);
         $submit = new Submit('submit');
         $submit->setValue('Sign in');
 
