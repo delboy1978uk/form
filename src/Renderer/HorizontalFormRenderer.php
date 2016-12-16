@@ -44,7 +44,7 @@ class HorizontalFormRenderer extends AbstractFormRenderer implements FormRendere
         $this->block->setAttribute('class', $class);
 
         $div = $this->dom->createElement('div');
-        $div->setAttribute('class', 'col-sm-offset-2 col-sm-10');
+        $div->setAttribute('class', 'col-sm-10');
 
         $this->processField($div);
 
@@ -65,6 +65,7 @@ class HorizontalFormRenderer extends AbstractFormRenderer implements FormRendere
         switch (get_class($this->field)) {
             case 'Del\Form\Field\Submit':
                 $div->appendChild($this->element);
+                $div->setAttribute('class', 'col-sm-offset-2 col-sm-10');
                 break;
             case 'Del\Form\Field\Radio':
                 $radioDiv = $this->surroundInDiv($this->element, 'radio');
@@ -78,7 +79,6 @@ class HorizontalFormRenderer extends AbstractFormRenderer implements FormRendere
                 break;
             default:
                 $this->block->appendChild($this->label);
-                $div->setAttribute('class', 'col-sm-10');
                 $div->appendChild($this->element);
         }
     }
