@@ -35,10 +35,7 @@ class FormRenderer extends AbstractFormRenderer implements FormRendererInterface
         $class = $formGroup->getAttribute('class').'form-group';
         $formGroup->setAttribute('class', $class);
 
-        // add the label div, form field, and error div, if any.
-        if (!$this->field instanceof Radio && !$this->field instanceof CheckBox) {
-            $formGroup->appendChild($this->label);
-        }
+        $formGroup->appendChild($this->label);
 
         $formGroup->appendChild($this->element);
 

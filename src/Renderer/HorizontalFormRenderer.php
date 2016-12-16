@@ -57,6 +57,9 @@ class HorizontalFormRenderer extends AbstractFormRenderer implements FormRendere
         return $this->block;
     }
 
+    /**
+     * @param DOMElement $div
+     */
     private function processField(DOMElement $div)
     {
         switch (get_class($this->field)) {
@@ -65,10 +68,12 @@ class HorizontalFormRenderer extends AbstractFormRenderer implements FormRendere
                 break;
             case 'Del\Form\Field\Radio':
                 $radioDiv = $this->surroundInDiv($this->element, 'radio');
+                $this->block->appendChild($this->label);
                 $div->appendChild($radioDiv);
                 break;
             case 'Del\Form\Field\CheckBox':
                 $checkboxDiv = $this->surroundInDiv($this->element, 'checkbox');
+                $this->block->appendChild($this->label);
                 $div->appendChild($checkboxDiv);
                 break;
             default:
@@ -81,7 +86,7 @@ class HorizontalFormRenderer extends AbstractFormRenderer implements FormRendere
     /**
      * Surround an element in a div with a given class
      *
-     * @param DOMElement $element
+     * @param DOMNode $element
      * @param $class
      * @return DOMElement
      */
