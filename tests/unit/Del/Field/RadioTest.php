@@ -23,7 +23,7 @@ class RadioTest extends Test
         ]);
         $form->addField($radio);
         $html = $form->render();
-        $this->assertEquals('<form name="radiotest" method="post" id="radiotest"><div class="form-group"><label for=""><input name="choose" type="radio" value="hello">Choose</label></div></form>'."\n", $html);
+        $this->assertEquals('<form name="radiotest" method="post" id="radiotest"><div class="form-group"><label for="">Choose</label><div class="radio"><label for=""><input type="radio" name="choose" value="hello">Choose</label></div></div></form>'."\n", $html);
     }
 
 
@@ -38,7 +38,7 @@ class RadioTest extends Test
         ]);
         $form->addField($radio);
         $html = $form->render();
-        $this->assertEquals('<form name="radiotest" method="post" id="radiotest"><div class="form-group"><label for=""><input name="choose" type="radio" value="hello">Choose</label></div></form>'."\n", $html);
+        $this->assertEquals('<form name="radiotest" method="post" id="radiotest"><div class="form-group"><label for="">Choose</label><div class="radio"><label for=""><input type="radio" name="choose" value="hello">Choose</label></div><div class="radio"><label for=""><input type="radio" name="choose" value="goodbye">Something</label></div></div></form>'."\n", $html);
     }
 
 

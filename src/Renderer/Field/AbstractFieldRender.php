@@ -36,8 +36,24 @@ abstract class AbstractFieldRender implements FieldRendererInterface
         $element = $this->dom->createElement($field->getTag());
 
         foreach ($field->getAttributes() as $key => $value) {
-            $element->setAttribute($key, $value);
+            $element = $this->setAttribute($field, $element, $key, $value);
         }
+        return $element;
+    }
+
+    /**
+     * @param FieldInterface $field
+     * @param DOMElement $element
+     * @param $key
+     * @param $value
+     * @return DOMElement
+     */
+    private function setAttribute(FieldInterface $field, DOMElement $element, $key, $value)
+    {
+        if ($field instanceof ArrayValueInterface && $key == 'value') {
+            return $element;
+        }
+        $element->setAttribute($key, $value);
         return $element;
     }
 

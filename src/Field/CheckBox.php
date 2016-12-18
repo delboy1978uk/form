@@ -11,7 +11,7 @@ use Del\Form\Renderer\Field\CheckboxRender;
 use Del\Form\Traits\CanRenderInlineTrait;
 use Del\Form\Traits\HasOptionsTrait;
 
-class CheckBox extends FieldAbstract
+class CheckBox extends FieldAbstract implements ArrayValueInterface
 {
 
     use CanRenderInlineTrait;
@@ -33,5 +33,29 @@ class CheckBox extends FieldAbstract
         $this->setRenderer(new CheckboxRender());
     }
 
+    /**
+     * @param $key
+     * @return $this
+     */
+    public function checkValue($key)
+    {
+        $values = $this->getValue();
+        $values[$key] = true;
+        $this->setValue($values);
+        return $this;
+    }
 
+    /**
+     * @param $key
+     * @return $this
+     */
+    public function uncheckValue($key)
+    {
+        $values = $this->getValue();
+        if (isset($values[$key])) {
+            unset($values[$key]);
+        }
+        $this->setValue($values);
+        return $this;
+    }
 }
