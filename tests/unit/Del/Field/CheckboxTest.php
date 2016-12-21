@@ -30,4 +30,20 @@ class CheckboxTest extends Test
         $this->assertTrue(is_array($data['choose']));
         $this->assertTrue($data['choose']['hello']);
     }
+
+    public function testRequiredCheckbox()
+    {
+        $form = new Form('radiotest');
+        $checkbox = new CheckBox('choose');
+        $checkbox->setLabel('Choose');
+        $checkbox->setOptions([
+            'hello' => 'Choose',
+            'goodbye' => 'Something',
+        ]);
+        $checkbox->setRequired(true);
+        $form->addField($checkbox);
+        $this->assertFalse($form->isValid());
+        $checkbox->checkValue('goodbye');
+        $this->assertTrue($form->isValid());
+    }
 }

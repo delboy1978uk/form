@@ -29,6 +29,7 @@ class CheckBox extends FieldAbstract implements ArrayValueInterface
 
     public function init()
     {
+        $this->setValue([]);
         $this->renderInline = false;
         $this->setRenderer(new CheckboxRender());
     }

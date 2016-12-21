@@ -198,22 +198,21 @@ class FormTest extends Test
         $form = new Form('test');
         $text = new Text('username');
 
-        $notEmptyValidator = new NotEmpty();
-        $adapter = new ValidatorAdapterZf($notEmptyValidator);
+        $notEmpty = new ValidatorAdapterZf(new NotEmpty());
 
         $stringLength = new StringLength();
         $stringLength->setMax(10);
         $stringLength->setMin(2);
-        $adapter2 = new ValidatorAdapterZf($stringLength);
+        $length = new ValidatorAdapterZf($stringLength);
 
         $text->setId('user');
-        $text->addValidator($adapter);
-        $text->addValidator($adapter2);
+        $text->addValidator($notEmpty);
+        $text->addValidator($length);
 
         $form->addField($text);
         $validators = $text->getValidators();
         $this->assertInstanceOf('Del\Form\Collection\ValidatorCollection', $validators);
-        $this->assertEquals(3, count($validators));
+        $this->assertEquals(2, count($validators));
     }
 
     public function testValidateForm()
@@ -221,17 +220,14 @@ class FormTest extends Test
         $form = new Form('test');
         $text = new Text('username');
 
-        $notEmptyValidator = new NotEmpty();
-        $adapter = new ValidatorAdapterZf($notEmptyValidator);
-
         $stringLength = new StringLength();
         $stringLength->setMax(10);
         $stringLength->setMin(2);
-        $adapter2 = new ValidatorAdapterZf($stringLength);
+        $length = new ValidatorAdapterZf($stringLength);
 
         $text->setId('user');
-        $text->addValidator($adapter);
-        $text->addValidator($adapter2);
+        $text->addValidator($length);
+        $text->setRequired(true);
 
         $form->addField($text);
         $this->assertFalse($form->isValid());
@@ -339,11 +335,9 @@ class FormTest extends Test
     public function testRenderWithCustomErrors()
     {
         $form = new Form('testform');
-        $validator = new ValidatorAdapterZf(new NotEmpty());
         $text = new Text('text');
-        $text->addValidator($validator)
-            ->setCustomErrorMessage('This can\'t be empty!')
-            ->setRequired(true);
+        $text->setCustomErrorMessage('This can\'t be empty!')
+             ->setRequired(true);
         $form->addField($text);
         $form->populate(['text' => null]);
         $html = $form->render();
@@ -360,10 +354,12 @@ class FormTest extends Test
 
     public function testGetAndSetEmailField()
     {
-        $text = new EmailAddress('test');
-        $this->assertFalse($text->isValid());
-        $text->setValue('delboy1978uk@gmail.com');
-        $this->assertTrue($text->isValid());
+        $email = new EmailAddress('test');
+        $email->setRequired(true);
+        $email->setValue('delboy1978uk');
+        $this->assertFalse($email->isValid());
+        $email->setValue('delboy1978uk@gmail.com');
+        $this->assertTrue($email->isValid());
     }
 
 

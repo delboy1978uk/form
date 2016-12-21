@@ -14,8 +14,10 @@ use Del\Form\Renderer\Field\DefaultRender;
 use Del\Form\Renderer\Field\FieldRendererInterface;
 use Del\Form\Renderer\Field\TextRender;
 use Del\Form\Traits\HasAttributesTrait;
+use Del\Form\Validator\Adapter\ValidatorAdapterZf;
 use Del\Form\Validator\ValidatorInterface;
 use Exception;
+use Zend\Validator\NotEmpty;
 
 abstract class FieldAbstract implements FieldInterface
 {
@@ -170,6 +172,8 @@ abstract class FieldAbstract implements FieldInterface
     }
 
     /**
+     *  Runs the checkForErrors method for each field, which adds to errorMessages if invalid
+     *
      * @return bool
      * @throws Exception If validation of $value is impossible
      */
@@ -192,7 +196,7 @@ abstract class FieldAbstract implements FieldInterface
     {
         $value = $this->getValue();
 
-        if (!$validator->isValid($value)) {
+        if ( (!$validator->isValid($value)) && $this->isRequired()) {
             $this->errorMessages = array_merge($this->errorMessages, $validator->getMessages());
         }
     }
@@ -280,6 +284,9 @@ abstract class FieldAbstract implements FieldInterface
     }
 
     /**
+     * If a field is required then it must have a value
+     * We add a not empty validator
+     *
      * @return boolean
      */
     public function isRequired()
@@ -293,7 +300,25 @@ abstract class FieldAbstract implements FieldInterface
      */
     public function setRequired($required)
     {
+        $required ? $this->addNotEmptyValidator() : $this->removeNotEmptyValidator();
         $this->required = $required;
         return $this;
+    }
+
+    private function addNotEmptyValidator()
+    {
+        $notEmpty = new ValidatorAdapterZf(new NotEmpty());
+        $this->addValidator($notEmpty);
+    }
+
+    private function removeNotEmptyValidator()
+    {
+        while ($this->validatorCollection->valid()) {
+            $validator = $this->validatorCollection->current();
+            $validator instanceof NotEmpty
+                ? $this->validatorCollection->offsetUnset($this->validatorCollection->key())
+                : null;
+            $this->validatorCollection->next();
+        }
     }
 }
