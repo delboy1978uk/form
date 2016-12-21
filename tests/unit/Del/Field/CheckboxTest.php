@@ -22,11 +22,11 @@ class CheckboxTest extends Test
             'hello' => 'Choose',
             'goodbye' => 'Something',
         ]);
-
+        $checkbox->checkValue('hello');
         $form->addField($checkbox);
         $data = $form->getValues();
 
-        $this->assertArrayNotHasKey('choose', $data);
+        $this->assertArrayHasKey('choose', $data);
         $this->assertTrue(is_array($data['choose']));
         $this->assertTrue($data['choose']['hello']);
     }
