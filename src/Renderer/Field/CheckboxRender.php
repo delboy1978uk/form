@@ -45,7 +45,7 @@ class CheckboxRender extends AbstractFieldRender implements FieldRendererInterfa
             throw new LogicException('You must set at least one option.');
         }
 
-        // Loop through each checvbox element (the options)
+        // Loop through each checkbox element (the options)
         foreach ($options as $value => $label) {
             $radio = $this->processOption($field, $value, $label, $inline);
             $this->fragment->appendChild($radio);
@@ -66,7 +66,7 @@ class CheckboxRender extends AbstractFieldRender implements FieldRendererInterfa
         if ($inline === true) {
             return $this->renderCheckboxInline($field, $value, $labelText);
         }
-        return $this->renderRadio($field, $value, $labelText);
+        return $this->renderCheckbox($field, $value, $labelText);
     }
 
     /**
@@ -75,7 +75,7 @@ class CheckboxRender extends AbstractFieldRender implements FieldRendererInterfa
      * @param $labelText
      * @return DOMElement
      */
-    private function renderRadio(FieldInterface $field, $value, $labelText)
+    private function renderCheckbox(FieldInterface $field, $value, $labelText)
     {
         $div = $this->dom->createElement('div');
         $div->setAttribute('class', 'checkbox');
@@ -103,7 +103,7 @@ class CheckboxRender extends AbstractFieldRender implements FieldRendererInterfa
         $radio->setAttribute('value', $value);
         $text = new DOMText($labelText);
 
-        if($field->getValue() == $radio->getAttribute('value')) {
+        if(in_array($value, $field->getValue())) {
             $radio->setAttribute('checked', 'checked');
         }
 
@@ -112,4 +112,6 @@ class CheckboxRender extends AbstractFieldRender implements FieldRendererInterfa
 
         return $label;
     }
+
+
 }

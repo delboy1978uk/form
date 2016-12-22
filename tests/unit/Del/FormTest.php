@@ -321,10 +321,8 @@ class FormTest extends Test
     public function testRenderWithErrors()
     {
         $form = new Form('testform');
-        $validator = new ValidatorAdapterZf(new NotEmpty());
         $text = new Text('text');
-        $text->addValidator($validator)
-        ->setRequired(true);
+        $text->setRequired(true);
         $form->addField($text);
         $form->populate(['text' => null]);
         $html = $form->render();
@@ -368,5 +366,15 @@ class FormTest extends Test
         $text = new Password('test', 'hello');
         $this->assertEquals('hello', $text->getValue());
 
+    }
+
+
+
+    public function testRenderFormTwice()
+    {
+        $form = new Form('checkboxtest');
+        $form->render();
+        $html = $form->render();
+        $this->assertEquals('<form name="checkboxtest" method="post" id="checkboxtest"></form>'."\n", $html);
     }
 }

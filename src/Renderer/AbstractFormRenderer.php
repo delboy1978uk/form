@@ -48,9 +48,17 @@ abstract class AbstractFormRenderer implements FormRendererInterface
 
     public function __construct()
     {
+        $this->resetDom();
+        $this->errorRenderer = new DefaultErrorRender($this->dom);
+    }
+
+    /**
+     *  resets dom
+     */
+    private function resetDom()
+    {
         $this->dom = new DOMDocument();
         $this->form = $this->dom->createElement('form');
-        $this->errorRenderer = new DefaultErrorRender($this->dom);
     }
 
     /**
@@ -67,7 +75,9 @@ abstract class AbstractFormRenderer implements FormRendererInterface
         $this->processFields($fields);
 
         $this->dom->appendChild($this->form);
-        return $this->dom->saveHTML();
+        $html = $this->dom->saveHTML();
+        $this->resetDom();
+        return $html;
     }
 
     /**
