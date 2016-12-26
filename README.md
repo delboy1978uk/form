@@ -40,10 +40,44 @@ $form->addField($userName)
 // Render the form
 echo $form->render();
 ```
+
+##Creating Custom Forms
+Of course, it's nicer to create your own form than build one up every time, so just create a class and extend 
+Del\Form\AbstractForm and add your fields in the init() function:
+```php
+<?php
+namespace My\Cool;
+
+use Del\Form\AbstractForm;
+use Del\Form\Field\Text\EmailAddress;
+use Del\Form\Field\Text\Password;
+use Del\Form\Field\Submit;
+
+class LoginForm extends AbstractForm
+{
+    public function init() 
+    {
+        $email = new EmailAddress('email');   
+        $password = new Password('passord');
+        $submit = new Submit('submit');
+        $this->addField($email);
+        $this->addField($password);
+        $this->addField($submit);
+    }
+}
+```
+Then using your form is as simple as:
+```php
+<?php
+use My\Cool\LoginForm;
+
+$form = new LoginForm('login');
+$form->render();
+```
 ## Fitering and validating input
 For filtering input, add a Del\Form\Filter\Interface to your field object. For validating the filtered input, add a 
 Del\Form\Validator\ValidatorInterface. Currently there is an adapter for Zend\Filter and Zend\Validate, but feel free to 
-write an adapter for you favourite library.
+write an adapter for you favourite library. Setting a required field adds a Del\Form\Validator\NotEmpty validator.
 ```php
 <?php
 
@@ -58,11 +92,10 @@ use Zend\Filter\StringTrim;
 use Zend\Filter\StringToLower;
 
 // Validation rules
-use Zend\Validator\NotEmpty;
-use Zend\Validator\EmailAddress;
+use Zend\Validator\CreditCard;;
 
 // Create the field
-$email = new Text('email');
+$creditCard = new Text('credit-card');
 
 // Create the filters
 $stripTags = new FilterAdapterZf(new StripTags());
@@ -70,18 +103,16 @@ $trim = new FilterAdapterZf(new StringTrim());
 $lowerCase = new FilterAdapterZf(new StringToLower());
 
 // Create the validators
-$notEmpty = new ValidatorAdapterZf(new NotEmpty());
-$emailAddress = new ValidatorAdapterZf(new EmailAddress());
+$emailAddress = new ValidatorAdapterZf(new CreditCard());
 
 // Add them to the field
-$email->addFilter($stripTags)
+$creditCard->addFilter($stripTags)
       ->addFilter($trim)
       ->addFilter($lowerCase)
-      ->addValidator($notEmpty)
       ->addValidator($emailAddress);
 ```
 ## Setting and getting values
-Del\Form\FormInterface has a populate method which takes an array (usually the post data, but not necessarily;-).  
+Del\Form\FormInterface has a populate method which takes an array (usually the post data, but not necessarily ;-).  
 ```php
 <?php
 if (isset($_POST['submit'])) { // or ask your request object ;-) 
@@ -93,8 +124,73 @@ if (isset($_POST['submit'])) { // or ask your request object ;-)
 }
 ```
 After populate has been called, if you call Form::render(), it will display any validation error messages.
-##What's next?
-*Form rendering strategies (plain form, bootstrap inline form, other layouts)
-*Required Fields
-*Facade Fields (e.g. an email field extending Text and adding email validation, or a credit card field. etc.)
+##Field Types
+###Text
+*Del\Form\Field\Text* fields are the most basic field, and come with a built in StripTags and StringTrim filter.
+
+*Del\Form\Field\Text\EmailAddress* extends Text, and adds an EmailAddress validator for convenience.
+
+*Del\Form\Field\Text\Password* is a password field which also extends Text.
+```php
+<?php
+use Del\Form\Field\Text;
+
+$text = new Text('text');
+$text->setLabel('Needed Details');
+$text->setRequired(true);
+$text->setPlaceholder('type some text..');
+$text->setValue('Blah');
+
+```
+###Select
+*Del\Form|Field\Select* needs initialised with setOptions():
+```php
+<?php
+use Del\Form\Field\Select;
+
+$select = new Select('choose');
+$select->setOptions([
+    'BK' => 'Burger King',
+    'McD' => 'McDonalds',
+    'Q' => 'Quick',
+]);
+```
+###Radio
+*Del\Form|Field\Radio* can be rendered inline (side by side) or not, also needs initialised with setOptions():
+```php
+<?php
+use Del\Form\Field\Radio;
+
+$radio = new Radio('choose');
+$radio->setRenderInline(true);
+$radio->setOptions([
+    'BK' => 'Burger King',
+    'McD' => 'McDonalds',
+    'Q' => 'Quick',
+]);
+```
+###Checkbox
+*Del\Form|Field\Checkbox* can be rendered inline or not, also needs initialised with setOptions():
+```php
+<?php
+use Del\Form\Field\CheckBox;
+
+$check = new CheckBox('choose');
+$check->setOptions([
+    'BK' => 'Burger King',
+    'McD' => 'McDonalds',
+    'Q' => 'Quick',
+]);
+```
+###Checkbox
+*Del\Form|Field\Submit* doesn't really need much:
+```php
+<?php
+use Del\Form\Field\Submit;
+
+$submit = new Submit('submit');
+$submit->setValue('Send');
+```
+
+
 
