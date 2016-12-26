@@ -51,7 +51,7 @@ class HorizontalFormErrorRender extends AbstractErrorRender implements ErrorRend
     /**
      * @param DOMElement $helpBlock
      * @param FieldInterface $field
-     * @return DOMElement]
+     * @return DOMElement
      */
     private function addErrorMessages(DOMElement $helpBlock, FieldInterface $field)
     {
