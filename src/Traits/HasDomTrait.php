@@ -52,7 +52,7 @@ trait HasDomTrait
 
     /**
      * @param DOMDocument $dom
-     * @return HasDomTrait
+     * @return $this
      */
     public function setDom($dom)
     {
