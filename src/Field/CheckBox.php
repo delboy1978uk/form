@@ -30,7 +30,7 @@ class CheckBox extends FieldAbstract implements ArrayValueInterface
     public function init()
     {
         $this->setValue([]);
-        $this->renderInline = false;
+        $this->setRenderInline(false);
         $this->setRenderer(new CheckboxRender());
     }
 
@@ -53,8 +53,9 @@ class CheckBox extends FieldAbstract implements ArrayValueInterface
     public function uncheckValue($key)
     {
         $values = $this->getValue();
-        if (isset($values[$key])) {
-            unset($values[$key]);
+        if (in_array($key, $values)) {
+            $index = array_search($key, $values);
+            unset($values[$index]);
         }
         $this->setValue($values);
         return $this;

@@ -10,14 +10,13 @@ namespace Del\Form\Field;
 use Del\Form\Collection\FilterCollection;
 use Del\Form\Collection\ValidatorCollection;
 use Del\Form\Filter\FilterInterface;
-use Del\Form\Renderer\Field\DefaultRender;
 use Del\Form\Renderer\Field\FieldRendererInterface;
 use Del\Form\Renderer\Field\TextRender;
 use Del\Form\Traits\HasAttributesTrait;
 use Del\Form\Validator\Adapter\ValidatorAdapterZf;
+use Del\Form\Validator\NotEmpty;
 use Del\Form\Validator\ValidatorInterface;
 use Exception;
-use Zend\Validator\NotEmpty;
 
 abstract class FieldAbstract implements FieldInterface
 {
@@ -307,12 +306,13 @@ abstract class FieldAbstract implements FieldInterface
 
     private function addNotEmptyValidator()
     {
-        $notEmpty = new ValidatorAdapterZf(new NotEmpty());
+        $notEmpty = new NotEmpty();
         $this->addValidator($notEmpty);
     }
 
     private function removeNotEmptyValidator()
     {
+        $this->validatorCollection->rewind();
         while ($this->validatorCollection->valid()) {
             $validator = $this->validatorCollection->current();
             $validator instanceof NotEmpty

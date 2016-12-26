@@ -22,5 +22,9 @@ class TextTest extends Test
         $this->assertFalse($form->isValid());
         $text->setValue('something');
         $this->assertTrue($form->isValid());
+        $text->setValue(null);
+        $text->setRequired(false);
+        $this->assertTrue($form->isValid());
+
     }
 }

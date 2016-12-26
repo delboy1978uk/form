@@ -11,7 +11,7 @@ use Del\Form\Renderer\Field\RadioRender;
 use Del\Form\Traits\CanRenderInlineTrait;
 use Del\Form\Traits\HasOptionsTrait;
 
-class Radio extends FieldAbstract
+class Radio extends FieldAbstract implements ArrayValueInterface
 {
     use CanRenderInlineTrait;
     use HasOptionsTrait;
@@ -28,7 +28,7 @@ class Radio extends FieldAbstract
 
     public function init()
     {
-        $this->renderInline = false;
+        $this->setRenderInline(false);
         $this->setRenderer(new RadioRender());
     }
 }
