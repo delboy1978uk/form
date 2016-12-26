@@ -7,7 +7,7 @@ A super easy Bootstrap ready HTML form generator for PHP
  ```
  composer require delboy1978uk/form
  ```
- ## Usage
+## Usage
 Firstly, "use" all the classes you'll need for your form. Then create your form and fields.
 ```php
 <?php
@@ -182,7 +182,7 @@ $check->setOptions([
     'Q' => 'Quick',
 ]);
 ```
-###Checkbox
+###Submit
 *Del\Form|Field\Submit* doesn't really need much:
 ```php
 <?php

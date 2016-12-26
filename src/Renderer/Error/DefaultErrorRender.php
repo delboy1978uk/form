@@ -20,7 +20,7 @@ class DefaultErrorRender extends AbstractErrorRender implements ErrorRendererInt
      */
     public function render(FieldInterface $field)
     {
-        $helpBlock = $this->dom->createElement('span');
+        $helpBlock = $this->getDom()->createElement('span');
         $helpBlock->setAttribute('class', 'help-block');
 
         if ($this->shouldRender($field)) {
@@ -39,7 +39,7 @@ class DefaultErrorRender extends AbstractErrorRender implements ErrorRendererInt
     private function addCustomErrorMessage(DOMElement $helpBlock, FieldInterface $field)
     {
         $message = $field->getCustomErrorMessage();
-        $text = new DOMText($message);
+        $text = $this->createText($message);
         $helpBlock->appendChild($text);
         return $helpBlock;
     }
@@ -66,8 +66,8 @@ class DefaultErrorRender extends AbstractErrorRender implements ErrorRendererInt
      */
     private function appendMessage(DOMElement $helpBlock, $message)
     {
-        $text = new DOMText($message);
-        $br = $this->dom->createElement('br');
+        $text = $this->createText($message);
+        $br = $this->createLineBreak();
         $helpBlock->appendChild($text);
         $helpBlock->appendChild($br);
         return $helpBlock;

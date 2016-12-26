@@ -20,7 +20,7 @@ class HorizontalFormErrorRender extends AbstractErrorRender implements ErrorRend
      */
     public function render(FieldInterface $field)
     {
-        $helpBlock = $this->dom->createElement('span');
+        $helpBlock = $this->createElement('span');
         $helpBlock->setAttribute('class', 'help-block');
 
         if ($this->shouldRender($field)) {
@@ -29,7 +29,7 @@ class HorizontalFormErrorRender extends AbstractErrorRender implements ErrorRend
                 : $this->addErrorMessages($helpBlock, $field);
         }
 
-        $div = $this->dom->createElement('div');
+        $div = $this->createElement('div');
         $div->setAttribute('class', 'col-sm-offset-2 col-sm-10');
         $div->appendChild($helpBlock);
         return $div;
@@ -43,7 +43,7 @@ class HorizontalFormErrorRender extends AbstractErrorRender implements ErrorRend
     private function addCustomErrorMessage(DOMElement $helpBlock, FieldInterface $field)
     {
         $message = $field->getCustomErrorMessage();
-        $text = new DOMText($message);
+        $text = $this->createText($message);
         $helpBlock->appendChild($text);
         return $helpBlock;
     }
@@ -70,8 +70,8 @@ class HorizontalFormErrorRender extends AbstractErrorRender implements ErrorRend
      */
     private function appendMessage(DOMElement $helpBlock, $message)
     {
-        $text = new DOMText($message);
-        $br = $this->dom->createElement('br');
+        $text = $this->createText($message);
+        $br = $this->createLineBreak();
         $helpBlock->appendChild($text);
         $helpBlock->appendChild($br);
         return $helpBlock;

@@ -31,7 +31,7 @@ class RadioRender extends AbstractFieldRender implements FieldRendererInterface
         // We don't really want a containing div, so we'll ignore $element
         // and instead create a DOMDocumentFragment
         unset($element);
-        $this->fragment = $this->dom->createDocumentFragment();
+        $this->fragment = $this->getDom()->createDocumentFragment();
 
         // Make sure the FieldInterface is actually a Radio
         if (!$field instanceof Radio) {
@@ -77,7 +77,7 @@ class RadioRender extends AbstractFieldRender implements FieldRendererInterface
      */
     private function renderRadio(FieldInterface $field, $value, $labelText)
     {
-        $div = $this->dom->createElement('div');
+        $div = $this->createElement('div');
         $div->setAttribute('class', 'radio');
         $radio = $this->renderRadioInline($field, $value, $labelText);
         $radio->removeAttribute('class');
@@ -93,15 +93,15 @@ class RadioRender extends AbstractFieldRender implements FieldRendererInterface
      */
     private function renderRadioInline(FieldInterface $field, $value, $labelText)
     {
-        $label = $this->dom->createElement('label');
+        $label = $this->createElement('label');
         $label->setAttribute('for', $field->getId());
         $label->setAttribute('class', 'radio-inline');
 
-        $radio = $this->dom->createElement('input');
+        $radio = $this->createElement('input');
         $radio->setAttribute('type', 'radio');
         $radio->setAttribute('name', $field->getName());
         $radio->setAttribute('value', $value);
-        $text = new DOMText($labelText);
+        $text = $this->createText($labelText);
 
         if($field->getValue() == $radio->getAttribute('value')) {
             $radio->setAttribute('checked', 'checked');

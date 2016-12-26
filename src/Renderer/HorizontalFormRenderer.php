@@ -20,7 +20,7 @@ class HorizontalFormRenderer extends AbstractFormRenderer implements FormRendere
 
         // Add horizontal form class
         $this->form->setAttribute('class', 'form-horizontal');
-        $this->errorRenderer = new HorizontalFormErrorRender($this->dom);
+        $this->errorRenderer = new HorizontalFormErrorRender($this->getDom());
     }
 
     /**
@@ -30,7 +30,7 @@ class HorizontalFormRenderer extends AbstractFormRenderer implements FormRendere
     {
         $label = $this->createLabelElement();
         $label->setAttribute('class', 'col-sm-2 control-label');
-        $text = new DOMText($this->field->getLabel());
+        $text = $this->createText($this->field->getLabel());
         $label->appendChild($text);
         return $label;
     }
@@ -43,7 +43,7 @@ class HorizontalFormRenderer extends AbstractFormRenderer implements FormRendere
         $class = $this->block->getAttribute('class').'form-group';
         $this->block->setAttribute('class', $class);
 
-        $div = $this->dom->createElement('div');
+        $div = $this->createElement('div');
         $div->setAttribute('class', 'col-sm-10');
 
         $this->processField($div);
@@ -92,7 +92,7 @@ class HorizontalFormRenderer extends AbstractFormRenderer implements FormRendere
      */
     private function surroundInDiv(DOMNode $element, $class)
     {
-        $div = $this->dom->createElement('div');
+        $div = $this->createElement('div');
         $div->setAttribute('class', $class);
         $div->appendChild($element);
         return $div;

@@ -13,14 +13,13 @@ use Del\Form\Field\FieldInterface;
 use Del\Form\FormInterface;
 use Del\Form\Renderer\Error\DefaultErrorRender;
 use Del\Form\Renderer\Error\ErrorRendererInterface;
+use Del\Form\Traits\HasDomTrait;
 use DOMDocument;
 use DomElement;
-use DOMText;
 
 abstract class AbstractFormRenderer implements FormRendererInterface
 {
-    /** @var DOMDocument $dom */
-    protected $dom;
+    use HasDomTrait;
 
     /** @var DomElement $form */
     protected $form;
@@ -57,8 +56,8 @@ abstract class AbstractFormRenderer implements FormRendererInterface
      */
     private function resetDom()
     {
-        $this->dom = new DOMDocument();
-        $this->form = $this->dom->createElement('form');
+        $this->setDom(new DOMDocument());
+        $this->form = $this->getDom()->createElement('form');
     }
 
     /**
@@ -74,8 +73,8 @@ abstract class AbstractFormRenderer implements FormRendererInterface
         $fields = $form->getFields();
         $this->processFields($fields);
 
-        $this->dom->appendChild($this->form);
-        $html = $this->dom->saveHTML();
+        $this->getDom()->appendChild($this->form);
+        $html = $this->getDom()->saveHTML();
         $this->resetDom();
         return $html;
     }
@@ -120,7 +119,7 @@ abstract class AbstractFormRenderer implements FormRendererInterface
     {
         $fields->rewind();
         while ($fields->valid()) {
-            $this->block = $this->dom->createElement('div');
+            $this->block = $this->createElement('div');
             $this->field = $fields->current();
             $this->label = $this->renderFieldLabel();
             $this->element = $this->field->getRenderer()->render($this->dom, $this->field);
@@ -152,7 +151,7 @@ abstract class AbstractFormRenderer implements FormRendererInterface
      */
     protected function createLabelElement()
     {
-        $label = $this->dom->createElement('label');
+        $label = $this->createElement('label');
         $label->setAttribute('for', $this->field->getId());
         if ($this->field->isRequired()) {
             $label = $this->addRequiredAsterisk($label);
@@ -163,9 +162,9 @@ abstract class AbstractFormRenderer implements FormRendererInterface
 
     public function addRequiredAsterisk(DomElement $label)
     {
-        $span = $this->dom->createElement('span');
+        $span = $this->createElement('span');
         $span->setAttribute('class', 'text-danger');
-        $text = new DOMText('* ');
+        $text = $this->createText('* ');
         $span->appendChild($text);
         $label->appendChild($span);
         return $label;

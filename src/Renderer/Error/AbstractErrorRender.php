@@ -9,11 +9,11 @@ namespace Del\Form\Renderer\Error;
 
 use DOMDocument;
 use Del\Form\Field\FieldInterface;
+use Del\Form\Traits\HasDomTrait;
 
 abstract class AbstractErrorRender implements ErrorRendererInterface
 {
-    /** @var DOMDocument */
-    protected $dom;
+    use HasDomTrait;
 
     /**
      * AbstractErrorRender constructor.
@@ -21,7 +21,7 @@ abstract class AbstractErrorRender implements ErrorRendererInterface
      */
     public function __construct(DOMDocument $dom)
     {
-        $this->dom = $dom;
+        $this->setDom($dom);
     }
 
     /**

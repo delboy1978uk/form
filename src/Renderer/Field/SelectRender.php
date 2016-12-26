@@ -40,9 +40,9 @@ class SelectRender extends AbstractFieldRender implements FieldRendererInterface
      */
     private function processOption(FieldInterface $field, $value, $label)
     {
-        $option = $this->dom->createElement('option');
+        $option = $this->createElement('option');
         $option->setAttribute('value', $value);
-        $label = new DOMText($label);
+        $label = $this->createText($label);
         $option->appendChild($label);
         if($field->getValue() == $option->getAttribute('value')) {
             $option->setAttribute('selected', 'selected');

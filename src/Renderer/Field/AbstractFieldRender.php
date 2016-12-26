@@ -9,13 +9,13 @@ namespace Del\Form\Renderer\Field;
 
 use Del\Form\Field\ArrayValueInterface;
 use Del\Form\Field\FieldInterface;
+use Del\Form\Traits\HasDomTrait;
 use DOMDocument;
 use DOMElement;
 
 abstract class AbstractFieldRender implements FieldRendererInterface
 {
-    /** @var DOMDocument $dom  */
-    protected $dom;
+    use HasDomTrait;
 
     /**
      * @param DOMDocument $dom
@@ -23,8 +23,8 @@ abstract class AbstractFieldRender implements FieldRendererInterface
      */
     public function render(DOMDocument $dom, FieldInterface $field)
     {
-        $this->dom = $dom;
-        $element = $this->createElement($field);
+        $this->setDom($dom);
+        $element = $this->createElementFromField($field);
         return $this->renderBlock($field, $element);
     }
 
@@ -32,9 +32,9 @@ abstract class AbstractFieldRender implements FieldRendererInterface
      * @param FieldInterface $field
      * @return DOMElement
      */
-    public function createElement(FieldInterface $field)
+    public function createElementFromField(FieldInterface $field)
     {
-        $element = $this->dom->createElement($field->getTag());
+        $element = $this->createElement($field->getTag());
 
         foreach ($field->getAttributes() as $key => $value) {
             $element = $this->setAttribute($field, $element, $key, $value);

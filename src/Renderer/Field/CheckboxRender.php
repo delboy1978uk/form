@@ -31,7 +31,7 @@ class CheckboxRender extends AbstractFieldRender implements FieldRendererInterfa
         // We don't really want a containing div, so we'll ignore $element
         // and instead create a DOMDocumentFragment
         unset($element);
-        $this->fragment = $this->dom->createDocumentFragment();
+        $this->fragment = $this->getDom()->createDocumentFragment();
 
         // Make sure the FieldInterface is actually a Radio
         if (!$field instanceof CheckBox) {
@@ -77,7 +77,7 @@ class CheckboxRender extends AbstractFieldRender implements FieldRendererInterfa
      */
     private function renderCheckbox(FieldInterface $field, $value, $labelText)
     {
-        $div = $this->dom->createElement('div');
+        $div = $this->getDom()->createElement('div');
         $div->setAttribute('class', 'checkbox');
         $radio = $this->renderCheckboxInline($field, $value, $labelText);
         $radio->removeAttribute('class');
@@ -93,15 +93,15 @@ class CheckboxRender extends AbstractFieldRender implements FieldRendererInterfa
      */
     private function renderCheckboxInline(FieldInterface $field, $value, $labelText)
     {
-        $label = $this->dom->createElement('label');
+        $label = $this->getDom()->createElement('label');
         $label->setAttribute('for', $field->getId());
         $label->setAttribute('class', 'checkbox-inline');
 
-        $radio = $this->dom->createElement('input');
+        $radio = $this->getDom()->createElement('input');
         $radio->setAttribute('type', 'checkbox');
         $radio->setAttribute('name', $field->getName().'[]');
         $radio->setAttribute('value', $value);
-        $text = new DOMText($labelText);
+        $text = $this->createText($labelText);
 
         if(in_array($value, $field->getValue())) {
             $radio->setAttribute('checked', 'checked');
