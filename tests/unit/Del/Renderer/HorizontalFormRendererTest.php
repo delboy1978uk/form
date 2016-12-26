@@ -42,6 +42,9 @@ class HorizontalFormRendererTest extends Test
         $remember = new CheckBox('remember');
         $remember->setId('remember');
         $remember->setLabel('Remember me');
+        $remember->setOptions([
+            'remember' => 'Remember Me',
+        ]);
         $submit = new Submit('submit');
         $submit->setValue('Sign in');
 
@@ -53,7 +56,7 @@ class HorizontalFormRendererTest extends Test
         // Render the form
         $html = $form->render();
 
-        $this->assertEquals('<form class="form-horizontal" name="test" method="post" id="test"><div class="form-group"><label for="email" class="col-sm-2 control-label">Email</label><div class="col-sm-10"><input name="email" type="email" class="form-control" id="email" placeholder="Email"></div></div><div class="form-group"><label for="password" class="col-sm-2 control-label">Password</label><div class="col-sm-10"><input name="password" type="password" class="form-control" id="password" placeholder="Password"></div></div><div class="form-group"><div class="col-sm-offset-2 col-sm-10"><div class="checkbox"><label for="remember"><input name="remember" type="checkbox" id="remember">Remember me</label></div></div></div><div class="form-group"><div class="col-sm-offset-2 col-sm-10"><input name="submit" value="Sign in" type="submit" class="btn btn-primary"></div></div></form>'."\n", $html);
+        $this->assertEquals('<form class="form-horizontal" name="test" method="post" id="test"><div class="form-group"><label for="email" class="col-sm-2 control-label">Email</label><div class="col-sm-10"><input name="email" type="email" class="form-control" id="email" placeholder="Email"></div></div><div class="form-group"><label for="password" class="col-sm-2 control-label">Password</label><div class="col-sm-10"><input name="password" type="password" class="form-control" id="password" placeholder="Password"></div></div><div class="form-group"><label for="remember" class="col-sm-2 control-label">Remember me</label><div class="col-sm-10"><div class="checkbox"><div class="checkbox"><label for="remember"><input type="checkbox" name="remember[]" value="remember">Remember Me</label></div></div></div></div><div class="form-group"><div class="col-sm-offset-2 col-sm-10"><input name="submit" value="Sign in" type="submit" class="btn btn-primary"></div></div></form>'."\n", $html);
     }
 
     public function testRenderHorizontalFormWithErrors()
@@ -77,6 +80,10 @@ class HorizontalFormRendererTest extends Test
         $remember = new Radio('choose');
         $remember->setId('choose');
         $remember->setLabel('Choose');
+        $remember->setOptions([
+            'choose' => 'Choose Me!',
+            'choose2' => 'Or Me!',
+        ]);
         $submit = new Submit('submit');
         $submit->setValue('Sign in');
 
@@ -89,6 +96,6 @@ class HorizontalFormRendererTest extends Test
         // Render the form
         $html = $form->render();
 
-        $this->assertEquals('<form class="form-horizontal" name="test" method="post" id="test"><div class="has-error form-group"><label for="email" class="col-sm-2 control-label"><span class="text-danger">* </span>Email</label><div class="col-sm-10"><input name="email" type="email" class="form-control" id="email" placeholder="Email"></div><div class="col-sm-offset-2 col-sm-10"><span class="help-block">wtf</span></div></div><div class="has-error form-group"><label for="password" class="col-sm-2 control-label"><span class="text-danger">* </span>Password</label><div class="col-sm-10"><input name="password" type="password" class="form-control" id="password" placeholder="Password"></div><div class="col-sm-offset-2 col-sm-10"><span class="help-block">Value is required and can\'t be empty<br></span></div></div><div class="form-group"><div class="col-sm-offset-2 col-sm-10"><div class="radio"><label for="choose"><input name="choose" type="radio" id="choose">Choose</label></div></div></div><div class="form-group"><div class="col-sm-offset-2 col-sm-10"><input name="submit" value="Sign in" type="submit" class="btn btn-primary"></div></div></form>'."\n", $html);
+        $this->assertEquals('<form class="form-horizontal" name="test" method="post" id="test"><div class="has-error form-group"><label for="email" class="col-sm-2 control-label"><span class="text-danger">* </span>Email</label><div class="col-sm-10"><input name="email" type="email" class="form-control" id="email" placeholder="Email"></div><div class="col-sm-offset-2 col-sm-10"><span class="help-block">wtf</span></div></div><div class="has-error form-group"><label for="password" class="col-sm-2 control-label"><span class="text-danger">* </span>Password</label><div class="col-sm-10"><input name="password" type="password" class="form-control" id="password" placeholder="Password"></div><div class="col-sm-offset-2 col-sm-10"><span class="help-block">Value is required and can\'t be empty<br></span></div></div><div class="form-group"><label for="choose" class="col-sm-2 control-label">Choose</label><div class="col-sm-10"><div class="radio"><div class="radio"><label for="choose"><input type="radio" name="choose" value="choose">Choose Me!</label></div><div class="radio"><label for="choose"><input type="radio" name="choose" value="choose2">Or Me!</label></div></div></div></div><div class="form-group"><div class="col-sm-offset-2 col-sm-10"><input name="submit" value="Sign in" type="submit" class="btn btn-primary"></div></div></form>'."\n", $html);
     }
 }

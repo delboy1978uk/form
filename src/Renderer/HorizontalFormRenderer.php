@@ -9,6 +9,7 @@ namespace Del\Form\Renderer;
 
 use Del\Form\Renderer\Error\HorizontalFormErrorRender;
 use DOMElement;
+use DOMNode;
 use DOMText;
 
 class HorizontalFormRenderer extends AbstractFormRenderer implements FormRendererInterface
@@ -43,7 +44,7 @@ class HorizontalFormRenderer extends AbstractFormRenderer implements FormRendere
         $this->block->setAttribute('class', $class);
 
         $div = $this->dom->createElement('div');
-        $div->setAttribute('class', 'col-sm-offset-2 col-sm-10');
+        $div->setAttribute('class', 'col-sm-10');
 
         $this->processField($div);
 
@@ -56,23 +57,28 @@ class HorizontalFormRenderer extends AbstractFormRenderer implements FormRendere
         return $this->block;
     }
 
+    /**
+     * @param DOMElement $div
+     */
     private function processField(DOMElement $div)
     {
         switch (get_class($this->field)) {
             case 'Del\Form\Field\Submit':
                 $div->appendChild($this->element);
+                $div->setAttribute('class', 'col-sm-offset-2 col-sm-10');
                 break;
             case 'Del\Form\Field\Radio':
                 $radioDiv = $this->surroundInDiv($this->element, 'radio');
+                $this->block->appendChild($this->label);
                 $div->appendChild($radioDiv);
                 break;
             case 'Del\Form\Field\CheckBox':
                 $checkboxDiv = $this->surroundInDiv($this->element, 'checkbox');
+                $this->block->appendChild($this->label);
                 $div->appendChild($checkboxDiv);
                 break;
             default:
                 $this->block->appendChild($this->label);
-                $div->setAttribute('class', 'col-sm-10');
                 $div->appendChild($this->element);
         }
     }
@@ -80,11 +86,11 @@ class HorizontalFormRenderer extends AbstractFormRenderer implements FormRendere
     /**
      * Surround an element in a div with a given class
      *
-     * @param DOMElement $element
+     * @param DOMNode $element
      * @param $class
      * @return DOMElement
      */
-    private function surroundInDiv(DOMElement $element, $class)
+    private function surroundInDiv(DOMNode $element, $class)
     {
         $div = $this->dom->createElement('div');
         $div->setAttribute('class', $class);

@@ -8,7 +8,7 @@
 namespace Del\Form\Renderer\Field;
 
 use Del\Form\Field\FieldInterface;
-use Del\Form\Field\Radio;
+use Del\Form\Field\CheckBox;
 use DOMDocumentFragment;
 use DOMElement;
 use DOMNode;
@@ -16,7 +16,7 @@ use DOMText;
 use InvalidArgumentException;
 use LogicException;
 
-class RadioRender extends AbstractFieldRender implements FieldRendererInterface
+class CheckboxRender extends AbstractFieldRender implements FieldRendererInterface
 {
     /** @var DOMDocumentFragment $div */
     private $fragment;
@@ -34,8 +34,8 @@ class RadioRender extends AbstractFieldRender implements FieldRendererInterface
         $this->fragment = $this->dom->createDocumentFragment();
 
         // Make sure the FieldInterface is actually a Radio
-        if (!$field instanceof Radio) {
-            throw new InvalidArgumentException('Must be a Del\Form\Field\Radio');
+        if (!$field instanceof CheckBox) {
+            throw new InvalidArgumentException('Must be a Del\Form\Field\Checkbox');
         }
 
         $inline = $field->isRenderInline();
@@ -45,7 +45,7 @@ class RadioRender extends AbstractFieldRender implements FieldRendererInterface
             throw new LogicException('You must set at least one option.');
         }
 
-        // Loop through each radio element (the options)
+        // Loop through each checkbox element (the options)
         foreach ($options as $value => $label) {
             $radio = $this->processOption($field, $value, $label, $inline);
             $this->fragment->appendChild($radio);
@@ -64,9 +64,9 @@ class RadioRender extends AbstractFieldRender implements FieldRendererInterface
     private function processOption(FieldInterface $field, $value, $labelText, $inline)
     {
         if ($inline === true) {
-            return $this->renderRadioInline($field, $value, $labelText);
+            return $this->renderCheckboxInline($field, $value, $labelText);
         }
-        return $this->renderRadio($field, $value, $labelText);
+        return $this->renderCheckbox($field, $value, $labelText);
     }
 
     /**
@@ -75,11 +75,11 @@ class RadioRender extends AbstractFieldRender implements FieldRendererInterface
      * @param $labelText
      * @return DOMElement
      */
-    private function renderRadio(FieldInterface $field, $value, $labelText)
+    private function renderCheckbox(FieldInterface $field, $value, $labelText)
     {
         $div = $this->dom->createElement('div');
-        $div->setAttribute('class', 'radio');
-        $radio = $this->renderRadioInline($field, $value, $labelText);
+        $div->setAttribute('class', 'checkbox');
+        $radio = $this->renderCheckboxInline($field, $value, $labelText);
         $radio->removeAttribute('class');
         $div->appendChild($radio);
         return $div;
@@ -91,19 +91,19 @@ class RadioRender extends AbstractFieldRender implements FieldRendererInterface
      * @param $labelText
      * @return DOMElement
      */
-    private function renderRadioInline(FieldInterface $field, $value, $labelText)
+    private function renderCheckboxInline(FieldInterface $field, $value, $labelText)
     {
         $label = $this->dom->createElement('label');
         $label->setAttribute('for', $field->getId());
-        $label->setAttribute('class', 'radio-inline');
+        $label->setAttribute('class', 'checkbox-inline');
 
         $radio = $this->dom->createElement('input');
-        $radio->setAttribute('type', 'radio');
-        $radio->setAttribute('name', $field->getName());
+        $radio->setAttribute('type', 'checkbox');
+        $radio->setAttribute('name', $field->getName().'[]');
         $radio->setAttribute('value', $value);
         $text = new DOMText($labelText);
 
-        if($field->getValue() == $radio->getAttribute('value')) {
+        if(in_array($value, $field->getValue())) {
             $radio->setAttribute('checked', 'checked');
         }
 
@@ -112,4 +112,6 @@ class RadioRender extends AbstractFieldRender implements FieldRendererInterface
 
         return $label;
     }
+
+
 }

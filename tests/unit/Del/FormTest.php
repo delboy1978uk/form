@@ -198,22 +198,21 @@ class FormTest extends Test
         $form = new Form('test');
         $text = new Text('username');
 
-        $notEmptyValidator = new NotEmpty();
-        $adapter = new ValidatorAdapterZf($notEmptyValidator);
+        $notEmpty = new ValidatorAdapterZf(new NotEmpty());
 
         $stringLength = new StringLength();
         $stringLength->setMax(10);
         $stringLength->setMin(2);
-        $adapter2 = new ValidatorAdapterZf($stringLength);
+        $length = new ValidatorAdapterZf($stringLength);
 
         $text->setId('user');
-        $text->addValidator($adapter);
-        $text->addValidator($adapter2);
+        $text->addValidator($notEmpty);
+        $text->addValidator($length);
 
         $form->addField($text);
         $validators = $text->getValidators();
         $this->assertInstanceOf('Del\Form\Collection\ValidatorCollection', $validators);
-        $this->assertEquals(3, count($validators));
+        $this->assertEquals(2, count($validators));
     }
 
     public function testValidateForm()
@@ -221,17 +220,14 @@ class FormTest extends Test
         $form = new Form('test');
         $text = new Text('username');
 
-        $notEmptyValidator = new NotEmpty();
-        $adapter = new ValidatorAdapterZf($notEmptyValidator);
-
         $stringLength = new StringLength();
         $stringLength->setMax(10);
         $stringLength->setMin(2);
-        $adapter2 = new ValidatorAdapterZf($stringLength);
+        $length = new ValidatorAdapterZf($stringLength);
 
         $text->setId('user');
-        $text->addValidator($adapter);
-        $text->addValidator($adapter2);
+        $text->addValidator($length);
+        $text->setRequired(true);
 
         $form->addField($text);
         $this->assertFalse($form->isValid());
@@ -292,6 +288,18 @@ class FormTest extends Test
         $check = new CheckBox('Radio');
         $submit = new Submit('submit');
 
+        $radio->setLabel('Choose your meal');
+        $radio->setOptions([
+            1 => 'Chicken',
+            2 => 'Beef',
+            3 => 'Pork',
+        ]);
+
+        $check->setLabel('Mailing List');
+        $check->setOptions([
+            'spam' => 'Spam my inbox',
+        ]);
+
         $name->addValidator($validator);
         $name->addFilter($filter);
         $name->setPlaceholder('Enter Some Text');
@@ -306,17 +314,15 @@ class FormTest extends Test
         $form->addField($submit);
 
         $html = $form->render();
-        $this->assertEquals('<form name="testform" method="post" id="testform"><div class="form-group"><label for="">User Name</label><input name="Username" type="text" class="form-control" placeholder="Enter Some Text"></div><div class="form-group"><label for="">Email Address</label><input name="Email" type="text" class="form-control"></div><div class="form-group"><label for=""><input name="Radio" type="radio"></label></div><div class="form-group"><label for=""><input name="Radio" type="checkbox"></label></div><div class="form-group"><label for=""></label><input name="submit" value="submit" type="submit" class="btn btn-primary"></div></form>'."\n", $html);
+        $this->assertEquals('<form name="testform" method="post" id="testform"><div class="form-group"><label for="">User Name</label><input name="Username" type="text" class="form-control" placeholder="Enter Some Text"></div><div class="form-group"><label for="">Email Address</label><input name="Email" type="text" class="form-control"></div><div class="form-group"><label for="">Choose your meal</label><div class="radio"><label for=""><input type="radio" name="Radio" value="1">Chicken</label></div><div class="radio"><label for=""><input type="radio" name="Radio" value="2">Beef</label></div><div class="radio"><label for=""><input type="radio" name="Radio" value="3">Pork</label></div></div><div class="form-group"><label for="">Mailing List</label><div class="checkbox"><label for=""><input type="checkbox" name="Radio[]" value="spam">Spam my inbox</label></div></div><div class="form-group"><label for=""></label><input name="submit" value="submit" type="submit" class="btn btn-primary"></div></form>'."\n", $html);
     }
 
 
     public function testRenderWithErrors()
     {
         $form = new Form('testform');
-        $validator = new ValidatorAdapterZf(new NotEmpty());
         $text = new Text('text');
-        $text->addValidator($validator)
-        ->setRequired(true);
+        $text->setRequired(true);
         $form->addField($text);
         $form->populate(['text' => null]);
         $html = $form->render();
@@ -327,11 +333,9 @@ class FormTest extends Test
     public function testRenderWithCustomErrors()
     {
         $form = new Form('testform');
-        $validator = new ValidatorAdapterZf(new NotEmpty());
         $text = new Text('text');
-        $text->addValidator($validator)
-            ->setCustomErrorMessage('This can\'t be empty!')
-            ->setRequired(true);
+        $text->setCustomErrorMessage('This can\'t be empty!')
+             ->setRequired(true);
         $form->addField($text);
         $form->populate(['text' => null]);
         $html = $form->render();
@@ -348,10 +352,12 @@ class FormTest extends Test
 
     public function testGetAndSetEmailField()
     {
-        $text = new EmailAddress('test');
-        $this->assertFalse($text->isValid());
-        $text->setValue('delboy1978uk@gmail.com');
-        $this->assertTrue($text->isValid());
+        $email = new EmailAddress('test');
+        $email->setRequired(true);
+        $email->setValue('delboy1978uk');
+        $this->assertFalse($email->isValid());
+        $email->setValue('delboy1978uk@gmail.com');
+        $this->assertTrue($email->isValid());
     }
 
 
@@ -360,5 +366,15 @@ class FormTest extends Test
         $text = new Password('test', 'hello');
         $this->assertEquals('hello', $text->getValue());
 
+    }
+
+
+
+    public function testRenderFormTwice()
+    {
+        $form = new Form('checkboxtest');
+        $form->render();
+        $html = $form->render();
+        $this->assertEquals('<form name="checkboxtest" method="post" id="checkboxtest"></form>'."\n", $html);
     }
 }

@@ -8,21 +8,27 @@
 namespace Del\Form\Field;
 
 use Del\Form\Renderer\Field\RadioRender;
+use Del\Form\Traits\CanRenderInlineTrait;
+use Del\Form\Traits\HasOptionsTrait;
 
-class Radio extends FieldAbstract
+class Radio extends FieldAbstract implements ArrayValueInterface
 {
+    use CanRenderInlineTrait;
+    use HasOptionsTrait;
 
     /**
+     * We end up ignoring this during rendering Radios, see the renderer for info
+     *
      * @return string
      */
     public function getTag()
     {
-        return 'input';
+        return 'div';
     }
 
     public function init()
     {
-        $this->setAttribute('type', 'radio');
+        $this->setRenderInline(false);
         $this->setRenderer(new RadioRender());
     }
 }

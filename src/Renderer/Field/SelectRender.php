@@ -10,6 +10,7 @@ namespace Del\Form\Renderer\Field;
 use Del\Form\Field\FieldInterface;
 use Del\Form\Field\Select;
 use DOMElement;
+use DOMText;
 use InvalidArgumentException;
 
 class SelectRender extends AbstractFieldRender implements FieldRendererInterface
@@ -25,11 +26,27 @@ class SelectRender extends AbstractFieldRender implements FieldRendererInterface
             throw new InvalidArgumentException('Must be a Del\Form\Field\Select');
         }
         foreach ($field->getOptions() as $value => $label) {
-            $option = $this->dom->createElement('option');
-            $option->setAttribute('value', $value);
-            $option->textContent = $label;
+            $option = $this->processOption($field, $value, $label);
             $element->appendChild($option);
         }
         return $element;
+    }
+
+    /**
+     * @param FieldInterface $field
+     * @param string $value
+     * @param string $label
+     * @return DOMElement
+     */
+    private function processOption(FieldInterface $field, $value, $label)
+    {
+        $option = $this->dom->createElement('option');
+        $option->setAttribute('value', $value);
+        $label = new DOMText($label);
+        $option->appendChild($label);
+        if($field->getValue() == $option->getAttribute('value')) {
+            $option->setAttribute('selected', 'selected');
+        }
+        return $option;
     }
 }
