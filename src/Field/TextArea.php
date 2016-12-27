@@ -8,17 +8,18 @@
 namespace Del\Form\Field;
 
 use Del\Form\Filter\Adapter\FilterAdapterZf;
+use Del\Form\Renderer\Field\TextAreaRender;
 use Zend\Filter\StringTrim;
 use Zend\Filter\StripTags;
 
-class Text extends FieldAbstract
+class TextArea extends FieldAbstract
 {
     /**
      * @return string
      */
     public function getTag()
     {
-        return 'input';
+        return 'textarea';
     }
 
 
@@ -30,6 +31,7 @@ class Text extends FieldAbstract
         $stripTags = new FilterAdapterZf(new StripTags());
         $this->addFilter($stringTrim)
             ->addFilter($stripTags);
+        $this->setRenderer(new TextAreaRender());
     }
 
     /**
