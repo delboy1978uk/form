@@ -17,6 +17,7 @@ class EmailAddress extends Text
     {
         parent::init();
         $this->setAttribute('type', 'email');
+        $this->setAttribute('placeholder', 'Enter an email address..');
         $emailAddressValidator = new ValidatorAdapterZf(new EmailValidator());
         $this->addValidator($emailAddressValidator);
     }

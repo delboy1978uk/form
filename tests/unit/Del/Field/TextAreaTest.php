@@ -13,14 +13,14 @@ use Del\Form\Field\TextArea;
  */
 class TextAreaTest extends Test
 {
-    public function testRequiredField()
+
+    public function testRenderTextArea()
     {
         $form = new Form('required-text-form');
-        $hidden = new TextArea('secret');
-        $hidden->setValue('hahaha');
-        $form->addField($hidden);
+        $text = new TextArea('text');
+        $text->setPlaceholder('Type something..');
+        $form->addField($text);
         $html = $form->render();
-        $this->assertEquals('<form name="required-text-form" method="post" id="required-text-form"><div class="form-group"><label for=""></label><textarea name="secret" type="text" class="form-control" value="hahaha">hahaha</textarea></div></form>'."\n", $html);
-
+        $this->assertEquals('<form name="required-text-form" method="post" id="required-text-form"><div class="form-group"><label for=""></label><textarea name="text" type="text" class="form-control" placeholder="Type something.."></textarea></div></form>'."\n", $html);
     }
 }
