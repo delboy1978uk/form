@@ -19,6 +19,8 @@ class TextAreaRender extends AbstractFieldRender implements FieldRendererInterfa
      */
     public function renderBlock(FieldInterface $field, DOMElement $element)
     {
+        $element->removeAttribute('type');
+        $element->removeAttribute('value');
         $text = $this->createText($field->getValue());
         $element->appendChild($text);
         return $element;
