@@ -93,4 +93,34 @@ class FileUploadTest extends Test
         $html = $form->render();
         $this->assertEquals('<form name="photo-upload" method="post" id="photo-upload"><div class="has-error form-group"><label for=""><span class="text-danger">* </span></label><input name="photo" type="file"><span class="help-block">Value is required and can\'t be empty<br></span></div></form>'."\n", $html);
     }
+
+    public function testMovingUploads()
+    {
+        $image = realpath(__DIR__.'/../../../_data/fol.gif');
+        $_POST = [
+            'photo' => $image,
+            'submit' => 'submit',
+        ];
+        $_FILES = [
+            'photo' => [
+                'name' => 'fol.gif',
+                'type' => 'image/gif',
+                'tmp_name' => $image,
+                'error' => 0,
+                'size' => 10363,
+            ],
+        ];
+        $form = new Form('photo-upload');
+        $form->setDisplayErrors(true);
+        $pic = new FileUpload('photo');
+        $pic->setRequired(true);
+        $pic->setRenderer(new TextRender());
+        $dir = 'tests/_output';
+        $pic->setUploadDirectory($dir);
+        $form->addField($pic);
+        $this->assertTrue($form->isValid());
+        $path = (getcwd().DIRECTORY_SEPARATOR.$dir.DIRECTORY_SEPARATOR.$pic->getValue());
+        $fileExists = file_exists($path);
+        $this->assertTrue($fileExists);
+    }
 }

@@ -9,6 +9,7 @@ namespace Del\Form\Field;
 
 use Del\Form\Renderer\Field\FileUploadRender;
 use InvalidArgumentException;
+use LogicException;
 
 class FileUpload extends FieldAbstract implements FieldInterface
 {
@@ -85,5 +86,20 @@ class FileUpload extends FieldAbstract implements FieldInterface
     public function hasUploadDirectory()
     {
         return $this->uploadDirectory !== null;
+    }
+
+    /**
+     * @return bool
+     */
+    public function moveUploadToDestination()
+    {
+        if (!$this->hasUploadDirectory()) {
+            throw new LogicException('No destination directory set using setUploadDirectory($path)');
+        }
+        $tmp = $_FILES[$this->getName()]['tmp_name'];
+        $destination = $this->getUploadDirectory().DIRECTORY_SEPARATOR.$_FILES[$this->getName()]['name'];
+        $isUploaded = is_uploaded_file($tmp);
+        $success = move_uploaded_file($tmp, $destination);
+        return $success;
     }
 }

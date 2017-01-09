@@ -9,6 +9,7 @@ namespace Del\Form;
 
 use Del\Form\Collection\FieldCollection;
 use Del\Form\Field\FieldInterface;
+use Del\Form\Field\FileUpload;
 use Del\Form\Renderer\FormRenderer;
 use Del\Form\Renderer\FormRendererInterface;
 use Del\Form\Traits\HasAttributesTrait;
@@ -62,7 +63,11 @@ abstract class AbstractForm implements FormInterface
         $this->errorMessages = [];
         $this->validateFields();
         $count = count($this->errorMessages);
-        return $count == 0;
+        $valid = ($count == 0);
+        if ($valid) {
+            $this->moveUploadedFiles();
+        }
+        return $valid;
     }
 
     private function validateFields()
@@ -272,5 +277,22 @@ abstract class AbstractForm implements FormInterface
     {
         $this->formRenderer = $renderer;
         return $this;
+    }
+
+    public function moveUploadedFiles()
+    {
+        $this->fieldCollection->rewind();
+        while ($this->fieldCollection->valid()) {
+            $current = $this->fieldCollection->current();
+            $this->moveFileIfUploadField($current);
+            $this->fieldCollection->next() ;
+        }
+    }
+
+    public function moveFileIfUploadField(FieldInterface $field)
+    {
+        if ($field instanceof FileUpload) {
+            $field->moveUploadToDestination();
+        }
     }
 }
