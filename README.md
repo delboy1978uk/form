@@ -142,6 +142,14 @@ $text->setPlaceholder('type some text..');
 $text->setValue('Blah');
 
 ```
+###TextArea
+*Del\Form\Field\TextArea* fields are pretty much the same as the Text field
+```php
+<?php
+use Del\Form\Field\TextArea;
+
+$textArea = new TextArea('message');;
+```
 ###Select
 *Del\Form|Field\Select* needs initialised with setOptions():
 ```php
@@ -181,6 +189,16 @@ $check->setOptions([
     'McD' => 'McDonalds',
     'Q' => 'Quick',
 ]);
+```
+###FileUpload
+*Del\Form|Field\FileUpload* fields come with a nifty looking Bootstrap compatible renderer, but it uses some javascript.
+If you don't want that, just call setRenderer() and pass it a default TextRender class instance.
+```php
+<?php
+use Del\Form\Field\FileUpload;
+
+$fileUpload = new FileUpload('photo');
+$fileUpload->setUploadDirectory('/path/to/destination');
 ```
 ###Submit
 *Del\Form|Field\Submit* doesn't really need much:
