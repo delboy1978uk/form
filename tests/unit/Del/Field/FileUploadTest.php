@@ -7,6 +7,7 @@ use Del\Form\Field\Text;
 use Del\Form\Form;
 use Del\Form\Field\FileUpload;
 use Del\Form\Renderer\Field\FileUploadRender;
+use Del\Form\Renderer\Field\TextRender;
 
 /**
  * User: delboy1978uk
@@ -86,9 +87,10 @@ class FileUploadTest extends Test
         $form->setDisplayErrors(true);
         $pic = new FileUpload('photo');
         $pic->setRequired(true);
+        $pic->setRenderer(new TextRender()); // for plain output without bootstrap and js etc
         $form->addField($pic);
         $this->assertFalse($form->isValid());
         $html = $form->render();
-        $this->assertEquals('', $html);
+        $this->assertEquals('<form name="photo-upload" method="post" id="photo-upload"><div class="has-error form-group"><label for=""><span class="text-danger">* </span></label><input name="photo" type="file"><span class="help-block">Value is required and can\'t be empty<br></span></div></form>'."\n", $html);
     }
 }

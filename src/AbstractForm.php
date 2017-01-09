@@ -60,20 +60,25 @@ abstract class AbstractForm implements FormInterface
     public function isValid()
     {
         $this->errorMessages = [];
+        $this->validateFields();
+        $count = count($this->errorMessages);
+        return $count == 0;
+    }
+
+    private function validateFields()
+    {
         $this->fieldCollection->rewind();
         while ($this->fieldCollection->valid()) {
-            $this->checkForErrors($this->fieldCollection->current());
+            $this->checkFieldForErrors($this->fieldCollection->current());
             $this->fieldCollection->next();
         }
         $this->fieldCollection->rewind();
-        $count = count($this->errorMessages);
-        return $count == 0;
     }
 
     /**
      * @param FieldInterface $field
      */
-    private function checkForErrors(FieldInterface $field)
+    private function checkFieldForErrors(FieldInterface $field)
     {
         if (!$field->isValid()) {
             $this->errorMessages[$field->getName()] = $field->getMessages();

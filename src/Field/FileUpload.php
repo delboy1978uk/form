@@ -8,9 +8,13 @@
 namespace Del\Form\Field;
 
 use Del\Form\Renderer\Field\FileUploadRender;
+use InvalidArgumentException;
 
 class FileUpload extends FieldAbstract implements FieldInterface
 {
+    /** @var string $uploadDirectory */
+    private $uploadDirectory;
+
     /**
      * @return string
      */
@@ -25,7 +29,7 @@ class FileUpload extends FieldAbstract implements FieldInterface
         $this->setRenderer(new FileUploadRender());
 
         if ($this->hasUploadedFile()) {
-            $this->setValue($_FILES[$this->getName()]['tmp_name']);
+            $this->setValue($_FILES[$this->getName()]['name']);
         }
     }
 
@@ -51,5 +55,35 @@ class FileUpload extends FieldAbstract implements FieldInterface
     private function isTempNameSet()
     {
         return isset($_FILES[$this->getName()]['tmp_name']);
+    }
+
+    /**
+     * @param $path
+     * @return $this
+     */
+    public function setUploadDirectory($path)
+    {
+        $path = realpath($path);
+        if (!is_dir($path) || !is_writable($path)) {
+            throw new InvalidArgumentException('Directory does not exist or is not writable.');
+        }
+        $this->uploadDirectory = $path;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUploadDirectory()
+    {
+        return $this->uploadDirectory;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasUploadDirectory()
+    {
+        return $this->uploadDirectory !== null;
     }
 }
