@@ -23,5 +23,33 @@ class FileUpload extends FieldAbstract implements FieldInterface
     {
         $this->setAttribute('type', 'file');
         $this->setRenderer(new FileUploadRender());
+
+        if ($this->hasUploadedFile()) {
+            $this->setValue($_FILES[$this->getName()]['tmp_name']);
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    private function hasUploadedFile()
+    {
+        return $this->isFileArraySet() && $this->isTempNameSet();
+    }
+
+    /**
+     * @return bool
+     */
+    private function isFileArraySet()
+    {
+        return isset($_FILES[$this->getName()]);
+    }
+
+    /**
+     * @return bool
+     */
+    private function isTempNameSet()
+    {
+        return isset($_FILES[$this->getName()]['tmp_name']);
     }
 }
