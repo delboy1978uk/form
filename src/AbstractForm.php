@@ -289,10 +289,16 @@ abstract class AbstractForm implements FormInterface
         }
     }
 
+    /**
+     * @param FieldInterface $field
+     * @return bool
+     */
     public function moveFileIfUploadField(FieldInterface $field)
     {
         if ($field instanceof FileUpload) {
             $field->moveUploadToDestination();
+            return true;
         }
+        return false;
     }
 }

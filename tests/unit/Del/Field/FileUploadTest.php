@@ -122,5 +122,39 @@ class FileUploadTest extends Test
         $path = (getcwd().DIRECTORY_SEPARATOR.$dir.DIRECTORY_SEPARATOR.$pic->getValue());
         $fileExists = file_exists($path);
         $this->assertTrue($fileExists);
+        unlink ($path);
+    }
+
+    public function testExceptionWhenDestinationNotSet()
+    {
+        $image = realpath(__DIR__.'/../../../_data/fol.gif');
+        $_POST = [
+            'photo' => $image,
+            'submit' => 'submit',
+        ];
+        $_FILES = [
+            'photo' => [
+                'name' => 'fol.gif',
+                'type' => 'image/gif',
+                'tmp_name' => $image,
+                'error' => 0,
+                'size' => 10363,
+            ],
+        ];
+        $form = new Form('photo-upload');
+        $pic = new FileUpload('photo');
+        $pic->setRequired(true);
+        $pic->setRenderer(new TextRender());
+        $form->addField($pic);
+        $this->expectException('LogicException');
+        $form->isValid();
+    }
+
+    public function testSetUploadDirectoryThrowsException()
+    {
+        $image = realpath(__DIR__.'/../../../_data/fol.gif');
+        $pic = new FileUpload('photo');
+        $this->expectException('InvalidArgumentException');
+        $pic->setUploadDirectory($image);
     }
 }
