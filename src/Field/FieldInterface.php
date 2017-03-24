@@ -10,6 +10,7 @@ namespace Del\Form\Field;
 use Del\Form\Collection\FilterCollection;
 use Del\Form\Collection\ValidatorCollection;
 use Del\Form\Filter\FilterInterface;
+use Del\Form\FormInterface;
 use Del\Form\Renderer\Field\SelectRender;
 use Del\Form\Validator\ValidatorInterface;
 use Del\Form\Renderer\Field\FieldRendererInterface;
@@ -150,6 +151,23 @@ interface FieldInterface
      * @return $this
      */
     public function setRequired($required);
+
+    /**
+     * @param FormInterface $field
+     * @param $triggerValue
+     * @return $this
+     */
+    public function addDynamicForm(FormInterface $field, $triggerValue);
+
+    /**
+     * @return bool
+     */
+    public function hasDynamicForm();
+
+    /**
+     * @return FormInterface
+     */
+    public function getDynamicForm();
 
     /**
      * @return bool

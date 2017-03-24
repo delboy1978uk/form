@@ -10,6 +10,7 @@ namespace Del\Form\Field;
 use Del\Form\Collection\FilterCollection;
 use Del\Form\Collection\ValidatorCollection;
 use Del\Form\Filter\FilterInterface;
+use Del\Form\FormInterface;
 use Del\Form\Renderer\Field\FieldRendererInterface;
 use Del\Form\Renderer\Field\TextRender;
 use Del\Form\Traits\HasAttributesTrait;
@@ -20,6 +21,10 @@ use Exception;
 
 abstract class FieldAbstract implements FieldInterface
 {
+
+    /**  @var array $dynamicFormCollection */
+    private $dynamicFormCollection;
+
     /**  @var FilterCollection $filterCollection */
     private $filterCollection;
 
@@ -53,6 +58,7 @@ abstract class FieldAbstract implements FieldInterface
     public function __construct($name, $value = null)
     {
         $this->required = false;
+        $this->dynamicFieldCollection = [];
         $this->filterCollection = new FilterCollection();
         $this->validatorCollection = new ValidatorCollection();
         $this->renderer = new TextRender();
@@ -320,5 +326,38 @@ abstract class FieldAbstract implements FieldInterface
                 : null;
             $this->validatorCollection->next();
         }
+    }
+
+    /**
+     * @param FormInterface $form
+     * @param $triggerValue
+     * @return $this
+     */
+    public function addDynamicForm(FormInterface $form, $triggerValue)
+    {
+        $this->dynamicFormCollection[$triggerValue] = $form;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasDynamicForm()
+    {
+        $value = $this->getValue();
+        return isset($this->dynamicFormCollection[$value]);
+    }
+
+    /**
+     * @return FormInterface
+     * @throws Exception
+     */
+    public function getDynamicForm()
+    {
+        $value = $this->getValue();
+        if (!isset($this->dynamicFormCollection[$value])) {
+            throw new Exception('No dynamic form for this value - Did you check hasDynamicForm() ?');
+        }
+        return $this->dynamicFormCollection[$value];
     }
 }
