@@ -30,20 +30,29 @@ abstract class AbstractFormRenderer implements FormRendererInterface
     /** @var ErrorRendererInterface $errorRenderer */
     protected $errorRenderer;
 
-    /** @var DomElement $label The label element*/
+    /** @var DomElement $label The label element */
     protected $label;
 
     /** @var DomElement $element the field element */
     protected $element;
 
-    /** @var DomElement $errors The error block html*/
+    /** @var DomElement $errors The error block html */
     protected $errors;
 
     /** @var DomElement $block The containing html block */
     protected $block;
 
+    /** @var DomElement $dynamicContainerBlock */
+    protected $dynamicContainerBlock;
+
     /** @var FieldInterface $field The current field being processed */
     protected $field;
+
+    /** @var bool $includeDynamicFormJavascript */
+    private $includeDynamicFormJavascript = false;
+
+    /** @var string $dynamicFormParentName */
+    private $dynamicFormParentName = '';
 
     public function __construct()
     {
@@ -115,26 +124,90 @@ abstract class AbstractFormRenderer implements FormRendererInterface
         return $form->getId() ?: $this->form->getAttribute('name');
     }
 
-    private function processFields(FieldCollection $fields)
+    private function processFields(FieldCollection $fields, $dynamicTriggerValue = null)
     {
+        $count = $fields->count();
+        $x = 1;
         $fields->rewind();
         while ($fields->valid()) {
-            $this->block = $this->createElement('div');
             $this->field = $fields->current();
-            $this->label = $this->renderFieldLabel();
-            $this->element = $this->field->getRenderer()->render($this->dom, $this->field);
-            $this->errors = $this->field->isValid() ? null : $this->renderError();
-            $this->block = $this->renderFieldBlock();
-            $this->form->appendChild($this->block);
+            $finaliseDynamicBlock = ($x == $count) ? true : false;
+            $this->renderField($dynamicTriggerValue, $finaliseDynamicBlock);
+            $x ++ ;
             $fields->next();
         }
         $fields->rewind();
     }
 
+    /**
+     * @param null $dynamicTriggerValue
+     * @param bool $finaliseDynamicBlock
+     */
+    public function renderField($dynamicTriggerValue = null, $finaliseDynamicBlock = false)
+    {
+        $this->createNewDynamicContainerBlockIfNeeded($dynamicTriggerValue);
+
+        $this->block = $this->createElement('div');
+        $this->label = $this->renderFieldLabel();
+        $this->element = $this->field->getRenderer()->render($this->dom, $this->field);
+        $this->errors = $this->field->isValid() ? null : $this->renderError();
+        $this->block = $this->renderFieldBlock();
+
+        is_null($dynamicTriggerValue)
+            ? $this->form->appendChild($this->block)
+            : $this->dynamicContainerBlock->appendChild($this->block);
+
+        $this->dynamicFormCheck();
+        $this->finaliseDynamicBlockIfNeeded($finaliseDynamicBlock);
+    }
+
+    /**
+     * This creates a containing div for dynamic fields which appear only on another fields value
+     * @param null $dynamicTriggerValue
+     */
+    private function createNewDynamicContainerBlockIfNeeded($dynamicTriggerValue)
+    {
+        if (!isset($this->dynamicContainerBlock) && $dynamicTriggerValue !== null) {
+            $this->dynamicContainerBlock = $this->createElement('div');
+            $this->dynamicContainerBlock->setAttribute('data-dynamic-form', $this->dynamicFormParentName);
+            $this->dynamicContainerBlock->setAttribute('data-dynamic-form-trigger-value', $dynamicTriggerValue);
+            $this->dynamicContainerBlock->setAttribute('style', 'display: none;');
+            $this->dynamicContainerBlock->setAttribute('class', 'dynamic-form-block trigger'.$this->dynamicFormParentName);
+            $this->dynamicContainerBlock->setAttribute('id', $this->dynamicFormParentName.$dynamicTriggerValue);
+        }
+    }
+
+    /**
+     *  Checks current field being processed for dynamic sub forms
+     */
+    private function dynamicFormCheck()
+    {
+        if ($this->field->hasDynamicForms()) {
+            $this->dynamicFormParentName = $this->field->getName();
+            $forms = $this->field->getDynamicForms();
+            $this->includeDynamicFormJavascript = true;
+            foreach ($forms as $dynamicTriggerValue => $form) {
+                $dynamicFields = $form->getFields();
+                $this->processFields($dynamicFields, $dynamicTriggerValue);
+            }
+            unset($this->dynamicFormParentName);
+        }
+    }
+
+    /**
+     * @param bool $finaliseDynamicBlock
+     */
+    private function finaliseDynamicBlockIfNeeded($finaliseDynamicBlock)
+    {
+        if (isset($this->dynamicContainerBlock) && $finaliseDynamicBlock === true) {
+            $this->form->appendChild($this->dynamicContainerBlock);
+            unset($this->dynamicContainerBlock);
+        }
+    }
 
 
     /**
-     * @return \DOMElement|null
+     * @return DOMElement|null
      */
     public function renderError()
     {
@@ -147,7 +220,7 @@ abstract class AbstractFormRenderer implements FormRendererInterface
     }
 
     /**
-     * @return \DOMElement
+     * @return DOMElement
      */
     protected function createLabelElement()
     {
@@ -159,7 +232,10 @@ abstract class AbstractFormRenderer implements FormRendererInterface
         return $label;
     }
 
-
+    /**
+     * @param DomElement $label
+     * @return DomElement
+     */
     public function addRequiredAsterisk(DomElement $label)
     {
         $span = $this->createElement('span');
@@ -169,5 +245,4 @@ abstract class AbstractFormRenderer implements FormRendererInterface
         $label->appendChild($span);
         return $label;
     }
-
 }

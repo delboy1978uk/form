@@ -26,7 +26,7 @@ class FormRenderer extends AbstractFormRenderer implements FormRendererInterface
     }
 
     /**
-     * @return DOMElement
+     * @return DomElement
      */
     public function renderFieldBlock()
     {

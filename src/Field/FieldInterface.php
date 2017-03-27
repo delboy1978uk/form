@@ -162,12 +162,12 @@ interface FieldInterface
     /**
      * @return bool
      */
-    public function hasDynamicForm();
+    public function hasDynamicForms();
 
     /**
-     * @return FormInterface
+     * @return FormInterface[]
      */
-    public function getDynamicForm();
+    public function getDynamicForms();
 
     /**
      * @return bool

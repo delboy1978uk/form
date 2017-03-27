@@ -119,6 +119,15 @@ abstract class AbstractForm implements FormInterface
             if (isset($data[$name])) {
                 $field->setValue($data[$name]);
             }
+//            if ($field->hasDynamicForm()) {
+//                $key = $this->fieldCollection->key();
+//                $subForm = $field->getDynamicForm();
+//                $subFields = $subForm->getFields()->getArrayCopy();
+//                $existingFields = $this->fieldCollection->getArrayCopy();
+//                array_splice($existingFields, $this->fieldCollection->key() + 1, 0, $subFields);
+//                $this->fieldCollection = new FieldCollection($existingFields);
+//                $this->fieldCollection->seek($key);
+//            }
             $this->fieldCollection->next();
         }
         $this->fieldCollection->rewind();

@@ -236,7 +236,7 @@ abstract class FieldAbstract implements FieldInterface
 
     /**
      * @param string $label
-     * @return FieldAbstract
+     * @return $this
      */
     public function setLabel($label)
     {
@@ -335,6 +335,15 @@ abstract class FieldAbstract implements FieldInterface
      */
     public function addDynamicForm(FormInterface $form, $triggerValue)
     {
+//        $fields = $form->getFields();
+//        while ($fields->valid()) {
+//            $field = $fields->current();
+//            $style = $field->getAttribute('style');
+//            $field->setAttribute('data-dynamic-field', $this->getName());
+//            $field->setAttribute('data-dynamic-field-trigger-value', $triggerValue);
+//            $field->setAttribute('style', 'display: none; '.$style);
+//            $fields->next();
+//        }
         $this->dynamicFormCollection[$triggerValue] = $form;
         return $this;
     }
@@ -342,22 +351,20 @@ abstract class FieldAbstract implements FieldInterface
     /**
      * @return bool
      */
-    public function hasDynamicForm()
+    public function hasDynamicForms()
     {
-        $value = $this->getValue();
-        return isset($this->dynamicFormCollection[$value]);
+        return count($this->dynamicFormCollection);
     }
 
     /**
-     * @return FormInterface
+     * @return FormInterface[]
      * @throws Exception
      */
-    public function getDynamicForm()
+    public function getDynamicForms()
     {
-        $value = $this->getValue();
-        if (!isset($this->dynamicFormCollection[$value])) {
+        if (!$this->hasDynamicForms()) {
             throw new Exception('No dynamic form for this value - Did you check hasDynamicForm() ?');
         }
-        return $this->dynamicFormCollection[$value];
+        return $this->dynamicFormCollection;
     }
 }
