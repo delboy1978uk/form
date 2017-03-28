@@ -14,7 +14,6 @@ use Del\Form\FormInterface;
 use Del\Form\Renderer\Field\FieldRendererInterface;
 use Del\Form\Renderer\Field\TextRender;
 use Del\Form\Traits\HasAttributesTrait;
-use Del\Form\Validator\Adapter\ValidatorAdapterZf;
 use Del\Form\Validator\NotEmpty;
 use Del\Form\Validator\ValidatorInterface;
 use Exception;
@@ -22,7 +21,7 @@ use Exception;
 abstract class FieldAbstract implements FieldInterface
 {
 
-    /**  @var array $dynamicFormCollection */
+    /**  @var FormInterface[] $dynamicFormCollection */
     private $dynamicFormCollection;
 
     /**  @var FilterCollection $filterCollection */
@@ -58,7 +57,7 @@ abstract class FieldAbstract implements FieldInterface
     public function __construct($name, $value = null)
     {
         $this->required = false;
-        $this->dynamicFieldCollection = [];
+        $this->dynamicFormCollection = [];
         $this->filterCollection = new FilterCollection();
         $this->validatorCollection = new ValidatorCollection();
         $this->renderer = new TextRender();
@@ -335,15 +334,6 @@ abstract class FieldAbstract implements FieldInterface
      */
     public function addDynamicForm(FormInterface $form, $triggerValue)
     {
-//        $fields = $form->getFields();
-//        while ($fields->valid()) {
-//            $field = $fields->current();
-//            $style = $field->getAttribute('style');
-//            $field->setAttribute('data-dynamic-field', $this->getName());
-//            $field->setAttribute('data-dynamic-field-trigger-value', $triggerValue);
-//            $field->setAttribute('style', 'display: none; '.$style);
-//            $fields->next();
-//        }
         $this->dynamicFormCollection[$triggerValue] = $form;
         return $this;
     }
@@ -353,7 +343,7 @@ abstract class FieldAbstract implements FieldInterface
      */
     public function hasDynamicForms()
     {
-        return count($this->dynamicFormCollection);
+        return count($this->dynamicFormCollection) > 0;
     }
 
     /**

@@ -113,26 +113,52 @@ abstract class AbstractForm implements FormInterface
     public function populate(array $data)
     {
         $this->fieldCollection->rewind();
-        while ($this->fieldCollection->valid()) {
-            $field = $this->fieldCollection->current();
-            $name = $field->getName();
-            if (isset($data[$name])) {
-                $field->setValue($data[$name]);
-            }
-//            if ($field->hasDynamicForm()) {
-//                $key = $this->fieldCollection->key();
-//                $subForm = $field->getDynamicForm();
-//                $subFields = $subForm->getFields()->getArrayCopy();
-//                $existingFields = $this->fieldCollection->getArrayCopy();
-//                array_splice($existingFields, $this->fieldCollection->key() + 1, 0, $subFields);
-//                $this->fieldCollection = new FieldCollection($existingFields);
-//                $this->fieldCollection->seek($key);
-//            }
-            $this->fieldCollection->next();
-        }
+        $this->populateFields($this->fieldCollection, $data);
         $this->fieldCollection->rewind();
         $this->displayErrors = true;
         return $this;
+    }
+
+    /**
+     * @param array $dynamicForms
+     * @param array $data
+     */
+    private function populateDynamicForms(array $dynamicForms, array $data)
+    {
+        /** @var FormInterface $form **/
+        foreach ($dynamicForms as $form) {
+            $fields = $form->getFields();
+            $this->populateFields($fields, $data);
+        }
+    }
+
+    /**
+     * @param FieldCollection $fields
+     * @param array $data
+     */
+    private function populateFields(FieldCollection $fields, array $data)
+    {
+        while ($fields->valid()) {
+            $field = $fields->current();
+            $this->populateField($field, $data);
+            $fields->next();
+        }
+    }
+
+    /**
+     * @param FieldInterface $field
+     * @param array $data
+     */
+    private function populateField(FieldInterface $field, array $data)
+    {
+        $name = $field->getName();
+        if (isset($data[$name])) {
+            $field->setValue($data[$name]);
+        }
+        if ($field->hasDynamicForms()) {
+            $forms = $field->getDynamicForms();
+            $this->populateDynamicForms($forms, $data);
+        }
     }
 
     /**
