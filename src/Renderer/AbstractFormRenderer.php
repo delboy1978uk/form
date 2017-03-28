@@ -54,6 +54,9 @@ abstract class AbstractFormRenderer implements FormRendererInterface
     /** @var string $dynamicFormParentName */
     private $dynamicFormParentName = '';
 
+    /** @var bool $dynamicFormVisible */
+    private $dynamicFormVisible = false;
+
     public function __construct()
     {
         $this->resetDom();
@@ -171,9 +174,9 @@ abstract class AbstractFormRenderer implements FormRendererInterface
             $this->dynamicContainerBlock = $this->createElement('div');
             $this->dynamicContainerBlock->setAttribute('data-dynamic-form', $this->dynamicFormParentName);
             $this->dynamicContainerBlock->setAttribute('data-dynamic-form-trigger-value', $dynamicTriggerValue);
-            $this->dynamicContainerBlock->setAttribute('style', 'display: none;');
             $this->dynamicContainerBlock->setAttribute('class', 'dynamic-form-block trigger'.$this->dynamicFormParentName);
             $this->dynamicContainerBlock->setAttribute('id', $this->dynamicFormParentName.$dynamicTriggerValue);
+            $this->dynamicFormVisible == false ? $this->dynamicContainerBlock->setAttribute('style', 'display: none;') : null;
         }
     }
 
@@ -184,9 +187,11 @@ abstract class AbstractFormRenderer implements FormRendererInterface
     {
         if ($this->field->hasDynamicForms()) {
             $this->dynamicFormParentName = $this->field->getName();
+            $value = $this->field->getValue();
             $forms = $this->field->getDynamicForms();
             $this->includeDynamicFormJavascript = true;
             foreach ($forms as $dynamicTriggerValue => $form) {
+                $this->dynamicFormVisible = ($value == $dynamicTriggerValue);
                 $dynamicFields = $form->getFields();
                 $this->processFields($dynamicFields, $dynamicTriggerValue);
             }
