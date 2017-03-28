@@ -88,6 +88,8 @@ abstract class AbstractFormRenderer implements FormRendererInterface
         $this->getDom()->appendChild($this->form);
         $html = $this->getDom()->saveHTML();
         $this->resetDom();
+
+        $html .= $this->addDynamicFormJavascript();
         return $html;
     }
 
@@ -249,5 +251,36 @@ abstract class AbstractFormRenderer implements FormRendererInterface
         $span->appendChild($text);
         $label->appendChild($span);
         return $label;
+    }
+
+    /**
+     * @return string
+     */
+    private function addDynamicFormJavascript()
+    {
+        if ($this->includeDynamicFormJavascript === true) {
+            return "
+            <script type=\"text/javascript\">
+                $(document).ready(function(){
+                    $('.dynamic-form-block').each(function(){
+                        var Id = $(this).prop('id');
+                        var parentField = $(this).attr('data-dynamic-form');
+                        var parentValue = $(this).attr('data-dynamic-form-trigger-value');
+            
+                        $('input[name=\"'+parentField+'\"]').change(function(){
+                            var val = $(this).val();
+                            if (val == parentValue) {
+                                $('.trigger'+parentField).each(function(){
+                                    $(this).attr('style', 'display: none;');
+                                });
+                                $('#'+Id).attr('style', 'display: block;');
+                            }
+                        });
+                    });
+                });
+            </script>
+            ";
+        }
+        return '';
     }
 }
