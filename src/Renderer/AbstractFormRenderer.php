@@ -176,7 +176,7 @@ abstract class AbstractFormRenderer implements FormRendererInterface
             $this->dynamicContainerBlock->setAttribute('data-dynamic-form-trigger-value', $dynamicTriggerValue);
             $this->dynamicContainerBlock->setAttribute('class', 'dynamic-form-block trigger'.$this->dynamicFormParentName);
             $this->dynamicContainerBlock->setAttribute('id', $this->dynamicFormParentName.$dynamicTriggerValue);
-            $this->dynamicFormVisible == false ? $this->dynamicContainerBlock->setAttribute('style', 'display: none;') : null;
+            $this->dynamicFormVisible === false ? $this->dynamicContainerBlock->setAttribute('style', 'display: none;') : null;
         }
     }
 
