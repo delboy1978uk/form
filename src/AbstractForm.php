@@ -114,13 +114,35 @@ abstract class AbstractForm implements FormInterface
     public function getValues()
     {
         $values = [];
-        $this->fieldCollection->rewind();
-        while ($this->fieldCollection->valid()) {
-            $field = $this->fieldCollection->current();
-            $values[$field->getName()] = $field->getValue();
-            $this->fieldCollection->next();
+        $fields = $this->fieldCollection;
+        $fields->rewind();
+        $values = $this->getFieldValues($fields, $values);
+        $fields->rewind();
+        return $values;
+    }
+
+    /**
+     * @param FieldCollection $fields
+     * @param array $values
+     * @return array
+     */
+    private function getFieldValues(FieldCollection $fields, array $values)
+    {
+        while ($fields->valid()) {
+            /** @var FieldInterface $field */
+            $field = $fields->current();
+            $value = $field->getValue();
+            $values[$field->getName()] = $value;
+            if ($field->hasDynamicForms()) {
+                $forms = $field->getDynamicForms();
+                if (isset($forms[$value])) {
+                    $form = $forms[$value];
+                    $dynamicFormFields = $form->getFields();
+                    $values = $this->getFieldValues($dynamicFormFields, $values);
+                }
+            }
+            $fields->next();
         }
-        $this->fieldCollection->rewind();
         return $values;
     }
 
