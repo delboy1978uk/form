@@ -47,7 +47,7 @@ $form->addField($userName)
 echo $form->render();
 ```
 
-##Creating Custom Forms
+## Creating Custom Forms
 Of course, it's nicer to create your own form than build one up every time, so just create a class and extend 
 Del\Form\AbstractForm and add your fields in the init() function:
 ```php
@@ -130,8 +130,8 @@ if (isset($_POST['submit'])) { // or ask your request object ;-)
 }
 ```
 After populate has been called, if you call Form::render(), it will display any validation error messages.
-##Field Types
-###Text
+## Field Types
+### Text
 *Del\Form\Field\Text* fields are the most basic field, and come with a built in StripTags and StringTrim filter.
 
 *Del\Form\Field\Text\EmailAddress* extends Text, and adds an EmailAddress validator for convenience.
@@ -148,7 +148,7 @@ $text->setPlaceholder('type some text..');
 $text->setValue('Blah');
 
 ```
-###TextArea
+### TextArea
 *Del\Form\Field\TextArea* fields are pretty much the same as the Text field
 ```php
 <?php
@@ -156,7 +156,7 @@ use Del\Form\Field\TextArea;
 
 $textArea = new TextArea('message');;
 ```
-###Select
+### Select
 *Del\Form|Field\Select* needs initialised with setOptions():
 ```php
 <?php
@@ -169,7 +169,7 @@ $select->setOptions([
     'Q' => 'Quick',
 ]);
 ```
-###Radio
+### Radio
 *Del\Form|Field\Radio* can be rendered inline (side by side) or not, also needs initialised with setOptions():
 ```php
 <?php
@@ -183,7 +183,7 @@ $radio->setOptions([
     'Q' => 'Quick',
 ]);
 ```
-###Checkbox
+### Checkbox
 *Del\Form|Field\Checkbox* can be rendered inline or not, also needs initialised with setOptions():
 ```php
 <?php
@@ -196,7 +196,7 @@ $check->setOptions([
     'Q' => 'Quick',
 ]);
 ```
-###FileUpload
+### FileUpload
 *Del\Form|Field\FileUpload* fields come with a nifty looking Bootstrap compatible renderer, but it uses some javascript.
 If you don't want that, just call setRenderer() and pass it a default TextRender class instance.
 ```php
@@ -206,7 +206,7 @@ use Del\Form\Field\FileUpload;
 $fileUpload = new FileUpload('photo');
 $fileUpload->setUploadDirectory('/path/to/destination');
 ```
-###Submit
+### Submit
 *Del\Form|Field\Submit* doesn't really need much:
 ```php
 <?php
@@ -215,7 +215,7 @@ use Del\Form\Field\Submit;
 $submit = new Submit('submit');
 $submit->setValue('Send');
 ```
-###Dynamic Forms
+### Dynamic Forms
 You can have for example a radio button with two choices, and each choice can have a separate form relevant to the 
 checked value. For instance, a radio with a choice of food or drink could then display a dynamic form upon clicking the 
 drink option, and the drinks form will display.
