@@ -361,7 +361,7 @@ abstract class AbstractForm implements FormInterface
         while ($this->fieldCollection->valid()) {
             $current = $this->fieldCollection->current();
             $this->moveFileIfUploadField($current);
-            $this->fieldCollection->next() ;
+            $this->fieldCollection->next();
         }
     }
 

@@ -131,7 +131,7 @@ abstract class AbstractFormRenderer implements FormRendererInterface
 
     /**
      * @param FieldCollection $fields
-     * @param null $dynamicTriggerValue
+     * @param string $dynamicTriggerValue
      */
     private function processFields(FieldCollection $fields, $dynamicTriggerValue = null)
     {

@@ -200,7 +200,7 @@ abstract class FieldAbstract implements FieldInterface
     {
         $value = $this->getValue();
 
-        if ( (!$validator->isValid($value)) && $this->isRequired()) {
+        if ((!$validator->isValid($value)) && $this->isRequired()) {
             $this->errorMessages = array_merge($this->errorMessages, $validator->getMessages());
         }
     }
