@@ -149,7 +149,7 @@ abstract class AbstractFormRenderer implements FormRendererInterface
     }
 
     /**
-     * @param null $dynamicTriggerValue
+     * @param string $dynamicTriggerValue
      * @param bool $finaliseDynamicBlock
      */
     public function renderField($dynamicTriggerValue = null, $finaliseDynamicBlock = false)
