@@ -377,4 +377,21 @@ class FormTest extends Test
         $html = $form->render();
         $this->assertEquals('<form name="checkboxtest" method="post" id="checkboxtest"></form>'."\n", $html);
     }
+
+    public function testRemoveNotEmptyValidator()
+    {
+        $email = new EmailAddress('fail');
+        $email->setRequired(true);
+        $email->setRequired(false);
+        $removed = true;
+        $validators = $email->getValidators();
+        while ($validators->valid()) {
+            $validator = $validators->current();
+            if ($validator instanceof NotEmpty) {
+                $removed = false;
+            }
+            $validators->next();
+        }
+        $this->assertTrue($removed);
+    }
 }

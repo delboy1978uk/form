@@ -11,7 +11,8 @@
   "require": {
     "delboy1978uk/common" : "^2.3.12",
     "zendframework/zend-validator": "^2.8",
-    "zendframework/zend-filter": "^2.7"
+    "zendframework/zend-filter": "^2.7",
+    "delboy1978uk/form": "dev-dynamicfields"
   },
   "require-dev": {
     "codeception/codeception": "dev-master"

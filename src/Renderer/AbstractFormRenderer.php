@@ -138,7 +138,7 @@ abstract class AbstractFormRenderer implements FormRendererInterface
             $this->field = $fields->current();
             $finaliseDynamicBlock = ($x == $count) ? true : false;
             $this->renderField($dynamicTriggerValue, $finaliseDynamicBlock);
-            $x ++ ;
+            $x++;
             $fields->next();
         }
         $fields->rewind();
@@ -176,8 +176,8 @@ abstract class AbstractFormRenderer implements FormRendererInterface
             $this->dynamicContainerBlock = $this->createElement('div');
             $this->dynamicContainerBlock->setAttribute('data-dynamic-form', $this->dynamicFormParentName);
             $this->dynamicContainerBlock->setAttribute('data-dynamic-form-trigger-value', $dynamicTriggerValue);
-            $this->dynamicContainerBlock->setAttribute('class', 'dynamic-form-block trigger'.$this->dynamicFormParentName);
-            $this->dynamicContainerBlock->setAttribute('id', $this->dynamicFormParentName.$dynamicTriggerValue);
+            $this->dynamicContainerBlock->setAttribute('class', 'dynamic-form-block trigger' . $this->dynamicFormParentName);
+            $this->dynamicContainerBlock->setAttribute('id', $this->dynamicFormParentName . $dynamicTriggerValue);
             $this->dynamicFormVisible === false ? $this->dynamicContainerBlock->setAttribute('style', 'display: none;') : null;
         }
     }
@@ -259,8 +259,7 @@ abstract class AbstractFormRenderer implements FormRendererInterface
     private function addDynamicFormJavascript()
     {
         if ($this->includeDynamicFormJavascript === true) {
-            return "
-            <script type=\"text/javascript\">
+            return "<script type=\"text/javascript\">
                 $(document).ready(function(){
                     $('.dynamic-form-block').each(function(){
                         var Id = $(this).prop('id');

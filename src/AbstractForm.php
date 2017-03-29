@@ -115,9 +115,7 @@ abstract class AbstractForm implements FormInterface
     {
         $values = [];
         $fields = $this->fieldCollection;
-        $fields->rewind();
         $values = $this->getFieldValues($fields, $values);
-        $fields->rewind();
         return $values;
     }
 
@@ -128,6 +126,7 @@ abstract class AbstractForm implements FormInterface
      */
     private function getFieldValues(FieldCollection $fields, array $values)
     {
+        $fields->rewind();
         while ($fields->valid()) {
             /** @var FieldInterface $field */
             $field = $fields->current();
@@ -143,6 +142,7 @@ abstract class AbstractForm implements FormInterface
             }
             $fields->next();
         }
+        $fields->rewind();
         return $values;
     }
 
@@ -152,9 +152,8 @@ abstract class AbstractForm implements FormInterface
      */
     public function populate(array $data)
     {
-        $this->fieldCollection->rewind();
-        $this->populateFields($this->fieldCollection, $data);
-        $this->fieldCollection->rewind();
+        $fields = $this->fieldCollection;
+        $this->populateFields($fields, $data);
         $this->displayErrors = true;
         return $this;
     }
@@ -178,11 +177,13 @@ abstract class AbstractForm implements FormInterface
      */
     private function populateFields(FieldCollection $fields, array $data)
     {
+        $fields->rewind();
         while ($fields->valid()) {
             $field = $fields->current();
             $this->populateField($field, $data);
             $fields->next();
         }
+        $fields->rewind();
     }
 
     /**
