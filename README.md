@@ -2,6 +2,12 @@
 [![Latest Stable Version](https://poser.pugx.org/delboy1978uk/form/v/stable)](https://packagist.org/packages/delboy1978uk/form) [![Total Downloads](https://poser.pugx.org/delboy1978uk/form/downloads)](https://packagist.org/packages/delboy1978uk/form) [![Latest Unstable Version](https://poser.pugx.org/delboy1978uk/form/v/unstable)](https://packagist.org/packages/delboy1978uk/form) [![License](https://poser.pugx.org/delboy1978uk/form/license)](https://packagist.org/packages/delboy1978uk/form)<br />
 [![Build Status](https://travis-ci.org/delboy1978uk/form.png?branch=master)](https://travis-ci.org/delboy1978uk/form) [![Code Coverage](https://scrutinizer-ci.com/g/delboy1978uk/form/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/delboy1978uk/form/?branch=master) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/delboy1978uk/form/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/delboy1978uk/form/?branch=master)<br />
 A super easy Bootstrap ready HTML form generator for PHP
+
+![An example generated form](https://github.com/delboy1978uk/form/master/tests/_data/form.png)
+
+v1.1.0 Now has 'Dynamic Form' functionality. You can add child forms to fields like radio buttons, and have the form 
+appear on selecting the trigger value. See the [Dynamic Form](#Dynamic Forms) section of this readme. 
+
 ## Installation
  Install via composer
  ```
@@ -209,6 +215,51 @@ use Del\Form\Field\Submit;
 $submit = new Submit('submit');
 $submit->setValue('Send');
 ```
+###Dynamic Forms
+You can have for example a radio button with two choices, and each choice can have a separate form relevant to the 
+checked value. For instance, a radio with a choice of food or drink could then display a dynamic form upon clicking the 
+drink option, and the drinks form will display.
 
+![An example generated form](https://github.com/delboy1978uk/form/master/tests/_data/dynamic-form.png)
 
+```php
+<?php
+
+$radio = new Radio('choice');
+$radio->setLabel('Please choose..');
+$radio->setRenderInline(true);
+$radio->setRequired(true);
+$radio->setOptions([
+    1 => 'Food',
+    2 => 'Drink',
+]);
+
+$foodForm = new Form('food');  // This form appears when radio choice 1 is selected
+$foodRadio = new Radio('foodchoice');
+$foodRadio->setLabel('Choose your food.');
+$foodRadio->setRequired(true);
+$foodRadio->setOptions([
+    1 => 'Cheeseburger',
+    2 => 'Pizza',
+    3 => 'Steak',
+]);
+$foodForm->addField($foodRadio);
+$radio->addDynamicForm($foodForm, 1);
+
+$drinkForm = new Form('drink');  // This form appears when radio choice 2 is selected
+$drinkRadio = new Radio('drinkchoice');
+$drinkRadio->setRequired(true);
+$drinkRadio->setLabel('Choose your drink.');
+$drinkRadio->setOptions([
+    1 => 'Beer',
+    2 => 'Vodka',
+    3 => 'Whisky',
+]);
+$moreText = new Text('moretext');
+$moreText->setLabel('whatever');
+$moreText->setPlaceholder('Another text field to fill in');
+$drinkForm->addField($drinkRadio);
+$drinkForm->addField($moreText);
+$radio->addDynamicForm($drinkForm, 2);
+```
 
