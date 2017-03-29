@@ -3,10 +3,10 @@
 [![Build Status](https://travis-ci.org/delboy1978uk/form.png?branch=master)](https://travis-ci.org/delboy1978uk/form) [![Code Coverage](https://scrutinizer-ci.com/g/delboy1978uk/form/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/delboy1978uk/form/?branch=master) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/delboy1978uk/form/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/delboy1978uk/form/?branch=master)<br />
 A super easy Bootstrap ready HTML form generator for PHP
 
-![An example generated form](https://github.com/delboy1978uk/form/master/tests/_data/form.png)
+![An example generated form](https://raw.githubusercontent.com/delboy1978uk/form/master/tests/_data/form.png)
 
 v1.1.0 Now has 'Dynamic Form' functionality. You can add child forms to fields like radio buttons, and have the form 
-appear on selecting the trigger value. See the [Dynamic Form](#Dynamic Forms) section of this readme. 
+appear on selecting the trigger value. See the [Dynamic Form](#dynamic-forms) section of this readme. 
 
 ## Installation
  Install via composer
@@ -220,7 +220,7 @@ You can have for example a radio button with two choices, and each choice can ha
 checked value. For instance, a radio with a choice of food or drink could then display a dynamic form upon clicking the 
 drink option, and the drinks form will display.
 
-![An example generated form](https://github.com/delboy1978uk/form/master/tests/_data/dynamic-form.png)
+![An example generated form](https://raw.githubusercontent.com/delboy1978uk/form/master/tests/_data/dynamic-form.PNG)
 
 ```php
 <?php
