@@ -44,7 +44,7 @@ class SelectRender extends AbstractFieldRender implements FieldRendererInterface
         $option->setAttribute('value', $value);
         $label = $this->createText($label);
         $option->appendChild($label);
-        if($field->getValue() == $option->getAttribute('value')) {
+        if ($field->getValue() == $option->getAttribute('value')) {
             $option->setAttribute('selected', 'selected');
         }
         return $option;

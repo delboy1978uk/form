@@ -129,6 +129,10 @@ abstract class AbstractFormRenderer implements FormRendererInterface
         return $form->getId() ?: $this->form->getAttribute('name');
     }
 
+    /**
+     * @param FieldCollection $fields
+     * @param null $dynamicTriggerValue
+     */
     private function processFields(FieldCollection $fields, $dynamicTriggerValue = null)
     {
         $count = $fields->count();
@@ -176,8 +180,8 @@ abstract class AbstractFormRenderer implements FormRendererInterface
             $this->dynamicContainerBlock = $this->createElement('div');
             $this->dynamicContainerBlock->setAttribute('data-dynamic-form', $this->dynamicFormParentName);
             $this->dynamicContainerBlock->setAttribute('data-dynamic-form-trigger-value', $dynamicTriggerValue);
-            $this->dynamicContainerBlock->setAttribute('class', 'dynamic-form-block trigger' . $this->dynamicFormParentName);
-            $this->dynamicContainerBlock->setAttribute('id', $this->dynamicFormParentName . $dynamicTriggerValue);
+            $this->dynamicContainerBlock->setAttribute('class', 'dynamic-form-block trigger'.$this->dynamicFormParentName);
+            $this->dynamicContainerBlock->setAttribute('id', $this->dynamicFormParentName.$dynamicTriggerValue);
             $this->dynamicFormVisible === false ? $this->dynamicContainerBlock->setAttribute('style', 'display: none;') : null;
         }
     }
@@ -227,7 +231,7 @@ abstract class AbstractFormRenderer implements FormRendererInterface
     }
 
     /**
-     * @return DOMElement
+     * @return \DOMElement
      */
     protected function createLabelElement()
     {

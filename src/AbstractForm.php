@@ -101,7 +101,7 @@ abstract class AbstractForm implements FormInterface
             $forms = $field->getDynamicForms();
             $value = $field->getValue();
             if (isset($forms[$value])) {
-                $form  = $forms[$value];
+                $form = $forms[$value];
                 $fields = $form->getFields();
                 $this->validateFields($fields);
             }

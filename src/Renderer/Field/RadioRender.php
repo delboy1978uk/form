@@ -103,7 +103,7 @@ class RadioRender extends AbstractFieldRender implements FieldRendererInterface
         $radio->setAttribute('value', $value);
         $text = $this->createText($labelText);
 
-        if($field->getValue() == $radio->getAttribute('value')) {
+        if ($field->getValue() == $radio->getAttribute('value')) {
             $radio->setAttribute('checked', 'checked');
         }
 
