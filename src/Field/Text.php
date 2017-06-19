@@ -42,9 +42,11 @@ class Text extends FieldAbstract
 
     /**
      * @param string $placeholder
+     * @return $this
      */
     public function setPlaceholder($placeholder)
     {
         $this->setAttribute('placeholder', $placeholder);
+        return $this;
     }
 }
