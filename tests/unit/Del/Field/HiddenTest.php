@@ -20,7 +20,7 @@ class HiddenTest extends Test
         $hidden->setValue('hahaha');
         $form->addField($hidden);
         $html = $form->render();
-        $this->assertEquals('<form name="required-text-form" method="post" id="required-text-form"><div class="form-group"><label for=""></label><input name="secret" type="hidden" class="form-control" value="hahaha"></div></form>'."\n", $html);
+        $this->assertEquals('<form name="required-text-form" method="post" id="required-text-form"><div class="form-group" id="secret-form-group"><label for=""></label><input name="secret" type="hidden" class="form-control" value="hahaha"></div></form>'."\n", $html);
 
     }
 }

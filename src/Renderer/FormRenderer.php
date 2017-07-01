@@ -34,6 +34,7 @@ class FormRenderer extends AbstractFormRenderer implements FormRendererInterface
         $formGroup = $this->block;
         $class = $formGroup->getAttribute('class').'form-group';
         $formGroup->setAttribute('class', $class);
+        $formGroup->setAttribute('id', $this->field->getName().'-form-group');
 
         $formGroup->appendChild($this->label);
 

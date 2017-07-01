@@ -35,7 +35,7 @@ class FileUploadTest extends Test
         $form->addField($pic);
         $this->assertFalse($form->isValid());
         $html = $form->render();
-        $this->assertEquals('<form name="photo-upload" method="post" id="photo-upload"><div class="form-group"><label for=""><span class="text-danger">* </span></label><div class="input-group"><span class="input-group-btn"><span class="btn btn-primary btn-file"><input name="photo" type="file"></span></span><input type="text" class="form-control" readonly><style type="text/css">    .btn-file {
+        $this->assertEquals('<form name="photo-upload" method="post" id="photo-upload"><div class="form-group" id="photo-form-group"><label for=""><span class="text-danger">* </span></label><div class="input-group"><span class="input-group-btn"><span class="btn btn-primary btn-file"><input name="photo" type="file"></span></span><input type="text" class="form-control" readonly><style type="text/css">    .btn-file {
         position: relative;
         overflow: hidden;
     }
@@ -91,7 +91,7 @@ class FileUploadTest extends Test
         $form->addField($pic);
         $this->assertFalse($form->isValid());
         $html = $form->render();
-        $this->assertEquals('<form name="photo-upload" method="post" id="photo-upload"><div class="has-error form-group"><label for=""><span class="text-danger">* </span></label><input name="photo" type="file"><span class="help-block">Value is required and can\'t be empty<br></span></div></form>'."\n", $html);
+        $this->assertEquals('<form name="photo-upload" method="post" id="photo-upload"><div class="has-error form-group" id="photo-form-group"><label for=""><span class="text-danger">* </span></label><input name="photo" type="file"><span class="help-block">Value is required and can\'t be empty<br></span></div></form>'."\n", $html);
     }
 
     public function testMovingUploads()

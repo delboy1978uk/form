@@ -101,7 +101,7 @@ class FormTest extends Test
         $text->setAttributes($attributes);
         $values = $form->getValues();
         $html = $form->render();
-        $this->assertEquals('<form name="test" method="post" id="test"><div class="form-group"><label for="user"></label><input name="username" value="delboy1978uk" type="text" class="form-control" id="user" data-target="#target"></div></form>'."\n", $html);
+        $this->assertEquals('<form name="test" method="post" id="test"><div class="form-group" id="username-form-group"><label for="user"></label><input name="username" value="delboy1978uk" type="text" class="form-control" id="user" data-target="#target"></div></form>'."\n", $html);
         $this->assertArrayHasKey('username', $values);
         $this->assertEquals('delboy1978uk', $values['username']);
     }
@@ -314,7 +314,7 @@ class FormTest extends Test
         $form->addField($submit);
 
         $html = $form->render();
-        $this->assertEquals('<form name="testform" method="post" id="testform"><div class="form-group"><label for="">User Name</label><input name="Username" type="text" class="form-control" placeholder="Enter Some Text"></div><div class="form-group"><label for="">Email Address</label><input name="Email" type="text" class="form-control"></div><div class="form-group"><label for="">Choose your meal</label><div class="radio"><label for=""><input type="radio" name="Radio" value="1">Chicken</label></div><div class="radio"><label for=""><input type="radio" name="Radio" value="2">Beef</label></div><div class="radio"><label for=""><input type="radio" name="Radio" value="3">Pork</label></div></div><div class="form-group"><label for="">Mailing List</label><div class="checkbox"><label for=""><input type="checkbox" name="Radio[]" value="spam">Spam my inbox</label></div></div><div class="form-group"><label for=""></label><input name="submit" value="submit" type="submit" class="btn btn-primary"></div></form>'."\n", $html);
+        $this->assertEquals('<form name="testform" method="post" id="testform"><div class="form-group" id="Username-form-group"><label for="">User Name</label><input name="Username" type="text" class="form-control" placeholder="Enter Some Text"></div><div class="form-group" id="Email-form-group"><label for="">Email Address</label><input name="Email" type="text" class="form-control"></div><div class="form-group" id="Radio-form-group"><label for="">Choose your meal</label><div class="radio"><label for=""><input type="radio" name="Radio" value="1">Chicken</label></div><div class="radio"><label for=""><input type="radio" name="Radio" value="2">Beef</label></div><div class="radio"><label for=""><input type="radio" name="Radio" value="3">Pork</label></div></div><div class="form-group" id="Radio-form-group"><label for="">Mailing List</label><div class="checkbox"><label for=""><input type="checkbox" name="Radio[]" value="spam">Spam my inbox</label></div></div><div class="form-group" id="submit-form-group"><label for=""></label><input name="submit" value="submit" type="submit" class="btn btn-primary"></div></form>'."\n", $html);
     }
 
 
@@ -326,7 +326,7 @@ class FormTest extends Test
         $form->addField($text);
         $form->populate(['text' => null]);
         $html = $form->render();
-        $this->assertEquals('<form name="testform" method="post" id="testform"><div class="has-error form-group"><label for=""><span class="text-danger">* </span></label><input name="text" type="text" class="form-control"><span class="help-block">Value is required and can\'t be empty<br></span></div></form>'."\n", $html);
+        $this->assertEquals('<form name="testform" method="post" id="testform"><div class="has-error form-group" id="text-form-group"><label for=""><span class="text-danger">* </span></label><input name="text" type="text" class="form-control"><span class="help-block">Value is required and can\'t be empty<br></span></div></form>'."\n", $html);
     }
 
 
@@ -339,7 +339,7 @@ class FormTest extends Test
         $form->addField($text);
         $form->populate(['text' => null]);
         $html = $form->render();
-        $this->assertEquals('<form name="testform" method="post" id="testform"><div class="has-error form-group"><label for=""><span class="text-danger">* </span></label><input name="text" type="text" class="form-control"><span class="help-block">This can\'t be empty!</span></div></form>'."\n", $html);
+        $this->assertEquals('<form name="testform" method="post" id="testform"><div class="has-error form-group" id="text-form-group"><label for=""><span class="text-danger">* </span></label><input name="text" type="text" class="form-control"><span class="help-block">This can\'t be empty!</span></div></form>'."\n", $html);
     }
 
     public function testGetAndSetRenderer()

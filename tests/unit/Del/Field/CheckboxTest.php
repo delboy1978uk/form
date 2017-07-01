@@ -64,7 +64,7 @@ class CheckboxTest extends Test
         $checkbox->setValue([1, 3, 5]);
         $form->addField($checkbox);
         $html = $form->render();
-        $this->assertEquals('<form name="checkboxtest" method="post" id="checkboxtest"><div class="form-group"><label for="">Choose</label><div class="checkbox"><label for=""><input type="checkbox" name="choose[]" value="1" checked>Choose</label></div><div class="checkbox"><label for=""><input type="checkbox" name="choose[]" value="2">Something</label></div><div class="checkbox"><label for=""><input type="checkbox" name="choose[]" value="3" checked>Now</label></div><div class="checkbox"><label for=""><input type="checkbox" name="choose[]" value="4">Or</label></div><div class="checkbox"><label for=""><input type="checkbox" name="choose[]" value="5" checked>Else</label></div></div></form>'."\n", $html);
+        $this->assertEquals('<form name="checkboxtest" method="post" id="checkboxtest"><div class="form-group" id="choose-form-group"><label for="">Choose</label><div class="checkbox"><label for=""><input type="checkbox" name="choose[]" value="1" checked>Choose</label></div><div class="checkbox"><label for=""><input type="checkbox" name="choose[]" value="2">Something</label></div><div class="checkbox"><label for=""><input type="checkbox" name="choose[]" value="3" checked>Now</label></div><div class="checkbox"><label for=""><input type="checkbox" name="choose[]" value="4">Or</label></div><div class="checkbox"><label for=""><input type="checkbox" name="choose[]" value="5" checked>Else</label></div></div></form>'."\n", $html);
     }
 
     public function testUncheckValue()
@@ -83,7 +83,7 @@ class CheckboxTest extends Test
         $form->addField($checkbox);
         $checkbox->uncheckValue(3);
         $html = $form->render();
-        $this->assertEquals('<form name="checkboxtest" method="post" id="checkboxtest"><div class="form-group"><label for="">Choose</label><div class="checkbox"><label for=""><input type="checkbox" name="choose[]" value="1" checked>Choose</label></div><div class="checkbox"><label for=""><input type="checkbox" name="choose[]" value="2">Something</label></div><div class="checkbox"><label for=""><input type="checkbox" name="choose[]" value="3">Now</label></div><div class="checkbox"><label for=""><input type="checkbox" name="choose[]" value="4">Or</label></div><div class="checkbox"><label for=""><input type="checkbox" name="choose[]" value="5" checked>Else</label></div></div></form>'."\n", $html);
+        $this->assertEquals('<form name="checkboxtest" method="post" id="checkboxtest"><div class="form-group" id="choose-form-group"><label for="">Choose</label><div class="checkbox"><label for=""><input type="checkbox" name="choose[]" value="1" checked>Choose</label></div><div class="checkbox"><label for=""><input type="checkbox" name="choose[]" value="2">Something</label></div><div class="checkbox"><label for=""><input type="checkbox" name="choose[]" value="3">Now</label></div><div class="checkbox"><label for=""><input type="checkbox" name="choose[]" value="4">Or</label></div><div class="checkbox"><label for=""><input type="checkbox" name="choose[]" value="5" checked>Else</label></div></div></form>'."\n", $html);
     }
 
     public function testRenderCheckboxInline()
@@ -98,7 +98,7 @@ class CheckboxTest extends Test
         $checkbox->setRenderInline(true);
         $form->addField($checkbox);
         $html = $form->render();
-        $this->assertEquals('<form name="checkboxtest" method="post" id="checkboxtest"><div class="form-group"><label for="">Choose</label><label for="" class="checkbox-inline"><input type="checkbox" name="choose[]" value="1">Choose</label><label for="" class="checkbox-inline"><input type="checkbox" name="choose[]" value="2">Something</label></div></form>'."\n", $html);
+        $this->assertEquals('<form name="checkboxtest" method="post" id="checkboxtest"><div class="form-group" id="choose-form-group"><label for="">Choose</label><label for="" class="checkbox-inline"><input type="checkbox" name="choose[]" value="1">Choose</label><label for="" class="checkbox-inline"><input type="checkbox" name="choose[]" value="2">Something</label></div></form>'."\n", $html);
     }
 
     public function testRendererThrowsException()
