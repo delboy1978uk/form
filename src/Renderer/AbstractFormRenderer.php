@@ -15,13 +15,13 @@ use Del\Form\Renderer\Error\DefaultErrorRender;
 use Del\Form\Renderer\Error\ErrorRendererInterface;
 use Del\Form\Traits\HasDomTrait;
 use DOMDocument;
-use DomElement;
+use DOMElement;
 
 abstract class AbstractFormRenderer implements FormRendererInterface
 {
     use HasDomTrait;
 
-    /** @var DomElement $form */
+    /** @var DOMElement $form */
     protected $form;
 
     /** @var bool $displayErrors */
@@ -30,19 +30,19 @@ abstract class AbstractFormRenderer implements FormRendererInterface
     /** @var ErrorRendererInterface $errorRenderer */
     protected $errorRenderer;
 
-    /** @var DomElement $label The label element */
+    /** @var DOMElement $label The label element */
     protected $label;
 
-    /** @var DomElement $element the field element */
+    /** @var DOMElement $element the field element */
     protected $element;
 
-    /** @var DomElement $errors The error block html */
+    /** @var null|\DOMElement $errors The error block html */
     protected $errors;
 
-    /** @var DomElement $block The containing html block */
+    /** @var DOMElement $block The containing html block */
     protected $block;
 
-    /** @var DomElement $dynamicContainerBlock */
+    /** @var DOMElement $dynamicContainerBlock */
     protected $dynamicContainerBlock;
 
     /** @var FieldInterface $field The current field being processed */
@@ -172,7 +172,7 @@ abstract class AbstractFormRenderer implements FormRendererInterface
 
     /**
      * This creates a containing div for dynamic fields which appear only on another fields value
-     * @param null $dynamicTriggerValue
+     * @param null|string $dynamicTriggerValue
      */
     private function createNewDynamicContainerBlockIfNeeded($dynamicTriggerValue)
     {
