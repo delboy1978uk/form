@@ -16,6 +16,9 @@ class FileUpload extends FieldAbstract implements FieldInterface
     /** @var string $uploadDirectory */
     private $uploadDirectory;
 
+    /** @var array $_FILES */
+    private $files;
+
     /**
      * @return string
      */
@@ -28,9 +31,10 @@ class FileUpload extends FieldAbstract implements FieldInterface
     {
         $this->setAttribute('type', 'file');
         $this->setRenderer(new FileUploadRender());
+        $this->files = $_FILES;
 
         if ($this->hasUploadedFile()) {
-            $this->setValue($_FILES[$this->getName()]['name']);
+            $this->setValue($this->files[$this->getName()]['name']);
         }
     }
 
@@ -47,7 +51,7 @@ class FileUpload extends FieldAbstract implements FieldInterface
      */
     private function isFileArraySet()
     {
-        return isset($_FILES[$this->getName()]);
+        return isset($this->files[$this->getName()]);
     }
 
     /**
@@ -55,7 +59,7 @@ class FileUpload extends FieldAbstract implements FieldInterface
      */
     private function isTempNameSet()
     {
-        return isset($_FILES[$this->getName()]['tmp_name']);
+        return isset($this->files[$this->getName()]['tmp_name']);
     }
 
     /**
@@ -96,8 +100,8 @@ class FileUpload extends FieldAbstract implements FieldInterface
         if (!$this->hasUploadDirectory()) {
             throw new LogicException('No destination directory set using setUploadDirectory($path)');
         }
-        $tmp = $_FILES[$this->getName()]['tmp_name'];
-        $destination = $this->getUploadDirectory().DIRECTORY_SEPARATOR.$_FILES[$this->getName()]['name'];
+        $tmp = $this->files[$this->getName()]['tmp_name'];
+        $destination = $this->getUploadDirectory().DIRECTORY_SEPARATOR.$this->files[$this->getName()]['name'];
         $success = move_uploaded_file($tmp, $destination);
         return $success;
     }
