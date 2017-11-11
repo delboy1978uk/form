@@ -7,8 +7,6 @@
 
 namespace Del\Form\Collection;
 
-use Del\Common\Collection\AbstractCollection;
-use Del\Common\Collection\CollectionInterface;
 use Del\Form\Validator\ValidatorInterface;
 use InvalidArgumentException;
 

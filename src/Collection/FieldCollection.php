@@ -7,8 +7,6 @@
 
 namespace Del\Form\Collection;
 
-use Del\Common\Collection\AbstractCollection;
-use Del\Common\Collection\CollectionInterface;
 use Del\Form\Field\FieldInterface;
 
 class FieldCollection extends AbstractCollection implements CollectionInterface
