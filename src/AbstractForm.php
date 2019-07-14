@@ -57,8 +57,9 @@ abstract class AbstractForm implements FormInterface
 
     /**
      * @return bool
+     * @throws \Exception
      */
-    public function isValid()
+    public function isValid(): bool
     {
         $this->errorMessages = [];
         $fields = $this->fieldCollection;
@@ -71,10 +72,16 @@ abstract class AbstractForm implements FormInterface
         return $valid;
     }
 
+    public function getErrorMessages(): array
+    {
+        return $this->errorMessages;
+    }
+
     /**
      * @param FieldCollection $fields
+     * @throws \Exception
      */
-    private function validateFields(FieldCollection $fields)
+    private function validateFields(FieldCollection $fields): void
     {
         $fields->rewind();
         while ($fields->valid()) {
@@ -87,6 +94,7 @@ abstract class AbstractForm implements FormInterface
 
     /**
      * @param FieldInterface $field
+     * @throws \Exception
      */
     private function checkFieldForErrors(FieldInterface $field)
     {
@@ -95,6 +103,9 @@ abstract class AbstractForm implements FormInterface
         }
     }
 
+    /**
+     * @param FieldInterface $field
+     */
     public function checkDynamicFormsForErrors(FieldInterface $field)
     {
         if ($field->hasDynamicForms()) {
@@ -232,7 +243,7 @@ abstract class AbstractForm implements FormInterface
     /**
      * @return string
      */
-    public function render()
+    public function render(): string
     {
         return $this->formRenderer->render($this, $this->isDisplayErrors());
     }
@@ -244,6 +255,7 @@ abstract class AbstractForm implements FormInterface
     public function setAction($url)
     {
         $this->setAttribute('action', $url);
+
         return $this;
     }
 
@@ -270,6 +282,7 @@ abstract class AbstractForm implements FormInterface
     public function setId($id)
     {
         $this->setAttribute('id', $id);
+
         return $this;
     }
 
@@ -280,6 +293,7 @@ abstract class AbstractForm implements FormInterface
     public function setEncType($encType)
     {
         $this->setAttribute('enctype', $encType);
+
         return $this;
     }
 
@@ -298,6 +312,7 @@ abstract class AbstractForm implements FormInterface
     public function setMethod($method)
     {
         $this->setAttribute('method', $method);
+
         return $this;
     }
 
@@ -316,6 +331,7 @@ abstract class AbstractForm implements FormInterface
     public function setClass($class)
     {
         $this->setAttribute('class', $class);
+
         return $this;
     }
 
@@ -342,6 +358,7 @@ abstract class AbstractForm implements FormInterface
     public function setDisplayErrors($displayErrors)
     {
         $this->displayErrors = $displayErrors;
+
         return $this;
     }
 
@@ -349,13 +366,14 @@ abstract class AbstractForm implements FormInterface
      * @param FormRendererInterface $renderer
      * @return AbstractForm
      */
-    public function setFormRenderer(FormRendererInterface $renderer)
+    public function setFormRenderer(FormRendererInterface $renderer): AbstractForm
     {
         $this->formRenderer = $renderer;
+
         return $this;
     }
 
-    public function moveUploadedFiles()
+    public function moveUploadedFiles(): void
     {
         $this->fieldCollection->rewind();
         while ($this->fieldCollection->valid()) {
@@ -369,7 +387,7 @@ abstract class AbstractForm implements FormInterface
      * @param FieldInterface $field
      * @return bool
      */
-    public function moveFileIfUploadField(FieldInterface $field)
+    public function moveFileIfUploadField(FieldInterface $field): bool
     {
         if ($field instanceof FileUpload) {
             $field->moveUploadToDestination();

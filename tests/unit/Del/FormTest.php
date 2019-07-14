@@ -394,4 +394,16 @@ class FormTest extends Test
         }
         $this->assertTrue($removed);
     }
+
+    public function testGetErrorMessages()
+    {
+        $text = new Text('name');
+        $text->setRequired(true);
+        $form = new Form('person');
+        $form->addField($text);
+        $this->assertFalse($form->isValid());
+        $errors = $form->getErrorMessages();
+        $this->assertCount(1, $errors);
+        $this->assertArrayHasKey('name', $errors);
+    }
 }
