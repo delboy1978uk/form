@@ -9,6 +9,7 @@
     }
   ],
   "require": {
+    "php": "^7.3",
     "zendframework/zend-validator": "^2.8",
     "zendframework/zend-filter": "^2.7"
   },
