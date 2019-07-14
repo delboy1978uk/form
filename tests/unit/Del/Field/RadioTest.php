@@ -105,4 +105,21 @@ class RadioTest extends Test
         $html = $form->render();
         $this->assertEquals('<form name="checkboxtest" method="post" id="checkboxtest"><div class="form-group" id="choose-form-group"><label for="">Choose</label><label for="" class="radio-inline"><input type="radio" name="choose" value="1">hello</label><label for="" class="radio-inline"><input type="radio" name="choose" value="2">hello</label><label for="" class="radio-inline"><input type="radio" name="choose" value="3" checked>hello</label></div></form>'."\n", $html);
     }
+
+    public function testRenderRadioWithValue()
+    {
+        $form = new Form('choose');
+        $radio = new Radio('selection');
+        $radio->setOptions([
+            'MCD' => 'McDonalds',
+            'BK' => 'Burger King',
+            'Q' => 'Quick',
+        ]);
+        $form->addField($radio);
+        $form->populate([
+            'selection' => 'Q',
+        ]);
+        $html = $form->render();
+        $this->assertEquals('<form name="choose" method="post" id="choose"><div class="form-group" id="selection-form-group"><label for=""></label><div class="radio"><label for=""><input type="radio" name="selection" value="MCD">McDonalds</label></div><div class="radio"><label for=""><input type="radio" name="selection" value="BK">Burger King</label></div><div class="radio"><label for=""><input type="radio" name="selection" value="Q" checked>Quick</label></div></div></form>'."\n", $html);
+    }
 }
