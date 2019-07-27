@@ -256,7 +256,7 @@ class FormTest extends Test
         $filters = $text->getFilters();
         $values = $form->getValues();
         $this->assertInstanceOf('Del\Form\Collection\FilterCollection', $filters);
-        $this->assertEquals(4, count($filters));
+        $this->assertEquals(5, count($filters));
         $this->assertArrayHasKey('username', $values);
         $this->assertEquals('Delboy1978uk', $values['username']);
     }

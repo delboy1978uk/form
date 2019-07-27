@@ -103,7 +103,7 @@ class CheckboxRender extends AbstractFieldRender implements FieldRendererInterfa
         $radio->setAttribute('value', $value);
         $text = $this->createText($labelText);
 
-        if (in_array($value, $field->getValue())) {
+        if ($field->getValue() !== null && in_array($value, $field->getValue())) {
             $radio->setAttribute('checked', 'checked');
         }
 

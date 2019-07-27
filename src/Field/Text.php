@@ -29,7 +29,7 @@ class Text extends FieldAbstract
         $stringTrim = new FilterAdapterZf(new StringTrim());
         $stripTags = new FilterAdapterZf(new StripTags());
         $this->addFilter($stringTrim)
-            ->addFilter($stripTags);
+             ->addFilter($stripTags);
     }
 
     /**
