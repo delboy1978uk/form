@@ -21,6 +21,9 @@ class CheckboxRender extends AbstractFieldRender implements FieldRendererInterfa
     /** @var DOMDocumentFragment $div */
     private $fragment;
 
+    /** @var bool $isMultiCheckbox */
+    private $isMultiCheckbox = false;
+
     /**
      * @param FieldInterface $field
      * @param DOMElement $element
@@ -46,6 +49,7 @@ class CheckboxRender extends AbstractFieldRender implements FieldRendererInterfa
         }
 
         // Loop through each checkbox element (the options)
+        $this->isMultiCheckbox = count($options) > 1;
         foreach ($options as $value => $label) {
             $radio = $this->processOption($field, $value, $label, $inline);
             $this->fragment->appendChild($radio);
@@ -99,11 +103,13 @@ class CheckboxRender extends AbstractFieldRender implements FieldRendererInterfa
 
         $radio = $this->getDom()->createElement('input');
         $radio->setAttribute('type', 'checkbox');
-        $radio->setAttribute('name', $field->getName().'[]');
+        $fieldName = $this->isMultiCheckbox ? $field->getName() . '[]' : $field->getName();
+        $radio->setAttribute('name', $fieldName);
         $radio->setAttribute('value', $value);
         $text = $this->createText($labelText);
+        $fieldValue = $field->getValue();
 
-        if ($field->getValue() !== null && in_array($value, $field->getValue())) {
+        if ($fieldValue === true || (is_array($fieldValue) && in_array($value, $fieldValue, true))) {
             $radio->setAttribute('checked', 'checked');
         }
 
@@ -112,6 +118,4 @@ class CheckboxRender extends AbstractFieldRender implements FieldRendererInterfa
 
         return $label;
     }
-
-
 }

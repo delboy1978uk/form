@@ -256,7 +256,7 @@ class FormTest extends Test
         $filters = $text->getFilters();
         $values = $form->getValues();
         $this->assertInstanceOf('Del\Form\Collection\FilterCollection', $filters);
-        $this->assertEquals(5, count($filters));
+        $this->assertCount(5, $filters);
         $this->assertArrayHasKey('username', $values);
         $this->assertEquals('Delboy1978uk', $values['username']);
     }
@@ -285,7 +285,7 @@ class FormTest extends Test
         $name = new Text('Username');
         $email = new Text('Email');
         $radio = new Radio('Radio');
-        $check = new CheckBox('Radio');
+        $check = new CheckBox('check');
         $submit = new Submit('submit');
 
         $radio->setLabel('Choose your meal');
@@ -314,7 +314,7 @@ class FormTest extends Test
         $form->addField($submit);
 
         $html = $form->render();
-        $this->assertEquals('<form name="testform" method="post" id="testform"><div class="form-group" id="Username-form-group"><label for="">User Name</label><input name="Username" type="text" class="form-control" placeholder="Enter Some Text"></div><div class="form-group" id="Email-form-group"><label for="">Email Address</label><input name="Email" type="text" class="form-control"></div><div class="form-group" id="Radio-form-group"><label for="">Choose your meal</label><div class="radio"><label for=""><input type="radio" name="Radio" value="1">Chicken</label></div><div class="radio"><label for=""><input type="radio" name="Radio" value="2">Beef</label></div><div class="radio"><label for=""><input type="radio" name="Radio" value="3">Pork</label></div></div><div class="form-group" id="Radio-form-group"><label for="">Mailing List</label><div class="checkbox"><label for=""><input type="checkbox" name="Radio[]" value="spam">Spam my inbox</label></div></div><div class="form-group" id="submit-form-group"><label for=""></label><input name="submit" value="submit" type="submit" class="btn btn-primary"></div></form>'."\n", $html);
+        $this->assertEquals('<form name="testform" method="post" id="testform"><div class="form-group" id="Username-form-group"><label for="">User Name</label><input name="Username" type="text" class="form-control" placeholder="Enter Some Text"></div><div class="form-group" id="Email-form-group"><label for="">Email Address</label><input name="Email" type="text" class="form-control"></div><div class="form-group" id="Radio-form-group"><label for="">Choose your meal</label><div class="radio"><label for=""><input type="radio" name="Radio" value="1">Chicken</label></div><div class="radio"><label for=""><input type="radio" name="Radio" value="2">Beef</label></div><div class="radio"><label for=""><input type="radio" name="Radio" value="3">Pork</label></div></div><div class="form-group" id="check-form-group"><label for="">Mailing List</label><div class="checkbox"><label for=""><input type="checkbox" name="check" value="spam">Spam my inbox</label></div></div><div class="form-group" id="submit-form-group"><label for=""></label><input name="submit" value="submit" type="submit" class="btn btn-primary"></div></form>'."\n", $html);
     }
 
 

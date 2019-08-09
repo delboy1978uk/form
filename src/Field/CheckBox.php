@@ -52,12 +52,16 @@ class CheckBox extends FieldAbstract implements ArrayValueInterface
      */
     public function uncheckValue($key)
     {
-        $values = $this->getValue();
-        if (in_array($key, $values)) {
-            $index = array_search($key, $values);
-            unset($values[$index]);
+        $value = $this->getValue();
+
+        if (is_array($value) && in_array($key, $value, true)) {
+            $index = array_search($key, $value, true);
+            unset($value[$index]);
+            $this->setValue($value);
+        } else {
+            $this->setValue(null);
         }
-        $this->setValue($values);
+
         return $this;
     }
 }
