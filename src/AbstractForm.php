@@ -8,6 +8,7 @@
 namespace Del\Form;
 
 use Del\Form\Collection\FieldCollection;
+use Del\Form\Field\CheckBox;
 use Del\Form\Field\FieldInterface;
 use Del\Form\Field\FileUpload;
 use Del\Form\Renderer\FormRenderer;
@@ -206,6 +207,8 @@ abstract class AbstractForm implements FormInterface
         $name = $field->getName();
         if (isset($data[$name])) {
             $field->setValue($data[$name]);
+        } elseif ($field instanceof CheckBox) {
+            $field->setValue(false);
         }
         if ($field->hasDynamicForms()) {
             $forms = $field->getDynamicForms();
