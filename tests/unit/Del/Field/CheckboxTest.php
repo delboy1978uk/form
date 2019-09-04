@@ -131,7 +131,6 @@ class CheckboxTest extends Test
         $checkbox->setOptions([
             1 => 'Agree',
         ]);
-        $checkbox->setValue(1);
         $form->addField($checkbox);
         $html = $form->render();
         $this->assertEquals('<form name="checkboxtest" method="post" id="checkboxtest"><div class="form-group" id="choose-form-group"><label for="">Choose</label><div class="checkbox"><label for=""><input type="checkbox" name="choose" value="1">Agree</label></div></div></form>' . "\n", $html);
