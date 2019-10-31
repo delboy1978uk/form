@@ -1,9 +1,4 @@
 <?php
-/**
- * User: delboy1978uk
- * Date: 19/11/2016
- * Time: 12:13
- */
 
 namespace Del\Form;
 
@@ -42,7 +37,7 @@ abstract class AbstractForm implements FormInterface
      * AbstractForm constructor.
      * @param $name
      */
-    public function __construct($name)
+    public function __construct(string $name)
     {
         $this->fieldCollection = new FieldCollection();
         $this->formRenderer = new FormRenderer();
@@ -97,7 +92,7 @@ abstract class AbstractForm implements FormInterface
      * @param FieldInterface $field
      * @throws \Exception
      */
-    private function checkFieldForErrors(FieldInterface $field)
+    private function checkFieldForErrors(FieldInterface $field): void
     {
         if (!$field->isValid()) {
             $this->errorMessages[$field->getName()] = $field->getMessages();
@@ -107,7 +102,7 @@ abstract class AbstractForm implements FormInterface
     /**
      * @param FieldInterface $field
      */
-    public function checkDynamicFormsForErrors(FieldInterface $field)
+    public function checkDynamicFormsForErrors(FieldInterface $field): void
     {
         if ($field->hasDynamicForms()) {
             $forms = $field->getDynamicForms();
@@ -123,11 +118,12 @@ abstract class AbstractForm implements FormInterface
     /**
      * @return array
      */
-    public function getValues()
+    public function getValues(): array
     {
         $values = [];
         $fields = $this->fieldCollection;
         $values = $this->getFieldValues($fields, $values);
+        
         return $values;
     }
 
@@ -136,14 +132,21 @@ abstract class AbstractForm implements FormInterface
      * @param array $values
      * @return array
      */
-    private function getFieldValues(FieldCollection $fields, array $values)
+    private function getFieldValues(FieldCollection $fields, array $values): array
     {
         $fields->rewind();
+
         while ($fields->valid()) {
             /** @var FieldInterface $field */
             $field = $fields->current();
             $value = $field->getValue();
+
+            if ($field->hasTransformer()) {
+                $value = $field->getTransformer()->output($value);
+            }
+
             $values[$field->getName()] = $value;
+
             if ($field->hasDynamicForms()) {
                 $forms = $field->getDynamicForms();
                 if (isset($forms[$value])) {
@@ -152,29 +155,30 @@ abstract class AbstractForm implements FormInterface
                     $values = $this->getFieldValues($dynamicFormFields, $values);
                 }
             }
+
             $fields->next();
         }
+
         $fields->rewind();
+
         return $values;
     }
 
     /**
      * @param array $data
-     * @return $this
      */
-    public function populate(array $data)
+    public function populate(array $data): void
     {
         $fields = $this->fieldCollection;
         $this->populateFields($fields, $data);
         $this->displayErrors = true;
-        return $this;
     }
 
     /**
      * @param array $dynamicForms
      * @param array $data
      */
-    private function populateDynamicForms(array $dynamicForms, array $data)
+    private function populateDynamicForms(array $dynamicForms, array $data): void
     {
         /** @var FormInterface $form **/
         foreach ($dynamicForms as $form) {
@@ -187,7 +191,7 @@ abstract class AbstractForm implements FormInterface
      * @param FieldCollection $fields
      * @param array $data
      */
-    private function populateFields(FieldCollection $fields, array $data)
+    private function populateFields(FieldCollection $fields, array $data): void
     {
         $fields->rewind();
         while ($fields->valid()) {
@@ -202,14 +206,19 @@ abstract class AbstractForm implements FormInterface
      * @param FieldInterface $field
      * @param array $data
      */
-    private function populateField(FieldInterface $field, array $data)
+    private function populateField(FieldInterface $field, array $data): void
     {
         $name = $field->getName();
-        if (isset($data[$name])) {
+
+        if (isset($data[$name]) && $field->hasTransformer()) {
+            $value = $field->getTransformer()->input($data[$name]);
+            $field->setValue($value);
+        } elseif (isset($data[$name])) {
             $field->setValue($data[$name]);
         } elseif ($field instanceof CheckBox) {
             $field->setValue(false);
         }
+        
         if ($field->hasDynamicForms()) {
             $forms = $field->getDynamicForms();
             $this->populateDynamicForms($forms, $data);
@@ -220,7 +229,7 @@ abstract class AbstractForm implements FormInterface
      * @param string $name
      * @return FieldInterface|null
      */
-    public function getField($name)
+    public function getField($name): ?FieldInterface
     {
         return $this->fieldCollection->findByName($name);
     }
@@ -228,19 +237,17 @@ abstract class AbstractForm implements FormInterface
     /**
      * @return FieldCollection
      */
-    public function getFields()
+    public function getFields(): FieldCollection
     {
         return $this->fieldCollection;
     }
 
     /**
      * @param FieldInterface $field
-     * @return $this
      */
-    public function addField(FieldInterface $field)
+    public function addField(FieldInterface $field): void
     {
         $this->fieldCollection->append($field);
-        return $this;
     }
 
     /**
@@ -253,19 +260,16 @@ abstract class AbstractForm implements FormInterface
 
     /**
      * @param $url
-     * @return $this
      */
-    public function setAction($url)
+    public function setAction($url): void
     {
         $this->setAttribute('action', $url);
-
-        return $this;
     }
 
     /**
      * @return string
      */
-    public function getAction()
+    public function getAction(): string
     {
         return $this->getAttribute('action');
     }
@@ -273,37 +277,31 @@ abstract class AbstractForm implements FormInterface
     /**
      * @return string
      */
-    public function getId()
+    public function getId(): string
     {
         return $this->getAttribute('id');
     }
 
     /**
      * @param string $id
-     * @return $this
      */
-    public function setId($id)
+    public function setId(string $id): void
     {
         $this->setAttribute('id', $id);
-
-        return $this;
     }
 
     /**
      * @param $encType
-     * @return $this
      */
-    public function setEncType($encType)
+    public function setEncType(string $encType): void
     {
         $this->setAttribute('enctype', $encType);
-
-        return $this;
     }
 
     /**
      * @return string
      */
-    public function getEncType()
+    public function getEncType(): string
     {
         return $this->getAttribute('enctype');
     }
@@ -312,7 +310,7 @@ abstract class AbstractForm implements FormInterface
      * @param string $method
      * @return FormInterface
      */
-    public function setMethod($method)
+    public function setMethod(string $method): void
     {
         $this->setAttribute('method', $method);
 
@@ -322,26 +320,23 @@ abstract class AbstractForm implements FormInterface
     /**
      * @return string
      */
-    public function getMethod()
+    public function getMethod(): string
     {
         return $this->getAttribute('method');
     }
 
     /**
      * @param $class
-     * @return FormInterface
      */
-    public function setClass($class)
+    public function setClass(string $class): void
     {
         $this->setAttribute('class', $class);
-
-        return $this;
     }
 
     /**
      * @return string
      */
-    public function getClass()
+    public function getClass(): string
     {
         return $this->getAttribute('class');
     }
@@ -349,20 +344,17 @@ abstract class AbstractForm implements FormInterface
     /**
      * @return boolean
      */
-    public function isDisplayErrors()
+    public function isDisplayErrors(): bool
     {
         return $this->displayErrors;
     }
 
     /**
-     * @param boolean $displayErrors
-     * @return AbstractForm
+     * @param boolean $displayError
      */
-    public function setDisplayErrors($displayErrors)
+    public function setDisplayErrors($displayErrors): void
     {
         $this->displayErrors = $displayErrors;
-
-        return $this;
     }
 
     /**

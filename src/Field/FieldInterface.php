@@ -83,6 +83,22 @@ interface FieldInterface
     public function getFilters();
 
     /**
+     * @param FilterInterface $filter
+     * @return $this
+     */
+    public function setTransformer(TransformerInterface $transformer);
+
+    /**
+     * @return TransformerInterface
+     */
+    public function getTransformer(): TransformerInterface;
+
+    /**
+     * @return bool
+     */
+    public function hasTransformer(): bool;
+
+    /**
      * @return bool
      * @throws Exception If validation of $value is impossible
      */

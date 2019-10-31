@@ -32,6 +32,9 @@ abstract class FieldAbstract implements FieldInterface
     /**  @var ValidatorCollection $validatorCollection */
     private $validatorCollection;
 
+    /**  @var ValidatorCollection $validatorCollection */
+    private $transformer;
+
     /** @var FieldRendererInterface $renderer  */
     private $renderer;
 
@@ -167,7 +170,31 @@ abstract class FieldAbstract implements FieldInterface
     public function addFilter(FilterInterface $filter)
     {
         $this->filterCollection->append($filter);
-        return $this;
+    }
+
+    /**
+     * @param FilterInterface $filter
+     * @return $this
+     */
+    public function setTransformer(TransformerInterface $transformer)
+    {
+        $this->transformer = $filter;
+    }
+
+    /**
+     * @return TransformerInterface
+     */
+    public function getTransformer(): TransformerInterface
+    {
+        return $this->transformer;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasTransformer(): bool
+    {
+        return $this->transformer instanceof TransformerInterface;
     }
 
     /**
