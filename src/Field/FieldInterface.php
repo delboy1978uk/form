@@ -123,7 +123,7 @@ interface FieldInterface
      * @param $key
      * @param $value
      */
-    public function setAttribute(string $key, string $value): void;
+    public function setAttribute(string $key, $value): void;
 
     /**
      * @param array $attributes
