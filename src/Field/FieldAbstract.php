@@ -350,9 +350,9 @@ abstract class FieldAbstract implements FieldInterface
 
     /**
      * @param FormInterface $form
-     * @param $triggerValue
+     * @param string $triggerValue
      */
-    public function addDynamicForm(FormInterface $form, $triggerValue): void
+    public function addDynamicForm(FormInterface $form, string $triggerValue): void
     {
         $this->dynamicFormCollection[$triggerValue] = $form;
     }
