@@ -17,12 +17,12 @@ class CheckBox extends FieldAbstract implements ArrayValueInterface
      *
      * @return string
      */
-    public function getTag()
+    public function getTag(): string
     {
         return 'div';
     }
 
-    public function init()
+    public function init(): void
     {
         $this->setValue([]);
         $this->setRenderInline(false);
@@ -31,21 +31,18 @@ class CheckBox extends FieldAbstract implements ArrayValueInterface
 
     /**
      * @param $key
-     * @return $this
      */
-    public function checkValue($key)
+    public function checkValue($key): void
     {
         $values = $this->getValue();
         $values[$key] = true;
         $this->setValue($values);
-        return $this;
     }
 
     /**
      * @param $key
-     * @return $this
      */
-    public function uncheckValue($key)
+    public function uncheckValue($key): void
     {
         $value = $this->getValue();
 
@@ -56,7 +53,5 @@ class CheckBox extends FieldAbstract implements ArrayValueInterface
         } else {
             $this->setValue(null);
         }
-
-        return $this;
     }
 }

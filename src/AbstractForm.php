@@ -218,7 +218,7 @@ abstract class AbstractForm implements FormInterface
         } elseif ($field instanceof CheckBox) {
             $field->setValue(false);
         }
-        
+
         if ($field->hasDynamicForms()) {
             $forms = $field->getDynamicForms();
             $this->populateDynamicForms($forms, $data);
@@ -277,7 +277,7 @@ abstract class AbstractForm implements FormInterface
     /**
      * @return string
      */
-    public function getId(): string
+    public function getId(): ?string
     {
         return $this->getAttribute('id');
     }
@@ -313,8 +313,6 @@ abstract class AbstractForm implements FormInterface
     public function setMethod(string $method): void
     {
         $this->setAttribute('method', $method);
-
-        return $this;
     }
 
     /**

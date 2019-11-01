@@ -21,12 +21,12 @@ class Radio extends FieldAbstract implements ArrayValueInterface
      *
      * @return string
      */
-    public function getTag()
+    public function getTag(): string
     {
         return 'div';
     }
 
-    public function init()
+    public function init(): void
     {
         $this->setRenderInline(false);
         $this->setRenderer(new RadioRender());

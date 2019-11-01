@@ -334,8 +334,8 @@ class FormTest extends Test
     {
         $form = new Form('testform');
         $text = new Text('text');
-        $text->setCustomErrorMessage('This can\'t be empty!')
-             ->setRequired(true);
+        $text->setCustomErrorMessage('This can\'t be empty!');
+        $text->setRequired(true);
         $form->addField($text);
         $form->populate(['text' => null]);
         $html = $form->render();
@@ -385,6 +385,7 @@ class FormTest extends Test
         $email->setRequired(false);
         $removed = true;
         $validators = $email->getValidators();
+
         while ($validators->valid()) {
             $validator = $validators->current();
             if ($validator instanceof NotEmpty) {
@@ -392,6 +393,7 @@ class FormTest extends Test
             }
             $validators->next();
         }
+
         $this->assertTrue($removed);
     }
 

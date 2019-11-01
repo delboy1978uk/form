@@ -1,9 +1,4 @@
 <?php
-/**
- * User: delboy1978uk
- * Date: 05/12/2016
- * Time: 00:57
- */
 
 namespace Del\Form\Field;
 
@@ -17,12 +12,12 @@ class Select extends FieldAbstract
     /**
      * @return string
      */
-    public function getTag()
+    public function getTag(): string
     {
         return 'select';
     }
 
-    public function init()
+    public function init(): void
     {
         $this->setAttribute('type', 'text');
         $this->setAttribute('class', 'form-control');

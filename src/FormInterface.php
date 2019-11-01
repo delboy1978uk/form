@@ -1,9 +1,4 @@
 <?php
-/**
- * User: delboy1978uk
- * Date: 19/11/2016
- * Time: 12:12
- */
 
 namespace Del\Form;
 
@@ -15,128 +10,120 @@ interface FormInterface
     /**
      * @return bool
      */
-    public function isValid();
+    public function isValid(): bool;
 
     /**
      * @return array
      */
-    public function getValues();
+    public function getValues(): array;
 
     /**
      * @param array $values
-     * @return FormInterface
      */
-    public function populate(array $values);
+    public function populate(array $values): void;
 
     /**
      * @param string $name
      * @return null|FieldInterface
      */
-    public function getField($name);
+    public function getField(string $name): ?FieldInterface;
 
     /**
      * @return FieldCollection
      */
-    public function getFields();
+    public function getFields(): FieldCollection;
 
     /**
      * @param FieldInterface $field
-     * @return FormInterface
      */
-    public function addField(FieldInterface $field);
+    public function addField(FieldInterface $field): void;
 
     /**
      * @return string
      */
-    public function render();
+    public function render(): string;
 
     /**
      * @param string $url
-     * @return FormInterface
      */
-    public function setAction($url);
+    public function setAction(string $url): void;
 
     /**
      * @return string
      */
-    public function getAction();
+    public function getAction(): string;
 
     /**
      * @return string
      */
-    public function getId();
+    public function getId(): ?string;
 
     /**
      * @param string $id
-     * @return FormInterface
      */
-    public function setId($id);
+    public function setId(string $id): void;
 
     /**
      * @param string $encType
-     * @return $this
      */
-    public function setEncType($encType);
+    public function setEncType(string $encType): void;
 
     /**
      * @return string
      */
-    public function getEncType();
+    public function getEncType(): string;
 
     /**
      * @param string $method
-     * @return FormInterface
      */
-    public function setMethod($method);
+    public function setMethod(string $method): void;
 
     /**
      * @return string
      */
-    public function getMethod();
+    public function getMethod(): string;
 
     /**
      * @param string $class
-     * @return FormInterface
      */
-    public function setClass($class);
+    public function setClass(string $class): void;
 
     /**
      * @return string
      */
-    public function getClass();
+    public function getClass(): string;
 
     /**
-     * @param $key
-     * @return mixed|string
+     * @param string $key
+     * @return mixed
      */
-    public function getAttribute($key);
+    public function getAttribute(string $key);
 
     /**
      * @param $key
      * @param $value
      * @return $this
      */
-    public function setAttribute($key, $value);
+    public function setAttribute(string $key, string $value): void;
 
     /**
      * @param array $attributes
-     * @return $this
      */
-    public function setAttributes(array $attributes);
+    public function setAttributes(array $attributes): void;
 
     /**
      * @return array
      */
-    public function getAttributes();
+    public function getAttributes(): array;
 
     /**
      * @return boolean
      */
-    public function isDisplayErrors();
+    public function isDisplayErrors(): bool;
 
     /**
      * @param boolean $displayErrors
      * @return AbstractForm
      */
-    public function setDisplayErrors($displayErrors);
+    public function setDisplayErrors(bool $displayErrors): void;
 }

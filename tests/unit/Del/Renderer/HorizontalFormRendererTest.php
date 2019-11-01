@@ -48,10 +48,10 @@ class HorizontalFormRendererTest extends Test
         $submit = new Submit('submit');
         $submit->setValue('Sign in');
 
-        $form->addField($email)
-            ->addField($password)
-            ->addField($remember)
-            ->addField($submit);
+        $form->addField($email);
+        $form->addField($password);
+        $form->addField($remember);
+        $form->addField($submit);
 
         // Render the form
         $html = $form->render();
@@ -87,11 +87,11 @@ class HorizontalFormRendererTest extends Test
         $submit = new Submit('submit');
         $submit->setValue('Sign in');
 
-        $form->addField($email)
-            ->addField($password)
-            ->addField($remember)
-            ->addField($submit)
-            ->populate([]);
+        $form->addField($email);
+        $form->addField($password);
+        $form->addField($remember);
+        $form->addField($submit);
+        $form->populate([]);;
 
         // Render the form
         $html = $form->render();
