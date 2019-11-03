@@ -261,7 +261,7 @@ abstract class AbstractForm implements FormInterface
     /**
      * @param $url
      */
-    public function setAction($url): void
+    public function setAction(string $url): void
     {
         $this->setAttribute('action', $url);
     }
