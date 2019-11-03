@@ -116,13 +116,14 @@ abstract class AbstractForm implements FormInterface
     }
 
     /**
+     * @param bool $transform
      * @return array
      */
-    public function getValues(): array
+    public function getValues(bool $transform = false): array
     {
         $values = [];
         $fields = $this->fieldCollection;
-        $values = $this->getFieldValues($fields, $values);
+        $values = $this->getFieldValues($fields, $values, $transform);
         
         return $values;
     }
@@ -130,9 +131,10 @@ abstract class AbstractForm implements FormInterface
     /**
      * @param FieldCollection $fields
      * @param array $values
+     * @param bool $transform
      * @return array
      */
-    private function getFieldValues(FieldCollection $fields, array $values): array
+    private function getFieldValues(FieldCollection $fields, array $values, bool $transform): array
     {
         $fields->rewind();
 
@@ -141,7 +143,7 @@ abstract class AbstractForm implements FormInterface
             $field = $fields->current();
             $value = $field->getValue();
 
-            if ($field->hasTransformer()) {
+            if ($transform && $field->hasTransformer()) {
                 $value = $field->getTransformer()->output($value);
             }
 
@@ -152,7 +154,7 @@ abstract class AbstractForm implements FormInterface
                 if (isset($forms[$value])) {
                     $form = $forms[$value];
                     $dynamicFormFields = $form->getFields();
-                    $values = $this->getFieldValues($dynamicFormFields, $values);
+                    $values = $this->getFieldValues($dynamicFormFields, $values, $transform);
                 }
             }
 

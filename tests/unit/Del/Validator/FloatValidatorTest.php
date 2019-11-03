@@ -20,5 +20,6 @@ class FloatValidatorTest extends Test
         $this->assertTrue($validator->isValid('10.34'));
         $this->assertTrue($validator->isValid('19'));
         $this->assertFalse($validator->isValid('hello'));
+        $this->assertEquals('Value is not a float.', $validator->getMessages()[0]);
     }
 }
