@@ -13,9 +13,10 @@ interface FormInterface
     public function isValid(): bool;
 
     /**
+     * @param bool $transform
      * @return array
      */
-    public function getValues(): array;
+    public function getValues(bool $transform = false): array;
 
     /**
      * @param array $values

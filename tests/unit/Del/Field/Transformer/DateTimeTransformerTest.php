@@ -18,11 +18,16 @@ class DateTimeTransformerTest extends Test
         $date->setTransformer(new DateTimeTransformer($format));
         $form->addField($date);
         $form->populate(['date' => '2014-09-18']);
-        $data = $form->getValues();
+        $data = $form->getValues(true);
         $value = $data['date'];
 
         $this->assertInstanceOf(DateTime::class, $value);
         $this->assertEquals('2014-09-18', $value->format($format));
+
+        $data = $form->getValues();
+        $value = $data['date'];
+
+        $this->assertEquals('2014-09-18', $value);
     }
 
     public function testDateTime()
@@ -33,10 +38,15 @@ class DateTimeTransformerTest extends Test
         $date->setTransformer(new DateTimeTransformer($format));
         $form->addField($date);
         $form->populate(['date' => new DateTime('2014-09-18')]);
-        $data = $form->getValues();
+        $data = $form->getValues(true);
         $value = $data['date'];
 
         $this->assertInstanceOf(DateTime::class, $value);
         $this->assertEquals('2014-09-18', $value->format($format));
+
+        $data = $form->getValues();
+        $value = $data['date'];
+
+        $this->assertEquals('2014-09-18', $value);
     }
 }
