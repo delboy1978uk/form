@@ -5,8 +5,8 @@ A super easy Bootstrap ready HTML form generator for PHP
 
 ![An example generated form](https://raw.githubusercontent.com/delboy1978uk/form/master/tests/_data/form.png)
 
-v1.1.0 Now has 'Dynamic Form' functionality. You can add child forms to fields like radio buttons, and have the form 
-appear on selecting the trigger value. See the [Dynamic Form](#dynamic-forms) section of this readme. 
+v1.6.0 Now has 'Field Transformer' functionality. You can add data transformers to fields to have them conert objects 
+into form data, and vice versa. See the [Transformers](#transformers) section of this readme. 
 
 ## Installation
  Install via composer
@@ -262,4 +262,24 @@ $drinkForm->addField($drinkRadio);
 $drinkForm->addField($moreText);
 $radio->addDynamicForm($drinkForm, 2);
 ```
+### Transformers
+You can create an object implementing `De\Form\Field\TransformerInterface` to take in input and convert to a form value.
+Do the opposite in the output method and return the object representation.
+Bone MVC comes with one built in Transformer for `DateTime` fields:
+```php
+<?php
+ 
+$format = 'Y-m-d';
+$form = new Form('some-form');
+$date = new Text('date');
+$date->setTransformer(new DateTimeTransformer($format));
+$form->addField($date);
+```
+Now the array you populate the form with can contain either the `string` or the `DateTime` representation.
+When getting the values from the form, you pass true to use the transformers:
+```php
+<?php
 
+$values = $form->getValues(); // $values['date'] === '2014-09-18' (for instance)
+$values = $form->getValues(true); // $values['date'] instanceof DateTime
+```
