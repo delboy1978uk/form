@@ -5,7 +5,7 @@ A super easy Bootstrap ready HTML form generator for PHP
 
 ![An example generated form](https://raw.githubusercontent.com/delboy1978uk/form/master/tests/_data/form.png)
 
-v1.6.0 Now has 'Field Transformer' functionality. You can add data transformers to fields to have them conert objects 
+v2.0.0 has been upgraded for PHP 7.1+ and now has 'Field Transformer' functionality. You can add data transformers to fields to have them convert objects 
 into form data, and vice versa. See the [Transformers](#transformers) section of this readme. 
 
 ## Installation
