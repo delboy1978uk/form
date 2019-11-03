@@ -229,7 +229,7 @@ abstract class AbstractForm implements FormInterface
      * @param string $name
      * @return FieldInterface|null
      */
-    public function getField($name): ?FieldInterface
+    public function getField(string $name): ?FieldInterface
     {
         return $this->fieldCollection->findByName($name);
     }
