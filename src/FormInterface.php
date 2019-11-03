@@ -100,11 +100,11 @@ interface FormInterface
     public function getAttribute(string $key);
 
     /**
-     * @param $key
-     * @param $value
+     * @param string $key
+     * @param mixed $value
      * @return $this
      */
-    public function setAttribute(string $key, string $value): void;
+    public function setAttribute(string $key, $value): void;
 
     /**
      * @param array $attributes
