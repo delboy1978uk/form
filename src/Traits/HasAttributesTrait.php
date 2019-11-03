@@ -1,9 +1,4 @@
 <?php
-/**
- * User: delboy1978uk
- * Date: 04/12/2016
- * Time: 15:01
- */
 
 namespace Del\Form\Traits;
 
@@ -14,39 +9,35 @@ trait HasAttributesTrait
     private $attributes = [];
 
     /**
-     * @param $key
-     * @return mixed|string
+     * @param string $key
+     * @return null|mixed
      */
-    public function getAttribute($key)
+    public function getAttribute(string $key)
     {
         return isset($this->attributes[$key]) ? $this->attributes[$key] : null;
     }
 
     /**
-     * @param $key
-     * @param $value
-     * @return $this
+     * @param string $key
+     * @param mixed $value
      */
-    public function setAttribute($key, $value)
+    public function setAttribute(string $key, $value): void
     {
         $this->attributes[$key] = $value;
-        return $this;
     }
 
     /**
      * @param array $attributes
-     * @return $this
      */
-    public function setAttributes(array $attributes)
+    public function setAttributes(array $attributes): void
     {
         $this->attributes = $attributes;
-        return $this;
     }
 
     /**
      * @return array
      */
-    public function getAttributes()
+    public function getAttributes(): array
     {
         return $this->attributes;
     }

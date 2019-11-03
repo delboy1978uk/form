@@ -1,9 +1,4 @@
 <?php
-/**
- * User: delboy1978uk
- * Date: 19/11/2016
- * Time: 21:37
- */
 
 namespace Del\Form\Field;
 
@@ -17,7 +12,7 @@ class TextArea extends FieldAbstract
     /**
      * @return string
      */
-    public function getTag()
+    public function getTag(): string
     {
         return 'textarea';
     }
@@ -29,26 +24,24 @@ class TextArea extends FieldAbstract
         $this->setAttribute('class', 'form-control');
         $stringTrim = new FilterAdapterZf(new StringTrim());
         $stripTags = new FilterAdapterZf(new StripTags());
-        $this->addFilter($stringTrim)
-            ->addFilter($stripTags);
+        $this->addFilter($stringTrim);
+        $this->addFilter($stripTags);
         $this->setRenderer(new TextAreaRender());
     }
 
     /**
      * @return string
      */
-    public function getPlaceholder()
+    public function getPlaceholder(): string
     {
         return $this->getAttribute('placeholder');
     }
 
     /**
      * @param string $placeholder
-     * @return $this
      */
-    public function setPlaceholder($placeholder)
+    public function setPlaceholder(string $placeholder): void
     {
         $this->setAttribute('placeholder', $placeholder);
-        return $this;
     }
 }

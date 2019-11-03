@@ -1,9 +1,4 @@
 <?php
-/**
- * User: delboy1978uk
- * Date: 19/11/2016
- * Time: 21:41
- */
 
 namespace Del\Form\Field;
 
@@ -32,6 +27,9 @@ abstract class FieldAbstract implements FieldInterface
     /**  @var ValidatorCollection $validatorCollection */
     private $validatorCollection;
 
+    /**  @var ValidatorCollection $validatorCollection */
+    private $transformer;
+
     /** @var FieldRendererInterface $renderer  */
     private $renderer;
 
@@ -52,7 +50,7 @@ abstract class FieldAbstract implements FieldInterface
     /**
      * @return string
      */
-    abstract public function getTag();
+    abstract public function getTag(): string;
 
     abstract public function init();
 
@@ -72,43 +70,39 @@ abstract class FieldAbstract implements FieldInterface
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->getAttribute('name');
     }
 
     /**
      * @param string $name
-     * @return FieldAbstract
      */
-    public function setName($name)
+    public function setName(string $name): void
     {
         $this->setAttribute('name', $name);
-        return $this;
     }
 
     /**
      * @return string
      */
-    public function getId()
+    public function getId(): ?string
     {
         return $this->getAttribute('id');
     }
 
     /**
      * @param string $id
-     * @return FieldAbstract
      */
-    public function setId($id)
+    public function setId(string $id): void
     {
         $this->setAttribute('id', $id);
-        return $this;
     }
 
     /**
      * @return string
      */
-    public function getClass()
+    public function getClass(): string
     {
         return $this->getAttribute('class') ?: 'form-control';
     }
@@ -117,10 +111,9 @@ abstract class FieldAbstract implements FieldInterface
      * @param string $class
      * @return FieldAbstract
      */
-    public function setClass($class)
+    public function setClass(string $class): void
     {
         $this->setAttribute('class', $class);
-        return $this;
     }
 
     /**
@@ -132,48 +125,66 @@ abstract class FieldAbstract implements FieldInterface
     }
 
     /**
-     * @param mixed $value
-     * @return FieldAbstract
+     * @param string $value
      */
-    public function setValue($value)
+    public function setValue($value): void
     {
         $this->setAttribute('value', $value);
         $this->filterValue();
-        return $this;
     }
 
     /**
      * @param ValidatorInterface $validator
-     * @return $this
      */
-    public function addValidator(ValidatorInterface $validator)
+    public function addValidator(ValidatorInterface $validator): void
     {
         $this->validatorCollection->append($validator);
-        return $this;
     }
 
     /**
      * @return ValidatorCollection
      */
-    public function getValidators()
+    public function getValidators(): ValidatorCollection
     {
         return $this->validatorCollection;
     }
 
     /**
      * @param FilterInterface $filter
-     * @return $this
      */
-    public function addFilter(FilterInterface $filter)
+    public function addFilter(FilterInterface $filter): void
     {
         $this->filterCollection->append($filter);
-        return $this;
+    }
+
+    /**
+     * @param FilterInterface $transformer
+     */
+    public function setTransformer(TransformerInterface $transformer): void
+    {
+        $this->transformer = $transformer;
+    }
+
+    /**
+     * @return TransformerInterface
+     */
+    public function getTransformer(): TransformerInterface
+    {
+        return $this->transformer;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasTransformer(): bool
+    {
+        return $this->transformer instanceof TransformerInterface;
     }
 
     /**
      * @return FilterCollection
      */
-    public function getFilters()
+    public function getFilters(): FilterCollection
     {
         return $this->filterCollection;
     }
@@ -184,22 +195,25 @@ abstract class FieldAbstract implements FieldInterface
      * @return bool
      * @throws Exception If validation of $value is impossible
      */
-    public function isValid()
+    public function isValid(): bool
     {
         $this->errorMessages = [];
         $this->validatorCollection->rewind();
+
         while ($this->validatorCollection->valid()) {
             $this->checkForErrors($this->validatorCollection->current());
             $this->validatorCollection->next();
         }
-        $count = count($this->errorMessages);
+
+        $count = \count($this->errorMessages);
+
         return $count == 0;
     }
 
     /**
      * @param ValidatorInterface $validator
      */
-    private function checkForErrors(ValidatorInterface $validator)
+    private function checkForErrors(ValidatorInterface $validator): void
     {
         $value = $this->getValue();
 
@@ -208,14 +222,19 @@ abstract class FieldAbstract implements FieldInterface
         }
     }
 
-    private function filterValue()
+    /**
+     * @throws Exception
+     */
+    private function filterValue(): void
     {
         $value = $this->getAttribute('value');
         $this->filterCollection->rewind();
+
         while ($this->filterCollection->valid()) {
             $value = $this->filterCollection->current()->filter($value);
             $this->filterCollection->next();
         }
+
         $this->filterCollection->rewind();
         $this->setAttribute('value', $value);
     }
@@ -223,7 +242,7 @@ abstract class FieldAbstract implements FieldInterface
     /**
      * @return array
      */
-    public function getMessages()
+    public function getMessages(): array
     {
         return array_values($this->errorMessages);
     }
@@ -231,35 +250,31 @@ abstract class FieldAbstract implements FieldInterface
     /**
      * @return string
      */
-    public function getLabel()
+    public function getLabel(): ?string
     {
         return $this->label;
     }
 
     /**
      * @param string $label
-     * @return $this
      */
-    public function setLabel($label)
+    public function setLabel(string $label): void
     {
         $this->label = $label;
-        return $this;
     }
 
     /**
      * @param string $message
-     * @return $this
      */
-    public function setCustomErrorMessage($message)
+    public function setCustomErrorMessage(string $message): void
     {
         $this->customErrorMessage = $message;
-        return $this;
     }
 
     /**
      * @return bool
      */
-    public function hasCustomErrorMessage()
+    public function hasCustomErrorMessage(): bool
     {
         return $this->customErrorMessage != null;
     }
@@ -267,7 +282,7 @@ abstract class FieldAbstract implements FieldInterface
     /**
      * @return string
      */
-    public function getCustomErrorMessage()
+    public function getCustomErrorMessage(): string
     {
         return $this->customErrorMessage;
     }
@@ -275,19 +290,17 @@ abstract class FieldAbstract implements FieldInterface
     /**
      * @return FieldRendererInterface
      */
-    public function getRenderer()
+    public function getRenderer(): FieldRendererInterface
     {
         return $this->renderer;
     }
 
     /**
      * @param FieldRendererInterface $renderer
-     * @return $this
      */
-    public function setRenderer(FieldRendererInterface $renderer)
+    public function setRenderer(FieldRendererInterface $renderer): void
     {
         $this->renderer = $renderer;
-        return $this;
     }
 
     /**
@@ -296,31 +309,36 @@ abstract class FieldAbstract implements FieldInterface
      *
      * @return boolean
      */
-    public function isRequired()
+    public function isRequired(): bool
     {
         return $this->required;
     }
 
     /**
      * @param boolean $required
-     * @return FieldAbstract
      */
-    public function setRequired($required)
+    public function setRequired(bool $required): void
     {
         $required ? $this->addNotEmptyValidator() : $this->removeNotEmptyValidator();
         $this->required = $required;
-        return $this;
     }
 
-    private function addNotEmptyValidator()
+    /**
+     * adds not empty validator
+     */
+    private function addNotEmptyValidator(): void
     {
         $notEmpty = new NotEmpty();
         $this->addValidator($notEmpty);
     }
 
-    private function removeNotEmptyValidator()
+    /**
+     *  removes not empty validator
+     */
+    private function removeNotEmptyValidator(): void
     {
         $this->validatorCollection->rewind();
+
         while ($this->validatorCollection->valid()) {
             $validator = $this->validatorCollection->current();
             $validator instanceof NotEmpty
@@ -332,19 +350,17 @@ abstract class FieldAbstract implements FieldInterface
 
     /**
      * @param FormInterface $form
-     * @param $triggerValue
-     * @return $this
+     * @param string $triggerValue
      */
-    public function addDynamicForm(FormInterface $form, $triggerValue)
+    public function addDynamicForm(FormInterface $form, string $triggerValue): void
     {
         $this->dynamicFormCollection[$triggerValue] = $form;
-        return $this;
     }
 
     /**
      * @return bool
      */
-    public function hasDynamicForms()
+    public function hasDynamicForms(): bool
     {
         return count($this->dynamicFormCollection) > 0;
     }
@@ -353,7 +369,7 @@ abstract class FieldAbstract implements FieldInterface
      * @return FormInterface[]
      * @throws Exception
      */
-    public function getDynamicForms()
+    public function getDynamicForms(): array
     {
         if (!$this->hasDynamicForms()) {
             throw new Exception('No dynamic form for this value - Did you check hasDynamicForm() ?');

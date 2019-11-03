@@ -12,7 +12,7 @@ class Submit extends FieldAbstract
     /**
      * @return string
      */
-    public function getTag()
+    public function getTag(): string
     {
         return 'input';
     }
@@ -22,7 +22,12 @@ class Submit extends FieldAbstract
         $this->setAttribute('type', 'submit');
     }
 
-    public function __construct($name, $value = null)
+    /**
+     * Submit constructor.
+     * @param $name
+     * @param null $value
+     */
+    public function __construct(string $name, string $value = null)
     {
         $value = is_null($value) ? $name : $value;
         parent::__construct($name, $value);
