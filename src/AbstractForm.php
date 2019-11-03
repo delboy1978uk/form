@@ -350,7 +350,7 @@ abstract class AbstractForm implements FormInterface
     /**
      * @param boolean $displayError
      */
-    public function setDisplayErrors($displayErrors): void
+    public function setDisplayErrors(bool $displayErrors): void
     {
         $this->displayErrors = $displayErrors;
     }
