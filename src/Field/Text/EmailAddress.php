@@ -1,9 +1,4 @@
 <?php
-/**
- * User: delboy1978uk
- * Date: 04/12/2016
- * Time: 17:24
- */
 
 namespace Del\Form\Field\Text;
 

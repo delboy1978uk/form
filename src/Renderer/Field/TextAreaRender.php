@@ -1,9 +1,4 @@
-<?php
-/**
- * User: delboy1978uk
- * Date: 04/12/2016
- * Time: 21:08
- */
+<?php declare(strict_types=1);
 
 namespace Del\Form\Renderer\Field;
 
@@ -17,7 +12,7 @@ class TextAreaRender extends AbstractFieldRender implements FieldRendererInterfa
      * @param DOMElement $element
      * @return DOMElement
      */
-    public function renderBlock(FieldInterface $field, DOMElement $element)
+    public function renderBlock(FieldInterface $field, DOMElement $element): DOMElement
     {
         $element->removeAttribute('type');
         $element->removeAttribute('value');
