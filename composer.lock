@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "743f16a0b1ef70922e15ce7e6f91af18",
+    "content-hash": "56bce0febc8944c292ec5c3d11509b2c",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -37,6 +37,46 @@
             "homepage": "https://github.com/container-interop/container-interop",
             "abandoned": "psr/container",
             "time": "2017-02-14T19:40:03+00:00"
+        },
+        {
+            "name": "delboy1978uk/session",
+            "version": "v1.1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/delboy1978uk/session.git",
+                "reference": "961d9b8a752272398e5590a3bf0111c610194ab2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/delboy1978uk/session/zipball/961d9b8a752272398e5590a3bf0111c610194ab2",
+                "reference": "961d9b8a752272398e5590a3bf0111c610194ab2",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "codeception/codeception": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Del\\": "src/",
+                    "DelTesting\\": "tests/unit/Del"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Derek Stephen McLean",
+                    "email": "delboy1978uk@gmail.com"
+                }
+            ],
+            "description": "Secure Session Manager for PHP™",
+            "time": "2019-11-13T17:50:33+00:00"
         },
         {
             "name": "paragonie/random_compat",
