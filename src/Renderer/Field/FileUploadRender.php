@@ -1,9 +1,4 @@
 <?php
-/**
- * User: delboy1978uk
- * Date: 04/12/2016
- * Time: 22:33
- */
 
 namespace Del\Form\Renderer\Field;
 
@@ -22,7 +17,7 @@ class FileUploadRender extends AbstractFieldRender implements FieldRendererInter
      * @param DOMElement $element
      * @return DOMNode
      */
-    public function renderBlock(FieldInterface $field, DOMElement $element)
+    public function renderBlock(FieldInterface $field, DOMElement $element): DOMElement
     {
         // Make sure the FieldInterface is actually a Radio
         if (!$field instanceof FileUpload) {

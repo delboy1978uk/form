@@ -1,9 +1,4 @@
-<?php
-/**
- * User: delboy1978uk
- * Date: 19/11/2016
- * Time: 21:37
- */
+<?php declare(strict_types=1);
 
 namespace Del\Form\Field;
 

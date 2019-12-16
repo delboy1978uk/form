@@ -1,9 +1,4 @@
-<?php
-/**
- * User: delboy1978uk
- * Date: 04/12/2016
- * Time: 23:13
- */
+<?php declare(strict_types=1);
 
 namespace Del\Form\Renderer\Field;
 
@@ -25,6 +20,7 @@ abstract class AbstractFieldRender implements FieldRendererInterface
     {
         $this->setDom($dom);
         $element = $this->createElementFromField($field);
+
         return $this->renderBlock($field, $element);
     }
 
@@ -32,13 +28,14 @@ abstract class AbstractFieldRender implements FieldRendererInterface
      * @param FieldInterface $field
      * @return DOMElement
      */
-    public function createElementFromField(FieldInterface $field)
+    public function createElementFromField(FieldInterface $field): DOMElement
     {
         $element = $this->createElement($field->getTag());
 
         foreach ($field->getAttributes() as $key => $value) {
             $element = $this->setAttribute($field, $element, $key, $value);
         }
+
         return $element;
     }
 
@@ -49,14 +46,21 @@ abstract class AbstractFieldRender implements FieldRendererInterface
      * @param $value
      * @return DOMElement
      */
-    private function setAttribute(FieldInterface $field, DOMElement $element, $key, $value)
+    private function setAttribute(FieldInterface $field, DOMElement $element, $key, $value): DOMElement
     {
         if ($field instanceof ArrayValueInterface && $key == 'value') {
             return $element;
         }
-        $element->setAttribute($key, $value);
+
+        $element->setAttribute($key, (string) $value);
+
         return $element;
     }
 
+    /**
+     * @param FieldInterface $field
+     * @param DOMElement $element
+     * @return DOMElement
+     */
     abstract public function renderBlock(FieldInterface $field, DOMElement $element);
 }

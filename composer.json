@@ -12,7 +12,9 @@
     "php": "^7.1",
     "ext-dom": "*",
     "zendframework/zend-validator": "^2.8",
-    "zendframework/zend-filter": "^2.9"
+    "zendframework/zend-filter": "^2.9",
+    "zendframework/zend-captcha": "^2.9",
+    "delboy1978uk/session": "^1.1"
   },
   "require-dev": {
     "roave/security-advisories": "dev-master",
