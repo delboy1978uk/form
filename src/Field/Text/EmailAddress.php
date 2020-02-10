@@ -4,7 +4,7 @@ namespace Del\Form\Field\Text;
 
 use Del\Form\Field\Text;
 use Del\Form\Validator\Adapter\ValidatorAdapterZf;
-use Zend\Validator\EmailAddress as EmailValidator;
+use Laminas\Validator\EmailAddress as EmailValidator;
 
 class EmailAddress extends Text
 {

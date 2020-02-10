@@ -3,8 +3,8 @@
 namespace Del\Form\Field;
 
 use Del\Form\Filter\Adapter\FilterAdapterZf;
-use Zend\Filter\StringTrim;
-use Zend\Filter\StripTags;
+use Laminas\Filter\StringTrim;
+use Laminas\Filter\StripTags;
 
 class Hidden extends FieldAbstract
 {

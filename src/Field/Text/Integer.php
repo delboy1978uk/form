@@ -9,7 +9,7 @@ namespace Del\Form\Field\Text;
 
 use Del\Form\Field\Text;
 use Del\Form\Filter\Adapter\FilterAdapterZf;
-use Zend\Filter\ToInt;
+use Laminas\Filter\ToInt;
 
 class Integer extends Text
 {

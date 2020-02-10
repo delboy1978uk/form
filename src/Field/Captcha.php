@@ -5,8 +5,8 @@ namespace Del\Form\Field;
 use Del\Form\Field\Captcha\CaptchaAdapterInterface;
 use Del\Form\Filter\Adapter\FilterAdapterZf;
 use Del\Form\Renderer\Field\CaptchaRender;
-use Zend\Filter\StringTrim;
-use Zend\Filter\StripTags;
+use Laminas\Filter\StringTrim;
+use Laminas\Filter\StripTags;
 
 class Captcha extends Text
 {

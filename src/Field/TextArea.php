@@ -4,8 +4,8 @@ namespace Del\Form\Field;
 
 use Del\Form\Filter\Adapter\FilterAdapterZf;
 use Del\Form\Renderer\Field\TextAreaRender;
-use Zend\Filter\StringTrim;
-use Zend\Filter\StripTags;
+use Laminas\Filter\StringTrim;
+use Laminas\Filter\StripTags;
 
 class TextArea extends FieldAbstract
 {

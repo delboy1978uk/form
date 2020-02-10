@@ -7,7 +7,7 @@
 
 namespace Del\Form\Validator;
 
-use Zend\Validator\NotEmpty as ZfNotEmpty;
+use Laminas\Validator\NotEmpty as ZfNotEmpty;
 
 class NotEmpty extends ZfNotEmpty implements ValidatorInterface
 {

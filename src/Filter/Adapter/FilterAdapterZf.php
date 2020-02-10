@@ -3,7 +3,7 @@
 namespace Del\Form\Filter\Adapter;
 
 use Del\Form\Filter\FilterInterface;
-use Zend\Filter\FilterInterface as ZendFilterInterface;
+use Laminas\Filter\FilterInterface as LaminasFilterInterface;
 
 class FilterAdapterZf implements FilterInterface
 {
@@ -12,7 +12,7 @@ class FilterAdapterZf implements FilterInterface
     /**
      * FilterAdapterZf constructor.
      */
-    public function __construct(ZendFilterInterface $filter)
+    public function __construct(LaminasFilterInterface $filter)
     {
         $this->filter = $filter;
     }

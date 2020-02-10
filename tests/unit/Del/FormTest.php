@@ -15,10 +15,10 @@ use Del\Form\Field\Text\Password;
 use Del\Form\Filter\Adapter\FilterAdapterZf;
 use Del\Form\Renderer\Field\TextRender;
 use Del\Form\Validator\Adapter\ValidatorAdapterZf;
-use Zend\Filter\StripTags;
-use Zend\Filter\UpperCaseWords;
-use Zend\Validator\NotEmpty;
-use Zend\Validator\StringLength;
+use Laminas\Filter\StripTags;
+use Laminas\Filter\UpperCaseWords;
+use Laminas\Validator\NotEmpty;
+use Laminas\Validator\StringLength;
 
 class FormTest extends Test
 {

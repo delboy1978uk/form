@@ -13,7 +13,7 @@ use Del\Form\Traits\HasAttributesTrait;
 use Del\Form\Validator\NotEmpty;
 use Del\Form\Validator\ValidatorInterface;
 use Exception;
-use Zend\Filter\ToNull;
+use Laminas\Filter\ToNull;
 
 abstract class FieldAbstract implements FieldInterface
 {

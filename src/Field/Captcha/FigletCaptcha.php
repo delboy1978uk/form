@@ -5,7 +5,7 @@ namespace Del\Form\Field\Captcha;
 use DateTime;
 use Del\Form\Validator\ValidatorInterface;
 use Del\SessionManager;
-use Zend\Text\Figlet\Figlet;
+use Laminas\Text\Figlet\Figlet;
 
 class FigletCaptcha implements CaptchaAdapterInterface, ValidatorInterface
 {

@@ -4,7 +4,7 @@ namespace Del\Form\Validator\Adapter;
 
 use Del\Form\Validator\ValidatorInterface;
 use Exception;
-use Zend\Validator\ValidatorInterface as ZendValidatorInterface;
+use Laminas\Validator\ValidatorInterface as LaminasValidatorInterface;
 
 class ValidatorAdapterZf implements ValidatorInterface
 {
@@ -13,7 +13,7 @@ class ValidatorAdapterZf implements ValidatorInterface
     /**
      * ValidatorAdapterZf constructor.
      */
-    public function __construct(ZendValidatorInterface $validator)
+    public function __construct(LaminasValidatorInterface $validator)
     {
         $this->validator = $validator;
     }

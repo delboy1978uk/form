@@ -8,9 +8,9 @@
 namespace Del\Form\Validator;
 
 use Exception;
-use Zend\Validator\ValidatorInterface as ZendValidatorInterface;
+use Laminas\Validator\ValidatorInterface as LaminasValidatorInterface;
 
-interface ValidatorInterface extends ZendValidatorInterface
+interface ValidatorInterface extends LaminasValidatorInterface
 {
     /**
      * @param  mixed $value

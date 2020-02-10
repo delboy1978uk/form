@@ -4,7 +4,7 @@ namespace Del\Form\Field\Text;
 
 use Del\Form\Field\Text;
 use Del\Form\Filter\Adapter\FilterAdapterZf;
-use Zend\Filter\ToFloat;
+use Laminas\Filter\ToFloat;
 
 class FloatingPoint extends Text
 {

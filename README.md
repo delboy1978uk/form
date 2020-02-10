@@ -82,7 +82,7 @@ $form->render();
 ```
 ## Fitering and validating input
 For filtering input, add a Del\Form\Filter\Interface to your field object. For validating the filtered input, add a 
-Del\Form\Validator\ValidatorInterface. Currently there is an adapter for Zend\Filter and Zend\Validate, but feel free to 
+Del\Form\Validator\ValidatorInterface. Currently there is an adapter for Laminas\Filter and Laminas\Validate, but feel free to 
 write an adapter for you favourite library. Setting a required field adds a Del\Form\Validator\NotEmpty validator.
 ```php
 <?php
@@ -93,12 +93,12 @@ use Del\Form\Filter\Adapter\FilterAdapterZf;
 use Del\Form\Validator\Adapter\ValidatorAdapterZf;
 
 // Some sensible default string filters for username/email fields 
-use Zend\Filter\StripTags;
-use Zend\Filter\StringTrim;
-use Zend\Filter\StringToLower;
+use Laminas\Filter\StripTags;
+use Laminas\Filter\StringTrim;
+use Laminas\Filter\StringToLower;
 
 // Validation rules
-use Zend\Validator\CreditCard;;
+use Laminas\Validator\CreditCard;;
 
 // Create the field
 $creditCard = new Text('credit-card');
