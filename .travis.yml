@@ -4,11 +4,7 @@ php:
   - 7.1
   - 7.2
   - 7.3
-
-
-branches:
-  except:
-    - gh-pages
+  - 7.4
 
 addons:
   hosts:
