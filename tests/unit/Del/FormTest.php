@@ -41,6 +41,44 @@ class FormTest extends Test
         $this->assertEquals('some-class', $form->getClass());
     }
 
+    public function testCustomErrorMessages()
+    {
+        $form = new Form('testform');
+        $email = new EmailAddress('email');
+        $email->setCustomErrorMessage('Please enter a valid email.');
+        $email->setRequired(true);
+        $form->addField($email);
+
+        $post = [
+            'email' => ''
+        ];
+
+        $form->populate($post);
+        $this->assertFalse($form->isValid());
+        $errors = $form->getErrorMessages();
+        $this->assertCount(1, $errors['email']);
+        $this->assertEquals('Please enter a valid email.', $errors['email'][0]);
+    }
+
+    public function testGetErrorMessageCount()
+    {
+        $form = new Form('testform');
+        $email = new EmailAddress('email');
+        $email->setRequired(true);
+        $form->addField($email);
+
+        $post = [
+            'email' => ''
+        ];
+
+        $form->populate($post);
+        $this->assertFalse($form->isValid());
+        $errors = $form->getErrorMessages();
+        $this->assertCount(2, $errors['email']);
+        $this->assertEquals('The input is not a valid email address. Use the basic format local-part@hostname', $errors['email'][0]);
+        $this->assertEquals('Value is required and can\'t be empty', $errors['email'][1]);
+    }
+
     public function testGetSetMethod()
     {
         $form = new Form('test');
@@ -256,7 +294,7 @@ class FormTest extends Test
         $filters = $text->getFilters();
         $values = $form->getValues();
         $this->assertInstanceOf('Del\Form\Collection\FilterCollection', $filters);
-        $this->assertCount(5, $filters);
+        $this->assertCount(4, $filters);
         $this->assertArrayHasKey('username', $values);
         $this->assertEquals('Delboy1978uk', $values['username']);
     }

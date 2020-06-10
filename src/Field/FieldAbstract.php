@@ -62,7 +62,6 @@ abstract class FieldAbstract implements FieldInterface
         $this->validatorCollection = new ValidatorCollection();
         $this->renderer = new TextRender();
         $this->setName($name);
-        $this->addFilter(new FilterAdapterZf(new ToNull()));
         $value === null ? null : $this->setValue($value);
         $this->init();
     }
@@ -244,7 +243,7 @@ abstract class FieldAbstract implements FieldInterface
      */
     public function getMessages(): array
     {
-        return array_values($this->errorMessages);
+        return isset($this->customErrorMessage) ? [$this->customErrorMessage] : array_values($this->errorMessages);
     }
 
     /**
