@@ -84,6 +84,12 @@ class CheckboxTest extends Test
         $checkbox->uncheckValue(3);
         $html = $form->render();
         $this->assertEquals('<form name="checkboxtest" method="post" id="checkboxtest"><div class="form-group" id="choose-form-group"><label for="">Choose</label><div class="checkbox"><label for=""><input type="checkbox" name="choose[]" value="1" checked>Choose</label></div><div class="checkbox"><label for=""><input type="checkbox" name="choose[]" value="2">Something</label></div><div class="checkbox"><label for=""><input type="checkbox" name="choose[]" value="3">Now</label></div><div class="checkbox"><label for=""><input type="checkbox" name="choose[]" value="4">Or</label></div><div class="checkbox"><label for=""><input type="checkbox" name="choose[]" value="5" checked>Else</label></div></div></form>' . "\n", $html);
+
+        $checkbox->setValue(1);
+        $form->addField($checkbox);
+        $checkbox->uncheckValue(1);
+        $html = $form->render();
+        $this->assertEquals('<form name="checkboxtest" method="post" id="checkboxtest"><div class="form-group" id="choose-form-group"><label for="">Choose</label><div class="checkbox"><label for=""><input type="checkbox" name="choose[]" value="1">Choose</label></div><div class="checkbox"><label for=""><input type="checkbox" name="choose[]" value="2">Something</label></div><div class="checkbox"><label for=""><input type="checkbox" name="choose[]" value="3">Now</label></div><div class="checkbox"><label for=""><input type="checkbox" name="choose[]" value="4">Or</label></div><div class="checkbox"><label for=""><input type="checkbox" name="choose[]" value="5">Else</label></div></div><div class="form-group" id="choose-form-group"><label for="">Choose</label><div class="checkbox"><label for=""><input type="checkbox" name="choose[]" value="1">Choose</label></div><div class="checkbox"><label for=""><input type="checkbox" name="choose[]" value="2">Something</label></div><div class="checkbox"><label for=""><input type="checkbox" name="choose[]" value="3">Now</label></div><div class="checkbox"><label for=""><input type="checkbox" name="choose[]" value="4">Or</label></div><div class="checkbox"><label for=""><input type="checkbox" name="choose[]" value="5">Else</label></div></div></form>' . "\n", $html);
     }
 
     public function testRenderCheckboxInline()
@@ -151,5 +157,20 @@ class CheckboxTest extends Test
         ]);
         $html = $form->render();
         $this->assertEquals('<form name="checkboxtest" method="post" id="checkboxtest"><div class="form-group" id="choose-form-group"><label for="">Choose</label><div class="checkbox"><label for=""><input type="checkbox" name="choose" value="1" checked>Agree</label></div></div></form>' . "\n", $html);
+    }
+
+
+    public function testEmptyCheckbox()
+    {
+        $form = new Form('checkboxtest');
+        $checkbox = new CheckBox('choose');
+        $checkbox->setRequired(true);
+        $checkbox->setLabel('Choose');
+        $checkbox->setOptions([
+            1 => 'Agree',
+        ]);
+        $form->addField($checkbox);
+        $form->populate([]);
+        $this->assertFalse($form->isValid());
     }
 }
