@@ -192,7 +192,6 @@ abstract class FieldAbstract implements FieldInterface
      *  Runs the checkForErrors method for each field, which adds to errorMessages if invalid
      *
      * @return bool
-     * @throws Exception If validation of $value is impossible
      */
     public function isValid(): bool
     {

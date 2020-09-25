@@ -26,7 +26,8 @@ class MimeTypeValidator implements ValidatorInterface
      */
     public function isValid($value)
     {
-        $mimeType = isset($_FILES[$this->name]) ? mime_content_type($_FILES[$this->name]['tmp_name']) : '';
+        $files = $_FILES;
+        $mimeType = isset($files[$this->name]) ? mime_content_type($files[$this->name]['tmp_name']) : '';
 
         return in_array($mimeType, $this->validMimeTypes);
     }
@@ -36,20 +37,6 @@ class MimeTypeValidator implements ValidatorInterface
      */
     public function getMessages()
     {
-        return ['Invalid file type.'];
-    }
-
-
-    /**
-     * @param string $path
-     * @return string
-     */
-    private function getMimeType(string $path): string
-    {
-        $finfo = finfo_open(FILEINFO_MIME); // return mime type
-        $mimeType = finfo_file($finfo, $path);
-        finfo_close($finfo);
-
-        return $mimeType;
+        return ['Invalid mime type.'];
     }
 }

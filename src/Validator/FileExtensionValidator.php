@@ -36,9 +36,14 @@ class FileExtensionValidator implements ValidatorInterface
     {
         $validExtensions = $this->validExtensions;
         $last = array_pop($validExtensions);
-        $extensions = implode(', ', $validExtensions);
-        $extensions .= ' or ' . $last;
+        $extensions = 'The file must be a ' . $last . ' file.';
 
-        return ['The file must be either a ' . $extensions . ' file.'];
+        if (count($validExtensions) > 0) {
+            $extensions = implode(', ', $validExtensions);
+            $extensions .= ' or ' . $last;
+            $extensions = 'The file must be either a ' . $extensions . ' file.';
+        }
+
+        return [$extensions];
     }
 }

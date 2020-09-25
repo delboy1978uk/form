@@ -11,6 +11,7 @@
   "require": {
     "php": "^7.1",
     "ext-dom": "*",
+    "ext-fileinfo": "*",
     "laminas/laminas-validator": "^2.8",
     "laminas/laminas-filter": "^2.9",
     "laminas/laminas-captcha": "^2.9",

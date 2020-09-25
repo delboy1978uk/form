@@ -2,7 +2,7 @@
 
 namespace Del\Form\Validator;
 
-class FloatValidator implements ValidatorInterface
+class IntegerValidator implements ValidatorInterface
 {
     /**
      * @param  mixed $value
@@ -10,7 +10,7 @@ class FloatValidator implements ValidatorInterface
      */
     public function isValid($value)
     {
-        return (bool) \filter_var($value, FILTER_VALIDATE_FLOAT);
+        return (bool) \filter_var($value, FILTER_VALIDATE_INT);
     }
 
     /**
@@ -18,7 +18,7 @@ class FloatValidator implements ValidatorInterface
      */
     public function getMessages()
     {
-        return ['Value is not a float.'];
+        return ['Value is not an integer.'];
     }
 
 }
