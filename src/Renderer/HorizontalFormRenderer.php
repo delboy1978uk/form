@@ -1,9 +1,4 @@
 <?php
-/**
- * User: delboy1978uk
- * Date: 29/11/2016
- * Time: 19:44
- */
 
 namespace Del\Form\Renderer;
 
@@ -29,7 +24,7 @@ class HorizontalFormRenderer extends AbstractFormRenderer implements FormRendere
     public function renderFieldLabel()
     {
         $label = $this->createLabelElement();
-        $label->setAttribute('class', 'col-sm-2 control-label');
+        $label->setAttribute('class', 'col-sm-2 col-md-3 control-label');
         $text = $this->createText($this->field->getLabel());
         $label->appendChild($text);
         return $label;
@@ -40,11 +35,11 @@ class HorizontalFormRenderer extends AbstractFormRenderer implements FormRendere
      */
     public function renderFieldBlock()
     {
-        $class = $this->block->getAttribute('class').'form-group';
+        $class = $this->block->getAttribute('class').' form-group row';
         $this->block->setAttribute('class', $class);
 
         $div = $this->createElement('div');
-        $div->setAttribute('class', 'col-sm-10');
+        $div->setAttribute('class', 'col');
 
         $this->processField($div);
 
@@ -65,7 +60,7 @@ class HorizontalFormRenderer extends AbstractFormRenderer implements FormRendere
         switch (get_class($this->field)) {
             case 'Del\Form\Field\Submit':
                 $div->appendChild($this->element);
-                $div->setAttribute('class', 'col-sm-offset-2 col-sm-10');
+                $div->setAttribute('class', 'col');
                 break;
             case 'Del\Form\Field\Radio':
                 $radioDiv = $this->surroundInDiv($this->element, 'radio');
