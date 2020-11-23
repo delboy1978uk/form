@@ -155,11 +155,16 @@ abstract class AbstractFormRenderer implements FormRendererInterface
     public function renderField($dynamicTriggerValue = null, $finaliseDynamicBlock = false)
     {
         $this->createNewDynamicContainerBlockIfNeeded($dynamicTriggerValue);
+        $valid = $this->field->isValid();
+        $required = $this->field->isRequired();
+        if (!$valid && ($required || !$empty)) {
+
+        }
 
         $this->block = $this->createElement('div');
         $this->label = $this->renderFieldLabel();
         $this->element = $this->field->getRenderer()->render($this->dom, $this->field);
-        $this->errors = $this->field->isValid() ? null : $this->renderError();
+        $this->errors = $valid ? null : $this->renderError();
         $this->block = $this->renderFieldBlock();
 
         is_null($dynamicTriggerValue)

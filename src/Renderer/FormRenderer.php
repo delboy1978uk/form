@@ -1,9 +1,4 @@
 <?php
-/**
- * User: delboy1978uk
- * Date: 29/11/2016
- * Time: 19:44
- */
 
 namespace Del\Form\Renderer;
 
@@ -35,9 +30,7 @@ class FormRenderer extends AbstractFormRenderer implements FormRendererInterface
         $class = $formGroup->getAttribute('class').'form-group';
         $formGroup->setAttribute('class', $class);
         $formGroup->setAttribute('id', $this->field->getName().'-form-group');
-
         $formGroup->appendChild($this->label);
-
         $formGroup->appendChild($this->element);
 
         if (!is_null($this->errors)) {
