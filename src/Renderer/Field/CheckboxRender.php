@@ -24,6 +24,8 @@ class CheckboxRender extends AbstractFieldRender implements FieldRendererInterfa
     /** @var bool $isMultiCheckbox */
     private $isMultiCheckbox = false;
 
+    private $counter = 0;
+
     /**
      * @param FieldInterface $field
      * @param DOMElement $element
@@ -67,55 +69,64 @@ class CheckboxRender extends AbstractFieldRender implements FieldRendererInterfa
      */
     private function processOption(FieldInterface $field, $value, $labelText, $inline)
     {
-        if ($inline === true) {
-            return $this->renderCheckboxInline($field, $value, $labelText);
-        }
-        return $this->renderCheckbox($field, $value, $labelText);
+        return $this->renderCheckbox($field, $value, $labelText, $inline);
     }
 
     /**
-     * @param FieldInterface $field
+     * @param CheckBox $field
      * @param $value
      * @param $labelText
      * @return DOMElement
      */
-    private function renderCheckbox(FieldInterface $field, $value, $labelText)
+    private function renderCheckbox(CheckBox $field, $value, $labelText, $inline)
     {
         $div = $this->getDom()->createElement('div');
-        $div->setAttribute('class', 'checkbox');
-        $radio = $this->renderCheckboxInline($field, $value, $labelText);
-        $radio->removeAttribute('class');
-        $div->appendChild($radio);
+        $class = $inline ? 'form-check-inline' : 'form-check';
+        $div->setAttribute('class', $class);
+        $checkbox = $this->renderCheckboxInline($field, $value);
+        $div->appendChild($checkbox);
+        $div->appendChild($this->getLabel($field, $labelText));
+
         return $div;
     }
 
     /**
      * @param FieldInterface $field
+     * @param string $labelText
+     * @return DOMElement
+     */
+    private function getLabel(FieldInterface $field, string $labelText): DOMElement
+    {
+        $this->counter ++;
+        $label = $this->getDom()->createElement('label');
+        $label->setAttribute('for', $field->getId() . $this->counter);
+        $label->setAttribute('class', 'form-check-label');
+        $text = $this->createText($labelText);
+        $label->appendChild($text);
+
+        return $label;
+    }
+
+    /**
+     * @param FieldInterface $field
      * @param $value
      * @param $labelText
      * @return DOMElement
      */
-    private function renderCheckboxInline(FieldInterface $field, $value, $labelText)
+    private function renderCheckboxInline(FieldInterface $field, $value)
     {
-        $label = $this->getDom()->createElement('label');
-        $label->setAttribute('for', $field->getId());
-        $label->setAttribute('class', 'checkbox-inline');
-
-        $radio = $this->getDom()->createElement('input');
-        $radio->setAttribute('type', 'checkbox');
+        $checkbox = $this->getDom()->createElement('input');
+        $checkbox->setAttribute('class', 'form-check-input');
+        $checkbox->setAttribute('type', 'checkbox');
         $fieldName = $this->isMultiCheckbox ? $field->getName() . '[]' : $field->getName();
-        $radio->setAttribute('name', $fieldName);
-        $radio->setAttribute('value', $value);
-        $text = $this->createText($labelText);
+        $checkbox->setAttribute('name', $fieldName);
+        $checkbox->setAttribute('value', $value);
         $fieldValue = $field->getValue();
 
         if ($fieldValue === true || $fieldValue == $value || (is_array($fieldValue) && in_array($value, $fieldValue, true))) {
-            $radio->setAttribute('checked', 'checked');
+            $checkbox->setAttribute('checked', 'checked');
         }
 
-        $label->appendChild($radio);
-        $label->appendChild($text);
-
-        return $label;
+        return $checkbox;
     }
 }

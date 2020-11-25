@@ -16,6 +16,8 @@ class RadioRender extends AbstractFieldRender implements FieldRendererInterface
     /** @var DOMDocumentFragment $div */
     private $fragment;
 
+    private $counter = 0;
+
     /**
      * @param FieldInterface $field
      * @param DOMElement $element
@@ -42,42 +44,48 @@ class RadioRender extends AbstractFieldRender implements FieldRendererInterface
 
         // Loop through each radio element (the options)
         foreach ($options as $value => $label) {
-            $radio = $this->processOption($field, $value, $label, $inline);
+            $radio = $this->renderRadio($field, $value, $label, $inline);
             $this->fragment->appendChild($radio);
         }
 
         return $this->fragment;
     }
 
-
     /**
      * @param FieldInterface $field
      * @param $value
      * @param $labelText
+     * @param $inline
      * @return DOMElement
      */
-    private function processOption(FieldInterface $field, $value, $labelText, $inline)
+    private function renderRadio(FieldInterface $field, $value, $labelText, $inline)
     {
-        if ($inline === true) {
-            return $this->renderRadioInline($field, $value, $labelText);
-        }
-        return $this->renderRadio($field, $value, $labelText);
+        $div = $this->createElement('div');
+        $class = $inline ? 'form-check-inline' : 'form-check';
+        $div->setAttribute('class', $class);
+        $radio = $this->renderRadioInline($field, $value, $labelText);
+        $label = $this->getLabel($field, $labelText);
+        $div->appendChild($radio);
+        $div->appendChild($label);
+
+        return $div;
     }
 
     /**
      * @param FieldInterface $field
-     * @param $value
-     * @param $labelText
+     * @param string $labelText
      * @return DOMElement
      */
-    private function renderRadio(FieldInterface $field, $value, $labelText)
+    private function getLabel(FieldInterface $field, string $labelText): DOMElement
     {
-        $div = $this->createElement('div');
-        $div->setAttribute('class', 'radio');
-        $radio = $this->renderRadioInline($field, $value, $labelText);
-        $radio->removeAttribute('class');
-        $div->appendChild($radio);
-        return $div;
+        $this->counter ++;
+        $label = $this->getDom()->createElement('label');
+        $label->setAttribute('for', $field->getId() . $this->counter);
+        $label->setAttribute('class', 'form-check-label');
+        $text = $this->createText($labelText);
+        $label->appendChild($text);
+
+        return $label;
     }
 
     /**
@@ -88,11 +96,8 @@ class RadioRender extends AbstractFieldRender implements FieldRendererInterface
      */
     private function renderRadioInline(FieldInterface $field, $value, $labelText)
     {
-        $label = $this->createElement('label');
-        $label->setAttribute('for', $field->getId());
-        $label->setAttribute('class', 'radio-inline');
-
         $radio = $this->createElement('input');
+        $radio->setAttribute('class', 'form-check-input');
         $radio->setAttribute('type', 'radio');
         $radio->setAttribute('name', $field->getName());
         $radio->setAttribute('value', $value);
@@ -102,9 +107,6 @@ class RadioRender extends AbstractFieldRender implements FieldRendererInterface
             $radio->setAttribute('checked', 'checked');
         }
 
-        $label->appendChild($radio);
-        $label->appendChild($text);
-
-        return $label;
+        return $radio;
     }
 }
