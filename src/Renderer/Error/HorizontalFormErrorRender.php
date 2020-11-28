@@ -21,7 +21,7 @@ class HorizontalFormErrorRender extends AbstractErrorRender implements ErrorRend
     public function render(FieldInterface $field)
     {
         $helpBlock = $this->createElement('span');
-        $helpBlock->setAttribute('class', 'help-block');
+        $helpBlock->setAttribute('class', 'text-danger');
 
         if ($this->shouldRender($field)) {
             $helpBlock = $field->hasCustomErrorMessage()

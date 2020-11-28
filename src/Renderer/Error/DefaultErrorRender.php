@@ -21,7 +21,7 @@ class DefaultErrorRender extends AbstractErrorRender implements ErrorRendererInt
     public function render(FieldInterface $field)
     {
         $helpBlock = $this->getDom()->createElement('span');
-        $helpBlock->setAttribute('class', 'help-block');
+        $helpBlock->setAttribute('class', 'text-danger');
 
         if ($this->shouldRender($field)) {
             $helpBlock = $field->hasCustomErrorMessage()

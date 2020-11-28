@@ -364,7 +364,7 @@ class FormTest extends Test
         $form->addField($text);
         $form->populate(['text' => null]);
         $html = $form->render();
-        $this->assertEquals('<form name="testform" method="post" id="testform"><div class="has-error form-group" id="text-form-group"><label for=""><span class="text-danger">* </span></label><input name="text" type="text" class="form-control"><span class="help-block">Value is required and can\'t be empty<br></span></div></form>'."\n", $html);
+        $this->assertEquals('<form name="testform" method="post" id="testform"><div class="has-error form-group" id="text-form-group"><label for=""><span class="text-danger">* </span></label><input name="text" type="text" class="form-control"><span class="text-danger">Value is required and can\'t be empty<br></span></div></form>'."\n", $html);
     }
 
 
@@ -377,7 +377,7 @@ class FormTest extends Test
         $form->addField($text);
         $form->populate(['text' => null]);
         $html = $form->render();
-        $this->assertEquals('<form name="testform" method="post" id="testform"><div class="has-error form-group" id="text-form-group"><label for=""><span class="text-danger">* </span></label><input name="text" type="text" class="form-control"><span class="help-block">This can\'t be empty!</span></div></form>'."\n", $html);
+        $this->assertEquals('<form name="testform" method="post" id="testform"><div class="has-error form-group" id="text-form-group"><label for=""><span class="text-danger">* </span></label><input name="text" type="text" class="form-control"><span class="text-danger">This can\'t be empty!</span></div></form>'."\n", $html);
     }
 
     public function testGetAndSetRenderer()
