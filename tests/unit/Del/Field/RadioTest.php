@@ -25,7 +25,7 @@ class RadioTest extends Test
         ]);
         $form->addField($radio);
         $html = $form->render();
-        $this->assertEquals('<form name="radiotest" method="post" id="radiotest"><div class="form-group" id="choose-form-group"><label for="">Choose</label><div class="radio"><label for=""><input type="radio" name="choose" value="hello">Choose</label></div></div></form>'."\n", $html);
+        $this->assertEquals('<form name="radiotest" method="post" id="radiotest"><div class="form-group" id="choose-form-group"><label for="">Choose</label><div class="form-check"><input class="form-check-input" type="radio" name="choose" value="hello"><label for="1" class="form-check-label">Choose</label></div></div></form>'."\n", $html);
     }
 
 
@@ -40,7 +40,7 @@ class RadioTest extends Test
         ]);
         $form->addField($radio);
         $html = $form->render();
-        $this->assertEquals('<form name="radiotest" method="post" id="radiotest"><div class="form-group" id="choose-form-group"><label for="">Choose</label><div class="radio"><label for=""><input type="radio" name="choose" value="hello">Choose</label></div><div class="radio"><label for=""><input type="radio" name="choose" value="goodbye">Something</label></div></div></form>'."\n", $html);
+        $this->assertEquals('<form name="radiotest" method="post" id="radiotest"><div class="form-group" id="choose-form-group"><label for="">Choose</label><div class="form-check"><input class="form-check-input" type="radio" name="choose" value="hello"><label for="1" class="form-check-label">Choose</label></div><div class="form-check"><input class="form-check-input" type="radio" name="choose" value="goodbye"><label for="2" class="form-check-label">Something</label></div></div></form>'."\n", $html);
     }
 
     public function testMultipleRadiosInHorizontalForm()
@@ -54,7 +54,7 @@ class RadioTest extends Test
         ]);
         $form->addField($radio);
         $html = $form->render();
-        $this->assertEquals('<form name="radiotest" method="post" id="radiotest"><div class="form-group" id="choose-form-group"><label for="">Choose</label><div class="radio"><label for=""><input type="radio" name="choose" value="hello">Choose</label></div><div class="radio"><label for=""><input type="radio" name="choose" value="goodbye">Something</label></div></div></form>'."\n", $html);
+        $this->assertEquals('<form name="radiotest" method="post" id="radiotest"><div class="form-group" id="choose-form-group"><label for="">Choose</label><div class="form-check"><input class="form-check-input" type="radio" name="choose" value="hello"><label for="1" class="form-check-label">Choose</label></div><div class="form-check"><input class="form-check-input" type="radio" name="choose" value="goodbye"><label for="2" class="form-check-label">Something</label></div></div></form>'."\n", $html);
     }
 
     public function testRequiredField()
@@ -103,7 +103,7 @@ class RadioTest extends Test
         $checkbox->setValue(3);
         $form->addField($checkbox);
         $html = $form->render();
-        $this->assertEquals('<form name="checkboxtest" method="post" id="checkboxtest"><div class="form-group" id="choose-form-group"><label for="">Choose</label><label for="" class="radio-inline"><input type="radio" name="choose" value="1">hello</label><label for="" class="radio-inline"><input type="radio" name="choose" value="2">hello</label><label for="" class="radio-inline"><input type="radio" name="choose" value="3" checked>hello</label></div></form>'."\n", $html);
+        $this->assertEquals('<form name="checkboxtest" method="post" id="checkboxtest"><div class="form-group" id="choose-form-group"><label for="">Choose</label><div class="form-check-inline"><input class="form-check-input" type="radio" name="choose" value="1"><label for="1" class="form-check-label">hello</label></div><div class="form-check-inline"><input class="form-check-input" type="radio" name="choose" value="2"><label for="2" class="form-check-label">hello</label></div><div class="form-check-inline"><input class="form-check-input" type="radio" name="choose" value="3" checked><label for="3" class="form-check-label">hello</label></div></div></form>'."\n", $html);
     }
 
     public function testRenderRadioWithValue()
@@ -120,6 +120,6 @@ class RadioTest extends Test
             'selection' => 'Q',
         ]);
         $html = $form->render();
-        $this->assertEquals('<form name="choose" method="post" id="choose"><div class="form-group" id="selection-form-group"><label for=""></label><div class="radio"><label for=""><input type="radio" name="selection" value="MCD">McDonalds</label></div><div class="radio"><label for=""><input type="radio" name="selection" value="BK">Burger King</label></div><div class="radio"><label for=""><input type="radio" name="selection" value="Q" checked>Quick</label></div></div></form>'."\n", $html);
+        $this->assertEquals('<form name="choose" method="post" id="choose"><div class="form-group" id="selection-form-group"><label for=""></label><div class="form-check"><input class="form-check-input" type="radio" name="selection" value="MCD"><label for="1" class="form-check-label">McDonalds</label></div><div class="form-check"><input class="form-check-input" type="radio" name="selection" value="BK"><label for="2" class="form-check-label">Burger King</label></div><div class="form-check"><input class="form-check-input" type="radio" name="selection" value="Q" checked><label for="3" class="form-check-label">Quick</label></div></div></form>'."\n", $html);
     }
 }
