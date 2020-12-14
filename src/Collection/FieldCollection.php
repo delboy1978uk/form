@@ -29,9 +29,10 @@ class FieldCollection extends AbstractCollection implements CollectionInterface
         $this->rewind();
         return null;
     }
+
     /**
      * @param $name
-     * @return FieldInterface|null
+     * @return bool
      */
     public function removeByName($name): bool
     {
@@ -46,6 +47,7 @@ class FieldCollection extends AbstractCollection implements CollectionInterface
                 $this->rewind();
 
                 $result = true;
+                break;
             }
         }
 
