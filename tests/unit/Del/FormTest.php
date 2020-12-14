@@ -408,6 +408,20 @@ class FormTest extends Test
 
 
 
+    public function testRemoveFieldFromCollection()
+    {
+        $form = new Form('fields');
+        $form->addField(new Text('first'));
+        $form->addField(new Text('second'));
+        $form->addField(new Text('third'));
+        $form->addField(new Text('fourth'));
+        $fields = $form->getFields();
+        $this->assertTrue($fields->removeByName('third'));
+        $this->assertFalse($fields->removeByName('third'));
+    }
+
+
+
     public function testRenderFormTwice()
     {
         $form = new Form('checkboxtest');

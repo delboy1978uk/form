@@ -29,11 +29,35 @@ class FieldCollection extends AbstractCollection implements CollectionInterface
         $this->rewind();
         return null;
     }
+    /**
+     * @param $name
+     * @return FieldInterface|null
+     */
+    public function removeByName($name): bool
+    {
+        $this->rewind();
+
+        while ($this->valid()) {
+            $field = $this->current();
+
+            if ($field->getName() == $name) {
+                $key = $this->key();
+                $this->offsetUnset($key);
+                $this->rewind();
+
+                $result = true;
+            }
+        }
+
+        $this->rewind();
+
+        return false;
+    }
 
     /**
      * @return FieldInterface
      */
-    public function current()
+    public function current(): FieldInterface
     {
         return parent::current();
     }
