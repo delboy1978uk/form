@@ -46,9 +46,9 @@ class FieldCollection extends AbstractCollection implements CollectionInterface
                 $this->offsetUnset($key);
                 $this->rewind();
 
-                $result = true;
-                break;
+                return true;
             }
+            $this->next();
         }
 
         $this->rewind();
