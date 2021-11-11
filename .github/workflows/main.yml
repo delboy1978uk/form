@@ -30,7 +30,7 @@ jobs:
         run: composer install --prefer-dist --no-progress
 
       - name: Run test suite with coverage
-        run: XDEBUG_MODE=coverage ./vendor/bin/codecept run unit --coveage-xml
+        run: XDEBUG_MODE=coverage ./vendor/bin/codecept run unit --coverage-xml
 
       - name: Upload coverage to Scrutinizer
         run: wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover tests/_output/coverage.xml
