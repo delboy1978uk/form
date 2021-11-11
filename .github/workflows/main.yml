@@ -30,12 +30,14 @@ jobs:
         run: composer install --prefer-dist --no-progress
 
   test:
-      - name: Run test suite with coverage
-        run: XDEBUG_MODE=coverage ./vendor/bin/codecept run unit --coverage-xml
+    runs-on: ubuntu-latest
+    steps:
+        - name: Run test suite with coverage
+          run: XDEBUG_MODE=coverage ./vendor/bin/codecept run unit --coverage-xml
 
-      - name: Download Scrutinizer ocular.phar
-        run: wget https://scrutinizer-ci.com/ocular.phar
+        - name: Download Scrutinizer ocular.phar
+          run: wget https://scrutinizer-ci.com/ocular.phar
 
-      - name: Upload coverage
-        run: php ocular.phar code-coverage:upload --format=php-clover tests/_output/coverage.xml
+        - name: Upload coverage
+          run: php ocular.phar code-coverage:upload --format=php-clover tests/_output/coverage.xml
 
