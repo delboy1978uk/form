@@ -11,7 +11,7 @@ use DOMText;
 use InvalidArgumentException;
 use LogicException;
 
-class RadioRender extends AbstractFieldRender implements FieldRendererInterface
+class RadioRender extends AbstractFieldRender
 {
     /** @var DOMDocumentFragment $div */
     private $fragment;

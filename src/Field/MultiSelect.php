@@ -2,7 +2,7 @@
 
 namespace Del\Form\Field;
 
-use Del\Form\Renderer\Field\SelectRender;
+use Del\Form\Renderer\Field\MultiSelectRender;
 use Del\Form\Traits\HasOptionsTrait;
 
 class MultiSelect extends FieldAbstract implements ArrayValueInterface
@@ -22,6 +22,6 @@ class MultiSelect extends FieldAbstract implements ArrayValueInterface
         $this->setAttribute('type', 'text');
         $this->setAttribute('multiple', '');
         $this->setAttribute('class', 'form-control');
-        $this->setRenderer(new SelectRender());
+        $this->setRenderer(new MultiSelectRender());
     }
 }

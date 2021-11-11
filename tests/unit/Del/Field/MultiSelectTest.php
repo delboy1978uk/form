@@ -19,7 +19,7 @@ class MultiSelectTest extends Test
         $select->setOption(2, 'world');
         $form->addField($select);
         $html = $form->render();
-        $this->assertEquals('<form name="dropdown" method="post" id="dropdown"><div class="form-group" id="selection-form-group"><label for=""></label><select name="selection" type="text" multiple class="form-control"><option value="1">hello</option><option value="2">world</option></select></div></form>'."\n", $html);
+        $this->assertEquals('<form name="dropdown" method="post" id="dropdown"><div class="form-group" id="selection-form-group"><label for=""></label><select name="selection[]" type="text" multiple class="form-control"><option value="1">hello</option><option value="2">world</option></select></div></form>'."\n", $html);
     }
 
     public function testSelectThrowsException()
@@ -49,7 +49,7 @@ class MultiSelectTest extends Test
         $this->assertEquals('world', $select->getOption(2));
         $form->addField($select);
         $html = $form->render();
-        $this->assertEquals('<form name="dropdown" method="post" id="dropdown"><div class="form-group" id="selection-form-group"><label for=""></label><select name="selection" type="text" multiple class="form-control"><option value="1">hello</option><option value="2">world</option></select></div></form>'."\n", $html);
+        $this->assertEquals('<form name="dropdown" method="post" id="dropdown"><div class="form-group" id="selection-form-group"><label for=""></label><select name="selection[]" type="text" multiple class="form-control"><option value="1">hello</option><option value="2">world</option></select></div></form>'."\n", $html);
     }
 
 
@@ -66,10 +66,10 @@ class MultiSelectTest extends Test
         $form->addField($select);
         $form->addField($submit);
         $form->populate([
-            'selection' => 'Q',
+            'selection' => ['Q', 'BK'],
         ]);
         $html = $form->render();
-        $this->assertEquals('<form name="choose" method="post" id="choose"><div class="form-group" id="selection-form-group"><label for=""></label><select name="selection" type="text" multiple class="form-control" value="Q"><option value="MCD">McDonalds</option><option value="BK">Burger King</option><option value="Q" selected>Quick</option></select></div><div class="form-group" id="submit-form-group"><label for=""></label><input name="submit" value="submit" type="submit" class="btn btn-primary"></div></form>'."\n", $html);
+        $this->assertEquals('<form name="choose" method="post" id="choose"><div class="form-group" id="selection-form-group"><label for=""></label><select name="selection[]" type="text" multiple class="form-control"><option value="MCD">McDonalds</option><option value="BK" selected>Burger King</option><option value="Q" selected>Quick</option></select></div><div class="form-group" id="submit-form-group"><label for=""></label><input name="submit" value="submit" type="submit" class="btn btn-primary"></div></form>' . "\n", $html);
     }
 
     public function testSelectMultipleValues()

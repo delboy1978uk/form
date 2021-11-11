@@ -35,7 +35,6 @@ class CheckboxRender extends AbstractFieldRender implements FieldRendererInterfa
     {
         // We don't really want a containing div, so we'll ignore $element
         // and instead create a DOMDocumentFragment
-        unset($element);
         $this->fragment = $this->getDom()->createDocumentFragment();
 
         // Make sure the FieldInterface is actually a Radio
