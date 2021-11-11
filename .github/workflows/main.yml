@@ -30,12 +30,14 @@ jobs:
         run: composer install --prefer-dist --no-progress
 
   test:
-    runs-on: ubuntu-latest
     needs: build
     steps:
         - name: Run test suite with coverage
-          run: XDEBUG_MODE=coverage ./vendor/bin/codecept run unit --coverage-xml
+          run: XDEBUG_MODE=coverage vendor/bin/codecept run unit --coverage-xml
 
+  coverage:
+    needs: test
+    steps:
         - name: Download Scrutinizer ocular.phar
           run: wget https://scrutinizer-ci.com/ocular.phar
 
