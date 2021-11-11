@@ -5,7 +5,7 @@ namespace Del\Form\Renderer\Field;
 use Del\Form\Field\FieldInterface;
 use DOMElement;
 
-class TextRender extends AbstractFieldRender implements FieldRendererInterface
+class TextRender extends AbstractFieldRender
 {
     /**
      * @param FieldInterface $field

@@ -8,7 +8,7 @@ use Del\Form\Field\Select;
 use DOMElement;
 use InvalidArgumentException;
 
-class SelectRender extends AbstractFieldRender
+class MultiSelectRender extends AbstractFieldRender
 {
     /**
      * @param FieldInterface $field
@@ -17,13 +17,11 @@ class SelectRender extends AbstractFieldRender
      */
     public function renderBlock(FieldInterface $field, DOMElement $element): DOMElement
     {
-        if (!$field instanceof Select && !$field instanceof MultiSelect) {
-            throw new InvalidArgumentException('Must be a Del\Form\Field\Select or Del\Form\Field\MultiSelect');
+        if (!$field instanceof MultiSelect) {
+            throw new InvalidArgumentException('Must be a Del\Form\Field\MultiSelect');
         }
 
-        if ($field instanceof MultiSelect) {
-            $element->setAttribute('name', $field->getName() . '[]');
-        }
+        $element->setAttribute('name', $field->getName() . '[]');
 
         foreach ($field->getOptions() as $value => $label) {
             $option = $this->processOption($field, $value, $label);
@@ -46,7 +44,7 @@ class SelectRender extends AbstractFieldRender
         $label = $this->createText($label);
         $option->appendChild($label);
 
-        if ($field->getValue() == $option->getAttribute('value')) {
+        if ($field->getValue() !== null && in_array($option->getAttribute('value'), $field->getValue())) {
             $option->setAttribute('selected', 'selected');
         }
 

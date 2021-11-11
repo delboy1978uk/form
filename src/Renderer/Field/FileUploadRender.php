@@ -9,7 +9,7 @@ use DOMNode;
 use DOMText;
 use InvalidArgumentException;
 
-class FileUploadRender extends AbstractFieldRender implements FieldRendererInterface
+class FileUploadRender extends AbstractFieldRender
 {
 
     /**

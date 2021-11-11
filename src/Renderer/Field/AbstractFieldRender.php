@@ -48,7 +48,7 @@ abstract class AbstractFieldRender implements FieldRendererInterface
      */
     private function setAttribute(FieldInterface $field, DOMElement $element, $key, $value): DOMElement
     {
-        if ($field instanceof ArrayValueInterface && $key == 'value') {
+        if ($field instanceof ArrayValueInterface && $key === 'value') {
             return $element;
         }
 
