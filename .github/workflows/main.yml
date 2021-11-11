@@ -31,6 +31,7 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    needs: build
     steps:
         - name: Run test suite with coverage
           run: XDEBUG_MODE=coverage ./vendor/bin/codecept run unit --coverage-xml
