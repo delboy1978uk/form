@@ -3,12 +3,12 @@
 namespace Del\Form\Renderer\Field;
 
 use Del\Form\Field\FieldInterface;
+use Del\Form\Field\MultiSelect;
 use Del\Form\Field\Select;
 use DOMElement;
-use DOMText;
 use InvalidArgumentException;
 
-class SelectRender extends AbstractFieldRender implements FieldRendererInterface
+class SelectRender extends AbstractFieldRender
 {
     /**
      * @param FieldInterface $field
@@ -17,8 +17,8 @@ class SelectRender extends AbstractFieldRender implements FieldRendererInterface
      */
     public function renderBlock(FieldInterface $field, DOMElement $element): DOMElement
     {
-        if (!$field instanceof Select) {
-            throw new InvalidArgumentException('Must be a Del\Form\Field\Select');
+        if (!$field instanceof Select && !$field instanceof MultiSelect) {
+            throw new InvalidArgumentException('Must be a Del\Form\Field\Select or Del\Form\Field\MultiSelect');
         }
 
         foreach ($field->getOptions() as $value => $label) {
