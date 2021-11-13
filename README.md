@@ -1,6 +1,6 @@
 # form
 [![Latest Stable Version](https://poser.pugx.org/delboy1978uk/form/v/stable)](https://packagist.org/packages/delboy1978uk/form) [![Total Downloads](https://poser.pugx.org/delboy1978uk/form/downloads)](https://packagist.org/packages/delboy1978uk/form) [![Latest Unstable Version](https://poser.pugx.org/delboy1978uk/form/v/unstable)](https://packagist.org/packages/delboy1978uk/form) [![License](https://poser.pugx.org/delboy1978uk/form/license)](https://packagist.org/packages/delboy1978uk/form)<br />
-[![Build Status](https://travis-ci.org/delboy1978uk/form.png?branch=master)](https://travis-ci.org/delboy1978uk/form) [![Code Coverage](https://scrutinizer-ci.com/g/delboy1978uk/form/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/delboy1978uk/form/?branch=master) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/delboy1978uk/form/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/delboy1978uk/form/?branch=master)<br />
+![build status](https://github.com/delboy1978uk/form/actions/workflows/master.yml/badge.svg) [![Code Coverage](https://scrutinizer-ci.com/g/delboy1978uk/form/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/delboy1978uk/form/?branch=master) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/delboy1978uk/form/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/delboy1978uk/form/?branch=master)<br />
 A super easy Bootstrap ready HTML form generator for PHP
 
 ![An example generated form](https://raw.githubusercontent.com/delboy1978uk/form/master/tests/_data/form.png)
