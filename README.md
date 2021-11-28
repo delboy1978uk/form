@@ -157,7 +157,7 @@ use Del\Form\Field\TextArea;
 $textArea = new TextArea('message');;
 ```
 ### Select
-`Del\Form|Field\Select` needs initialised with setOptions():
+`Del\Form\Field\Select` needs initialised with setOptions():
 ```php
 <?php
 use Del\Form\Field\Select;
@@ -169,6 +169,8 @@ $select->setOptions([
     'Q' => 'Quick',
 ]);
 ```
+### MultiSelect
+`Del\Form\Field\MultiSelect` also needs initialised with setOptions(), and works in the same way as a `Select` field.
 ### Radio
 `Del\Form|Field\Radio` can be rendered inline (side by side) or not, also needs initialised with setOptions():
 ```php
