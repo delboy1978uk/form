@@ -49,7 +49,7 @@ echo $form->render();
 
 ## Creating Custom Forms
 Of course, it's nicer to create your own form than build one up every time, so just create a class and extend 
-Del\Form\AbstractForm and add your fields in the init() function:
+`Del\Form\AbstractForm` and add your fields in the init() function:
 ```php
 <?php
 namespace My\Cool;
@@ -81,9 +81,9 @@ $form = new LoginForm('login');
 $form->render();
 ```
 ## Fitering and validating input
-For filtering input, add a Del\Form\Filter\Interface to your field object. For validating the filtered input, add a 
-Del\Form\Validator\ValidatorInterface. Currently there is an adapter for Laminas\Filter and Laminas\Validate, but feel free to 
-write an adapter for you favourite library. Setting a required field adds a Del\Form\Validator\NotEmpty validator.
+For filtering input, add a `Del\Form\Filter\Interface` to your field object. For validating the filtered input, add a 
+`Del\Form\Validator\ValidatorInterface`. Currently there is an adapter for `Laminas\Filter and Laminas\Validate`, but feel free to 
+write an adapter for you favourite library. Setting a required field adds a `Del\Form\Validator\NotEmpty` validator.
 ```php
 <?php
 
@@ -118,7 +118,7 @@ $creditCard->addFilter($stripTags)
       ->addValidator($emailAddress);
 ```
 ## Setting and getting values
-Del\Form\FormInterface has a populate method which takes an array (usually the post data, but not necessarily ;-).  
+`Del\Form\FormInterface` has a populate method which takes an array (usually the post data, but not necessarily ;-).  
 ```php
 <?php
 if (isset($_POST['submit'])) { // or ask your request object ;-) 
@@ -132,11 +132,11 @@ if (isset($_POST['submit'])) { // or ask your request object ;-)
 After populate has been called, if you call Form::render(), it will display any validation error messages.
 ## Field Types
 ### Text
-*Del\Form\Field\Text* fields are the most basic field, and come with a built in StripTags and StringTrim filter.
+`Del\Form\Field\Text` fields are the most basic field, and come with a built in StripTags and StringTrim filter.
 
-*Del\Form\Field\Text\EmailAddress* extends Text, and adds an EmailAddress validator for convenience.
+`Del\Form\Field\Text\EmailAddress` extends Text, and adds an EmailAddress validator for convenience.
 
-*Del\Form\Field\Text\Password* is a password field which also extends Text.
+`Del\Form\Field\Text\Password` is a password field which also extends Text.
 ```php
 <?php
 use Del\Form\Field\Text;
@@ -149,7 +149,7 @@ $text->setValue('Blah');
 
 ```
 ### TextArea
-*Del\Form\Field\TextArea* fields are pretty much the same as the Text field
+`Del\Form\Field\TextArea` fields are pretty much the same as the Text field
 ```php
 <?php
 use Del\Form\Field\TextArea;
@@ -157,7 +157,7 @@ use Del\Form\Field\TextArea;
 $textArea = new TextArea('message');;
 ```
 ### Select
-*Del\Form|Field\Select* needs initialised with setOptions():
+`Del\Form|Field\Select` needs initialised with setOptions():
 ```php
 <?php
 use Del\Form\Field\Select;
@@ -170,7 +170,7 @@ $select->setOptions([
 ]);
 ```
 ### Radio
-*Del\Form|Field\Radio* can be rendered inline (side by side) or not, also needs initialised with setOptions():
+`Del\Form|Field\Radio` can be rendered inline (side by side) or not, also needs initialised with setOptions():
 ```php
 <?php
 use Del\Form\Field\Radio;
@@ -197,17 +197,19 @@ $check->setOptions([
 ]);
 ```
 ### FileUpload
-*Del\Form|Field\FileUpload* fields come with a nifty looking Bootstrap compatible renderer, but it uses some javascript.
-If you don't want that, just call setRenderer() and pass it a default TextRender class instance.
+`Del\Form\Field\FileUpload` fields come with a nifty looking Bootstrap compatible renderer, but it uses some javascript.
+If you don't want that, just call setRenderer() and pass it a default TextRender class instance. Also, don't forget to set
+the encryption type on the form to `Form::ENC_TYPE_MULTIPART_FORM_DATA`
 ```php
 <?php
 use Del\Form\Field\FileUpload;
 
+$form->setEncType(Form::ENC_TYPE_MULTIPART_FORM_DATA);
 $fileUpload = new FileUpload('photo');
 $fileUpload->setUploadDirectory('/path/to/destination');
 ```
-### Submit
-*Del\Form|Field\Submit* doesn't really need much:
+### Submit`
+`Del\Form|Field\Submit` doesn't really need much:
 ```php
 <?php
 use Del\Form\Field\Submit;
