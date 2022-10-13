@@ -22,7 +22,6 @@ class FilterCollection extends AbstractCollection implements CollectionInterface
             throw new InvalidArgumentException('You can only append a Del\Form\Filter\FilterInterface.');
         }
         parent::append($filter);
-        return $this;
     }
 
     /**

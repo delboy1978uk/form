@@ -31,7 +31,7 @@ trait HasDomTrait
      */
     public function createText($text)
     {
-        return new DOMText($text);
+        return new DOMText($text ?? '');
     }
 
     /**

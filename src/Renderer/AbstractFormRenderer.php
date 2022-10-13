@@ -236,7 +236,7 @@ abstract class AbstractFormRenderer implements FormRendererInterface
     protected function createLabelElement()
     {
         $label = $this->createElement('label');
-        $label->setAttribute('for', $this->field->getId());
+        $label->setAttribute('for', $this->field->getId() ?? '');
         if ($this->field->isRequired()) {
             $label = $this->addRequiredAsterisk($label);
         }
