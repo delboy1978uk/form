@@ -16,7 +16,7 @@ class FilterCollection extends AbstractCollection implements CollectionInterface
      * @param FilterInterface $filter Pass in a filter
      * @return $this
      */
-    public function append($filter)
+    public function append(mixed $filter): void
     {
         if (!$filter instanceof FilterInterface) {
             throw new InvalidArgumentException('You can only append a Del\Form\Filter\FilterInterface.');

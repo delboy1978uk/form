@@ -16,7 +16,7 @@ class ValidatorCollection extends AbstractCollection implements CollectionInterf
      * @param ValidatorInterface $validator Pass in a validator
      * @return $this
      */
-    public function append($validator)
+    public function append(mixed $validator): void
     {
         if (!$validator instanceof ValidatorInterface) {
             throw new InvalidArgumentException('You can only append a Del\Form\Validator\ValidatorInterface.');
