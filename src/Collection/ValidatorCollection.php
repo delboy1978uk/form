@@ -28,7 +28,7 @@ class ValidatorCollection extends AbstractCollection implements CollectionInterf
     /**
      * @return ValidatorInterface
      */
-    public function current()
+    public function current(): mixed
     {
         return parent::current();
     }
