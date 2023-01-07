@@ -28,11 +28,11 @@ class FileUploadRender extends AbstractFieldRender
         $script = $this->getDom()->createElement('script');
         $style = $this->getDom()->createElement('style');
         $style->setAttribute('type', 'text/css');
-        $style->appendChild(new DOMText($this->getStyle()));
+        $style->appendChild(new DOMText($this->getStyle() ?? ''));
         $input = $this->getDom()->createElement('input');
         $span = $this->getDom()->createElement('span');
         $innerSpan = $this->getDom()->createElement('span');
-        $text = new DOMText($field->getLabel());
+        $text = new DOMText($field->getLabel() ?? '');
 
         $innerSpan->setAttribute('class', 'btn btn-primary btn-file');
         $innerSpan->appendChild($text);
@@ -46,7 +46,7 @@ class FileUploadRender extends AbstractFieldRender
         $input->setAttribute('readonly', 'readonly');
 
         $script->setAttribute('type', 'text/javascript');
-        $code = new DOMText($this->getJavascript());
+        $code = new DOMText($this->getJavascript() ?? '');
         $script->appendChild($code);
 
         $div->setAttribute('class', 'input-group');
