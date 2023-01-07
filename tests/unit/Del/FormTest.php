@@ -296,7 +296,7 @@ class FormTest extends Test
         $this->assertInstanceOf('Del\Form\Collection\FilterCollection', $filters);
         $this->assertCount(4, $filters);
         $this->assertArrayHasKey('username', $values);
-        $this->assertEquals('Delboy1978uk', $values['username']);
+        $this->assertEquals('Delboy1978Uk', $values['username']);
     }
 
     public function testValidatorCollectionThrowsInvalidArgumentException()
