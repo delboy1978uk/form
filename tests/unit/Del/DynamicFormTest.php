@@ -2,14 +2,14 @@
 
 namespace DelTesting\Form;
 
-use Codeception\TestCase\Test;
+use Codeception\Test\Unit;
 use Del\Form\Field\Radio;
 use Del\Form\Field\Submit;
 use Del\Form\Field\Text;
 use Del\Form\Form;
 use Del\Form\Renderer\HorizontalFormRenderer;
 
-class DynamicFormTest extends Test
+class DynamicFormTest extends Unit
 {
     public function testGetDynamicFormFieldThrowsException()
     {

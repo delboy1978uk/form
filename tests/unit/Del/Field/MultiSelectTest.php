@@ -2,14 +2,14 @@
 
 namespace DelTesting\Form\Field;
 
-use Codeception\TestCase\Test;
+use Codeception\Test\Unit;
 use Del\Form\Field\MultiSelect;
 use Del\Form\Field\Submit;
 use Del\Form\Field\Text;
 use Del\Form\Form;
 use Del\Form\Renderer\Field\SelectRender;
 
-class MultiSelectTest extends Test
+class MultiSelectTest extends Unit
 {
     public function testSelect()
     {

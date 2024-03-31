@@ -2,7 +2,7 @@
 
 namespace DelTesting\Form;
 
-use Codeception\TestCase\Test;
+use Codeception\Test\Unit;
 use Del\Form\Collection\FilterCollection;
 use Del\Form\Collection\ValidatorCollection;
 use Del\Form\Form;
@@ -20,7 +20,7 @@ use Laminas\Filter\UpperCaseWords;
 use Laminas\Validator\NotEmpty;
 use Laminas\Validator\StringLength;
 
-class FormTest extends Test
+class FormTest extends Unit
 {
    /**
     * @var \UnitTester

@@ -9,16 +9,16 @@
     }
   ],
   "require": {
-    "php": ">=7.3",
+    "php": "^8.2",
     "ext-dom": "*",
     "ext-fileinfo": "*",
-    "laminas/laminas-validator": "^2.8",
-    "laminas/laminas-filter": "^2.9"
+    "laminas/laminas-validator": "^2.52",
+    "laminas/laminas-filter": "^2.34"
   },
   "require-dev": {
     "roave/security-advisories": "dev-master",
-    "codeception/codeception": "^4.1",
-    "codeception/module-asserts": "^1.1"
+    "codeception/codeception": "^5.1",
+    "codeception/module-asserts": "^3.0"
   },
   "autoload": {
     "psr-4": {

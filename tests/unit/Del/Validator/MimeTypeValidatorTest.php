@@ -2,10 +2,10 @@
 
 namespace DelTesting\Form\Field;
 
-use Codeception\TestCase\Test;
+use Codeception\Test\Unit;
 use Del\Form\Validator\MimeTypeValidator;
 
-class MimeTypeValidatorTest extends Test
+class MimeTypeValidatorTest extends Unit
 {
     public function testMimeValidation()
     {

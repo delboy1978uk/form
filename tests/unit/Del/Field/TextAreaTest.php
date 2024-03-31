@@ -2,7 +2,7 @@
 
 namespace DelTesting\Form\Field;
 
-use Codeception\TestCase\Test;
+use Codeception\Test\Unit;
 use Del\Form\Form;
 use Del\Form\Field\TextArea;
 
@@ -11,7 +11,7 @@ use Del\Form\Field\TextArea;
  * Date: 05/12/2016
  * Time: 02:27
  */
-class TextAreaTest extends Test
+class TextAreaTest extends Unit
 {
 
     public function testRenderTextArea()
