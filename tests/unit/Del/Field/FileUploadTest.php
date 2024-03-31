@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DelTesting\Form\Field;
 
 use Codeception\Test\Unit;
@@ -9,11 +11,6 @@ use Del\Form\Field\FileUpload;
 use Del\Form\Renderer\Field\FileUploadRender;
 use Del\Form\Renderer\Field\TextRender;
 
-/**
- * User: delboy1978uk
- * Date: 05/12/2016
- * Time: 02:27
- */
 class FileUploadTest extends Unit
 {
     public function testRendererThrowsException()
@@ -94,9 +91,9 @@ class FileUploadTest extends Unit
         $this->assertEquals('<form name="photo-upload" method="post" id="photo-upload"><div class="has-error form-group" id="photo-form-group"><label for=""><span class="text-danger">* </span></label><input name="photo" type="file"><span class="text-danger">Value is required and can\'t be empty<br></span></div></form>' . "\n", $html);
     }
 
-    public function testMovingUploads()
+    public function testMovingUploadsDoesntWorkWithFakeUploadArray()
     {
-        $image = realpath(__DIR__ . '/../../../_data/fol.gif');
+        $image = \realpath(__DIR__ . '/../../../_data/fol.gif');
         $_POST = [
             'photo' => $image,
             'submit' => 'submit',
@@ -111,6 +108,7 @@ class FileUploadTest extends Unit
             ],
         ];
         $form = new Form('photo-upload');
+        $form->setEncType(Form::ENC_TYPE_MULTIPART_FORM_DATA);
         $form->setDisplayErrors(true);
         $pic = new FileUpload('photo');
         $pic->setRequired(true);
@@ -119,10 +117,9 @@ class FileUploadTest extends Unit
         $pic->setUploadDirectory($dir);
         $form->addField($pic);
         $this->assertTrue($form->isValid());
-        $path = (getcwd() . DIRECTORY_SEPARATOR . $dir . DIRECTORY_SEPARATOR . $pic->getValue());
+        $path = (\getcwd() . DIRECTORY_SEPARATOR . $dir . DIRECTORY_SEPARATOR . $pic->getValue());
         $fileExists = \file_exists($path);
-        $this->assertTrue($fileExists);
-        \unlink($path);
+        $this->assertFalse($fileExists);
     }
 
     public function testExceptionWhenDestinationNotSet()
@@ -152,7 +149,7 @@ class FileUploadTest extends Unit
 
     public function testSetUploadDirectoryThrowsException()
     {
-        $image = realpath(__DIR__ . '/../../../_data/fol.gif');
+        $image = \realpath(__DIR__ . '/../../../_data/fol.gif');
         $pic = new FileUpload('photo');
         $this->expectException('InvalidArgumentException');
         $pic->setUploadDirectory($image);
