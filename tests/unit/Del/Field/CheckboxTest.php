@@ -2,7 +2,7 @@
 
 namespace DelTesting\Form\Field;
 
-use Codeception\TestCase\Test;
+use Codeception\Test\Unit;
 use Del\Form\Field\CheckBox;
 use Del\Form\Field\Text;
 use Del\Form\Form;
@@ -13,7 +13,7 @@ use Del\Form\Renderer\Field\CheckboxRender;
  * Date: 05/12/2016
  * Time: 02:27
  */
-class CheckboxTest extends Test
+class CheckboxTest extends Unit
 {
     public function testMultipleCheckBoxsInHorizontalForm()
     {

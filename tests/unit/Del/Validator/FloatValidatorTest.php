@@ -2,7 +2,7 @@
 
 namespace DelTesting\Form\Field;
 
-use Codeception\TestCase\Test;
+use Codeception\Test\Unit;
 use Del\Form\Validator\FloatValidator;
 
 /**
@@ -10,7 +10,7 @@ use Del\Form\Validator\FloatValidator;
  * Date: 05/12/2016
  * Time: 02:27
  */
-class FloatValidatorTest extends Test
+class FloatValidatorTest extends Unit
 {
     public function testFloatValidation()
     {

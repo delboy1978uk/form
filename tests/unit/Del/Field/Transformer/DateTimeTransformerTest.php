@@ -2,13 +2,13 @@
 
 namespace DelTesting\Form\Field\Transformer;
 
-use Codeception\TestCase\Test;
+use Codeception\Test\Unit;
 use DateTime;
 use Del\Form\Field\Transformer\DateTimeTransformer;
 use Del\Form\Form;
 use Del\Form\Field\Text;
 
-class DateTimeTransformerTest extends Test
+class DateTimeTransformerTest extends Unit
 {
     public function testPlainText()
     {

@@ -2,10 +2,10 @@
 
 namespace DelTesting\Form\Field;
 
-use Codeception\TestCase\Test;
+use Codeception\Test\Unit;
 use Del\Form\Validator\FileExtensionValidator;
 
-class FileExtensionValidatorTest extends Test
+class FileExtensionValidatorTest extends Unit
 {
     public function testFileExtensionValidation()
     {

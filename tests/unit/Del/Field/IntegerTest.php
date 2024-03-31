@@ -2,11 +2,11 @@
 
 namespace DelTesting\Form\Field;
 
-use Codeception\TestCase\Test;
+use Codeception\Test\Unit;
 use Del\Form\Field\Text\Integer;
 use Del\Form\Form;
 
-class IntegerTest extends Test
+class IntegerTest extends Unit
 {
     public function testRequiredField()
     {

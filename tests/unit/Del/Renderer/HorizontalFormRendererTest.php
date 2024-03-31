@@ -2,7 +2,7 @@
 
 namespace DelTesting\Form\Renderer;
 
-use Codeception\TestCase\Test;
+use Codeception\Test\Unit;
 
 use Del\Form\Form;
 use Del\Form\Renderer;
@@ -12,7 +12,7 @@ use Del\Form\Field\Radio;
 use Del\Form\Field\Submit;
 use Del\Form\Field\Text;
 
-class HorizontalFormRendererTest extends Test
+class HorizontalFormRendererTest extends Unit
 {
    /**
     * @var \UnitTester

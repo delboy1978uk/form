@@ -105,7 +105,7 @@ interface FormInterface
      * @param mixed $value
      * @return $this
      */
-    public function setAttribute(string $key, $value): void;
+    public function setAttribute(string $key, mixed $value): void;
 
     /**
      * @param array $attributes

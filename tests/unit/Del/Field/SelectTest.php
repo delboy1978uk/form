@@ -2,7 +2,7 @@
 
 namespace DelTesting\Form\Field;
 
-use Codeception\TestCase\Test;
+use Codeception\Test\Unit;
 use Del\Form\Field\Submit;
 use Del\Form\Field\Text;
 use Del\Form\Field\Select;
@@ -14,7 +14,7 @@ use Del\Form\Renderer\Field\SelectRender;
  * Date: 05/12/2016
  * Time: 02:27
  */
-class SelectTest extends Test
+class SelectTest extends Unit
 {
     public function testSelect()
     {
