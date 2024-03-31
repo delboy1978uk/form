@@ -57,7 +57,7 @@ class FileUploadTest extends Unit
     input[readonly] {
         background-color: white !important;
         cursor: text !important;
-    }</style><script type="text/javascript">'."    $(document).on('change', '.btn-file :file', function() {
+    }</style><script type="text/javascript">' . "    $(document).on('change', '.btn-file :file', function() {
         var input = $(this),
             numFiles = input.get(0).files ? input.get(0).files.length : 1,
             label = input.val().replace(/\\\\/g, '/').replace(/.*\//, '');
@@ -91,12 +91,12 @@ class FileUploadTest extends Unit
         $form->addField($pic);
         $this->assertFalse($form->isValid());
         $html = $form->render();
-        $this->assertEquals('<form name="photo-upload" method="post" id="photo-upload"><div class="has-error form-group" id="photo-form-group"><label for=""><span class="text-danger">* </span></label><input name="photo" type="file"><span class="text-danger">Value is required and can\'t be empty<br></span></div></form>'."\n", $html);
+        $this->assertEquals('<form name="photo-upload" method="post" id="photo-upload"><div class="has-error form-group" id="photo-form-group"><label for=""><span class="text-danger">* </span></label><input name="photo" type="file"><span class="text-danger">Value is required and can\'t be empty<br></span></div></form>' . "\n", $html);
     }
 
     public function testMovingUploads()
     {
-        $image = realpath(__DIR__.'/../../../_data/fol.gif');
+        $image = realpath(__DIR__ . '/../../../_data/fol.gif');
         $_POST = [
             'photo' => $image,
             'submit' => 'submit',
@@ -119,15 +119,15 @@ class FileUploadTest extends Unit
         $pic->setUploadDirectory($dir);
         $form->addField($pic);
         $this->assertTrue($form->isValid());
-        $path = (getcwd().DIRECTORY_SEPARATOR.$dir.DIRECTORY_SEPARATOR.$pic->getValue());
-        $fileExists = file_exists($path);
+        $path = (getcwd() . DIRECTORY_SEPARATOR . $dir . DIRECTORY_SEPARATOR . $pic->getValue());
+        $fileExists = \file_exists($path);
         $this->assertTrue($fileExists);
-        unlink ($path);
+        \unlink($path);
     }
 
     public function testExceptionWhenDestinationNotSet()
     {
-        $image = realpath(__DIR__.'/../../../_data/fol.gif');
+        $image = \realpath(__DIR__ . '/../../../_data/fol.gif');
         $_POST = [
             'photo' => $image,
             'submit' => 'submit',
@@ -152,7 +152,7 @@ class FileUploadTest extends Unit
 
     public function testSetUploadDirectoryThrowsException()
     {
-        $image = realpath(__DIR__.'/../../../_data/fol.gif');
+        $image = realpath(__DIR__ . '/../../../_data/fol.gif');
         $pic = new FileUpload('photo');
         $this->expectException('InvalidArgumentException');
         $pic->setUploadDirectory($image);

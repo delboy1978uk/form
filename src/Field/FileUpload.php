@@ -8,11 +8,8 @@ use LogicException;
 
 class FileUpload extends FieldAbstract implements FieldInterface
 {
-    /** @var string $uploadDirectory */
-    private $uploadDirectory;
-
-    /** @var array $_FILES */
-    private $files;
+    private string $uploadDirectory;
+    private array $files;
 
     /**
      * @return string
@@ -65,7 +62,7 @@ class FileUpload extends FieldAbstract implements FieldInterface
         $path = realpath($path);
 
         if (!is_dir($path) || !is_writable($path)) {
-            throw new InvalidArgumentException('Directory does not exist or is not writable.');
+            throw new InvalidArgumentException('Directory ' . $path . ' does not exist or is not writable.');
         }
 
         $this->uploadDirectory = $path;
@@ -97,8 +94,8 @@ class FileUpload extends FieldAbstract implements FieldInterface
         }
 
         $tmp = $this->files[$this->getName()]['tmp_name'];
-        $destination = $this->getUploadDirectory().DIRECTORY_SEPARATOR.$this->files[$this->getName()]['name'];
-        $success = move_uploaded_file($tmp, $destination);
+        $destination = $this->getUploadDirectory() . DIRECTORY_SEPARATOR . $this->files[$this->getName()]['name'];
+        $success = \move_uploaded_file($tmp, $destination);
 
         return $success;
     }
