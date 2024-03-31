@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Del\Form\Field;
 
 use Del\Form\Renderer\Field\FileUploadRender;
@@ -8,12 +10,9 @@ use LogicException;
 
 class FileUpload extends FieldAbstract implements FieldInterface
 {
-    private string $uploadDirectory;
-    private array $files;
+    private ?string $uploadDirectory = null;
+    private array $files = [];
 
-    /**
-     * @return string
-     */
     public function getTag(): string
     {
         return 'input';
@@ -30,33 +29,21 @@ class FileUpload extends FieldAbstract implements FieldInterface
         }
     }
 
-    /**
-     * @return bool
-     */
     private function hasUploadedFile(): bool
     {
         return $this->isFileArraySet() && $this->isTempNameSet();
     }
 
-    /**
-     * @return bool
-     */
     private function isFileArraySet(): bool
     {
         return isset($this->files[$this->getName()]);
     }
 
-    /**
-     * @return bool
-     */
     private function isTempNameSet(): bool
     {
         return isset($this->files[$this->getName()]['tmp_name']);
     }
 
-    /**
-     * @param $path
-     */
     public function setUploadDirectory(string $path): void
     {
         $path = realpath($path);
@@ -68,25 +55,16 @@ class FileUpload extends FieldAbstract implements FieldInterface
         $this->uploadDirectory = $path;
     }
 
-    /**
-     * @return string
-     */
     public function getUploadDirectory(): string
     {
         return $this->uploadDirectory;
     }
 
-    /**
-     * @return bool
-     */
     public function hasUploadDirectory(): bool
     {
         return $this->uploadDirectory !== null;
     }
 
-    /**
-     * @return bool
-     */
     public function moveUploadToDestination(): bool
     {
         if (!$this->hasUploadDirectory()) {
