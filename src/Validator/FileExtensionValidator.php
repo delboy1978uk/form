@@ -1,26 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Del\Form\Validator;
 
 class FileExtensionValidator implements ValidatorInterface
 {
-    /** @var array $validExtensions */
-    private $validExtensions;
+    private array $validExtensions;
 
-    /**
-     * FileExtensionValidator constructor.
-     * @param array $validExtensions
-     */
     public function __construct(array $validExtensions)
     {
         $this->validExtensions = $validExtensions;
     }
 
-    /**
-     * @param mixed $value
-     * @return bool|void
-     */
-    public function isValid($value)
+    public function isValid(mixed $value): bool
     {
         $debris = explode('.', $value);
         $extension = end($debris);
@@ -29,10 +22,7 @@ class FileExtensionValidator implements ValidatorInterface
         return in_array($extension, $this->validExtensions);
     }
 
-    /**
-     * @return array|void
-     */
-    public function getMessages()
+    public function getMessages(): array
     {
         $validExtensions = $this->validExtensions;
         $last = array_pop($validExtensions);

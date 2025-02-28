@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Del\Form\Field;
 
@@ -11,10 +13,8 @@ class Radio extends FieldAbstract implements ArrayValueInterface
     use CanRenderInlineTrait;
     use HasOptionsTrait;
 
-    /**
+    /*
      * We end up ignoring this during rendering Radios, see the renderer for info
-     *
-     * @return string
      */
     public function getTag(): string
     {

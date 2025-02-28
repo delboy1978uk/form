@@ -1,17 +1,12 @@
 <?php
-/**
- * User: delboy1978uk
- * Date: 19/11/2016
- * Time: 21:37
- */
+
+declare(strict_types=1);
 
 namespace Del\Form\Field;
 
 class Submit extends FieldAbstract
 {
-    /**
-     * @return string
-     */
+
     public function getTag(): string
     {
         return 'input';

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Del\Form\Field\Text;
 
 use Del\Form\Field\Text;
@@ -8,7 +10,7 @@ use Laminas\Validator\EmailAddress as EmailValidator;
 
 class EmailAddress extends Text
 {
-    public function init()
+    public function init(): void
     {
         parent::init();
         $this->setAttribute('type', 'email');

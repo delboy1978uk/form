@@ -1,9 +1,6 @@
 <?php
-/**
- * User: delboy1978uk
- * Date: 27/11/2016
- * Time: 13:50
- */
+
+declare(strict_types=1);
 
 namespace Del\Form\Filter;
 
@@ -14,9 +11,7 @@ interface FilterInterface
     /**
      * Returns the result of filtering $value
      *
-     * @param  mixed $value
      * @throws Exception If filtering $value is impossible
-     * @return mixed
      */
-    public function filter($value);
+    public function filter(mixed $value): mixed;
 }

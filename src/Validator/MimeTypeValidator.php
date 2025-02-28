@@ -1,30 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Del\Form\Validator;
 
 class MimeTypeValidator implements ValidatorInterface
 {
-    /** @var array $validMimeTypes */
-    private $validMimeTypes;
+    private array $validMimeTypes;
+    private string $name = '';
 
-    /** @var string $name */
-    private $name;
-
-    /**
-     * FileExtensionValidator constructor.
-     * @param array $validMimeTypes
-     */
     public function __construct(array $validMimeTypes, string $name)
     {
         $this->validMimeTypes = $validMimeTypes;
         $this->name = $name;
     }
 
-    /**
-     * @param mixed $value
-     * @return bool|void
-     */
-    public function isValid($value)
+    public function isValid(mixed $value): bool
     {
         $files = $_FILES;
         $mimeType = isset($files[$this->name]) ? mime_content_type($files[$this->name]['tmp_name']) : '';
@@ -32,10 +23,7 @@ class MimeTypeValidator implements ValidatorInterface
         return in_array($mimeType, $this->validMimeTypes);
     }
 
-    /**
-     * @return array|void
-     */
-    public function getMessages()
+    public function getMessages(): array
     {
         return ['Invalid mime type.'];
     }

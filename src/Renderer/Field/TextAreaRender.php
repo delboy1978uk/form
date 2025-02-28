@@ -7,11 +7,6 @@ use DOMElement;
 
 class TextAreaRender extends AbstractFieldRender
 {
-    /**
-     * @param FieldInterface $field
-     * @param DOMElement $element
-     * @return DOMElement
-     */
     public function renderBlock(FieldInterface $field, DOMElement $element): DOMElement
     {
         $element->removeAttribute('type');

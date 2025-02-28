@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Del\Form;
 
 use Del\Form\Collection\FieldCollection;

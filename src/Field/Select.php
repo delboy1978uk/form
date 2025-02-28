@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Del\Form\Field;
 
 use Del\Form\Renderer\Field\SelectRender;
@@ -9,9 +11,6 @@ class Select extends FieldAbstract
 {
     use HasOptionsTrait;
 
-    /**
-     * @return string
-     */
     public function getTag(): string
     {
         return 'select';

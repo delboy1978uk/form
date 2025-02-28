@@ -4,17 +4,11 @@ namespace Del\Form\Renderer\Field;
 
 use Del\Form\Field\FieldInterface;
 use Del\Form\Field\MultiSelect;
-use Del\Form\Field\Select;
 use DOMElement;
 use InvalidArgumentException;
 
 class MultiSelectRender extends AbstractFieldRender
 {
-    /**
-     * @param FieldInterface $field
-     * @param DOMElement $element
-     * @return DOMElement
-     */
     public function renderBlock(FieldInterface $field, DOMElement $element): DOMElement
     {
         if (!$field instanceof MultiSelect) {
@@ -31,12 +25,6 @@ class MultiSelectRender extends AbstractFieldRender
         return $element;
     }
 
-    /**
-     * @param FieldInterface $field
-     * @param string $value
-     * @param string $label
-     * @return DOMElement
-     */
     private function processOption(FieldInterface $field, $value, $label): DOMElement
     {
         $option = $this->createElement('option');

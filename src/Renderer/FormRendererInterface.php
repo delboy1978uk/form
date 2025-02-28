@@ -1,9 +1,6 @@
 <?php
-/**
- * User: delboy1978uk
- * Date: 07/12/2016
- * Time: 01:50
- */
+
+declare(strict_types=1);
 
 namespace Del\Form\Renderer;
 
@@ -12,19 +9,7 @@ use DOMElement;
 
 interface FormRendererInterface
 {
-    /**
-     * @param FormInterface $form
-     * @return string of HTML
-     */
-    public function render(FormInterface $form, $displayErrors = true);
-
-    /**
-     * @return DOMElement
-     */
-    public function renderFieldLabel();
-
-    /**
-     * @return DOMElement
-     */
-    public function renderFieldBlock();
+    public function render(FormInterface $form, $displayErrors = true): string;
+    public function renderFieldLabel(): DOMElement;
+    public function renderFieldBlock(): DOMElement;
 }

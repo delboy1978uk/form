@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Del\Form\Field;
 
 use Del\Form\Renderer\Field\CheckboxRender;
@@ -12,10 +14,8 @@ class CheckBox extends FieldAbstract implements ArrayValueInterface
     use CanRenderInlineTrait;
     use HasOptionsTrait;
 
-    /**
+    /*
      * We end up ignoring this during rendering Checkboxes, see the renderer for info
-     *
-     * @return string
      */
     public function getTag(): string
     {

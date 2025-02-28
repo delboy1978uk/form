@@ -7,14 +7,8 @@ use DOMElement;
 
 class TextRender extends AbstractFieldRender
 {
-    /**
-     * @param FieldInterface $field
-     * @param DOMElement $element
-     * @return DOMElement
-     */
     public function renderBlock(FieldInterface $field, DOMElement $element): DOMElement
     {
         return $element;
     }
-
 }

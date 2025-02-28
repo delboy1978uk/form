@@ -115,10 +115,7 @@ abstract class FieldAbstract implements FieldInterface
         $this->setAttribute('class', $class);
     }
 
-    /**
-     * @return mixed
-     */
-    public function getValue()
+    public function getValue(): mixed
     {
         return $this->getAttribute('value');
     }

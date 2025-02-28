@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Del\Form\Field;
 
 use Del\Form\Filter\Adapter\FilterAdapterZf;
@@ -8,16 +10,12 @@ use Laminas\Filter\StripTags;
 
 class Hidden extends FieldAbstract
 {
-    /**
-     * @return string
-     */
     public function getTag(): string
     {
         return 'input';
     }
 
-
-    public function init()
+    public function init(): void
     {
         $this->setAttribute('type', 'hidden');
         $this->setAttribute('class', 'form-control');

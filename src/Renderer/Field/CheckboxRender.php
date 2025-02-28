@@ -1,9 +1,6 @@
 <?php
-/**
- * User: delboy1978uk
- * Date: 04/12/2016
- * Time: 22:33
- */
+
+declare(strict_types=1);
 
 namespace Del\Form\Renderer\Field;
 
@@ -12,26 +9,16 @@ use Del\Form\Field\CheckBox;
 use DOMDocumentFragment;
 use DOMElement;
 use DOMNode;
-use DOMText;
 use InvalidArgumentException;
 use LogicException;
 
-class CheckboxRender extends AbstractFieldRender implements FieldRendererInterface
+class CheckboxRender extends AbstractFieldRender
 {
-    /** @var DOMDocumentFragment $div */
-    private $fragment;
+    private DOMDocumentFragment $fragment;
+    private bool $isMultiCheckbox = false;
+    private int $counter = 0;
 
-    /** @var bool $isMultiCheckbox */
-    private $isMultiCheckbox = false;
-
-    private $counter = 0;
-
-    /**
-     * @param FieldInterface $field
-     * @param DOMElement $element
-     * @return DOMNode
-     */
-    public function renderBlock(FieldInterface $field, DOMElement $element)
+    public function renderBlock(FieldInterface $field, DOMElement $element): DOMNode
     {
         // We don't really want a containing div, so we'll ignore $element
         // and instead create a DOMDocumentFragment
@@ -59,25 +46,12 @@ class CheckboxRender extends AbstractFieldRender implements FieldRendererInterfa
         return $this->fragment;
     }
 
-
-    /**
-     * @param FieldInterface $field
-     * @param $value
-     * @param $labelText
-     * @return DOMElement
-     */
-    private function processOption(FieldInterface $field, $value, $labelText, $inline)
+    private function processOption(CheckBox $field, $value, $labelText, $inline): DOMElement
     {
         return $this->renderCheckbox($field, $value, $labelText, $inline);
     }
 
-    /**
-     * @param CheckBox $field
-     * @param $value
-     * @param $labelText
-     * @return DOMElement
-     */
-    private function renderCheckbox(CheckBox $field, $value, $labelText, $inline)
+    private function renderCheckbox(CheckBox $field, $value, $labelText, $inline): DOMElement
     {
         $div = $this->getDom()->createElement('div');
         $class = $inline ? 'form-check-inline' : 'form-check';
@@ -89,11 +63,6 @@ class CheckboxRender extends AbstractFieldRender implements FieldRendererInterfa
         return $div;
     }
 
-    /**
-     * @param FieldInterface $field
-     * @param string $labelText
-     * @return DOMElement
-     */
     private function getLabel(FieldInterface $field, string $labelText): DOMElement
     {
         $this->counter ++;
@@ -106,13 +75,7 @@ class CheckboxRender extends AbstractFieldRender implements FieldRendererInterfa
         return $label;
     }
 
-    /**
-     * @param FieldInterface $field
-     * @param $value
-     * @param $labelText
-     * @return DOMElement
-     */
-    private function renderCheckboxInline(FieldInterface $field, $value)
+    private function renderCheckboxInline(FieldInterface $field, $value): DOMElement
     {
         $checkbox = $this->getDom()->createElement('input');
         $checkbox->setAttribute('class', 'form-check-input');

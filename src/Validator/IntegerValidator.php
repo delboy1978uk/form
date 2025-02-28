@@ -1,24 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Del\Form\Validator;
 
 class IntegerValidator implements ValidatorInterface
 {
-    /**
-     * @param  mixed $value
-     * @return bool
-     */
-    public function isValid($value)
+    public function isValid(mixed $value): bool
     {
         return (bool) \filter_var($value, FILTER_VALIDATE_INT);
     }
 
-    /**
-     * @return array
-     */
-    public function getMessages()
+    public function getMessages(): array
     {
         return ['Value is not an integer.'];
     }
-
 }

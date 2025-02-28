@@ -1,24 +1,16 @@
 <?php
-/**
- * User: delboy1978uk
- * Date: 04/12/2016
- * Time: 23:36
- */
+
+declare(strict_types=1);
 
 namespace Del\Form\Renderer\Error;
 
 
 use Del\Form\Field\FieldInterface;
 use DOMElement;
-use DOMText;
 
-class DefaultErrorRender extends AbstractErrorRender implements ErrorRendererInterface
+class DefaultErrorRender extends AbstractErrorRender
 {
-    /**
-     * @param FieldInterface $field
-     * @return DOMElement
-     */
-    public function render(FieldInterface $field)
+    public function render(FieldInterface $field): DOMElement
     {
         $helpBlock = $this->getDom()->createElement('span');
         $helpBlock->setAttribute('class', 'text-danger');
@@ -31,12 +23,7 @@ class DefaultErrorRender extends AbstractErrorRender implements ErrorRendererInt
         return $helpBlock;
     }
 
-    /**
-     * @param DOMElement $helpBlock
-     * @param FieldInterface $field
-     * @return DOMElement
-     */
-    private function addCustomErrorMessage(DOMElement $helpBlock, FieldInterface $field)
+    private function addCustomErrorMessage(DOMElement $helpBlock, FieldInterface $field): DOMElement
     {
         $message = $field->getCustomErrorMessage();
         $text = $this->createText($message);
@@ -44,12 +31,7 @@ class DefaultErrorRender extends AbstractErrorRender implements ErrorRendererInt
         return $helpBlock;
     }
 
-    /**
-     * @param DOMElement $helpBlock
-     * @param FieldInterface $field
-     * @return DOMElement
-     */
-    private function addErrorMessages(DOMElement $helpBlock, FieldInterface $field)
+    private function addErrorMessages(DOMElement $helpBlock, FieldInterface $field): DOMElement
     {
         $messages = $field->getMessages();
 
@@ -59,12 +41,7 @@ class DefaultErrorRender extends AbstractErrorRender implements ErrorRendererInt
         return $helpBlock;
     }
 
-    /**
-     * @param DOMElement $helpBlock
-     * @param $message
-     * @return DOMElement
-     */
-    private function appendMessage(DOMElement $helpBlock, $message)
+    private function appendMessage(DOMElement $helpBlock, $message): DOMElement
     {
         $text = $this->createText($message);
         $br = $this->createLineBreak();
@@ -72,5 +49,4 @@ class DefaultErrorRender extends AbstractErrorRender implements ErrorRendererInt
         $helpBlock->appendChild($br);
         return $helpBlock;
     }
-
 }

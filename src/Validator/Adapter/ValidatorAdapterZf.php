@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Del\Form\Validator\Adapter;
 
 use Del\Form\Validator\ValidatorInterface;
@@ -8,30 +10,20 @@ use Laminas\Validator\ValidatorInterface as LaminasValidatorInterface;
 
 class ValidatorAdapterZf implements ValidatorInterface
 {
-    private $validator;
+    public function __construct(
+        private LaminasValidatorInterface $validator
+    ) {}
 
     /**
-     * ValidatorAdapterZf constructor.
-     */
-    public function __construct(LaminasValidatorInterface $validator)
-    {
-        $this->validator = $validator;
-    }
-
-    /**
-     * @param  mixed $value
-     * @return bool
+     * @todo exception types
      * @throws Exception If validation of $value is impossible
      */
-    public function isValid($value)
+    public function isValid(mixed $value): bool
     {
         return $this->validator->isValid($value);
     }
 
-    /**
-     * @return array
-     */
-    public function getMessages()
+    public function getMessages(): array
     {
         return $this->validator->getMessages();
     }

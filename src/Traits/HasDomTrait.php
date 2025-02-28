@@ -1,9 +1,6 @@
 <?php
-/**
- * User: delboy1978uk
- * Date: 27/12/2016
- * Time: 00:27
- */
+
+declare(strict_types=1);
 
 namespace Del\Form\Traits;
 
@@ -13,50 +10,30 @@ use DOMText;
 
 trait HasDomTrait
 {
-    /** @var DOMDocument $dom  */
-    private $dom;
+    private DOMDocument $dom;
 
-    /**
-     * @param $tagType
-     * @return DOMElement
-     */
-    public function createElement($tagType)
+    public function createElement(string $tagType): DOMElement
     {
         return $this->dom->createElement($tagType);
     }
 
-    /**
-     * @param $text
-     * @return DOMText
-     */
-    public function createText($text)
+    public function createText($text): DOMText
     {
         return new DOMText($text ?? '');
     }
 
-    /**
-     * @return DOMElement
-     */
-    public function createLineBreak()
+    public function createLineBreak(): DOMElement
     {
         return $this->createElement('br');
     }
 
-    /**
-     * @return DOMDocument
-     */
-    public function getDom()
+    public function getDom(): DOMDocument
     {
         return $this->dom;
     }
 
-    /**
-     * @param DOMDocument $dom
-     * @return $this
-     */
-    public function setDom($dom)
+    public function setDom($dom): void
     {
         $this->dom = $dom;
-        return $this;
     }
 }

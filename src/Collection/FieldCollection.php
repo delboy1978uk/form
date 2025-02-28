@@ -1,9 +1,6 @@
 <?php
-/**
- * User: delboy1978uk
- * Date: 19/11/2016
- * Time: 12:18
- */
+
+declare(strict_types=1);
 
 namespace Del\Form\Collection;
 

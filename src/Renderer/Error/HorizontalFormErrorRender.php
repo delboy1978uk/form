@@ -1,24 +1,15 @@
 <?php
-/**
- * User: delboy1978uk
- * Date: 04/12/2016
- * Time: 23:36
- */
+
+declare(strict_types=1);
 
 namespace Del\Form\Renderer\Error;
 
-
 use Del\Form\Field\FieldInterface;
 use DOMElement;
-use DOMText;
 
-class HorizontalFormErrorRender extends AbstractErrorRender implements ErrorRendererInterface
+class HorizontalFormErrorRender extends AbstractErrorRender
 {
-    /**
-     * @param FieldInterface $field
-     * @return DOMElement
-     */
-    public function render(FieldInterface $field)
+    public function render(FieldInterface $field): DOMElement
     {
         $helpBlock = $this->createElement('span');
         $helpBlock->setAttribute('class', 'text-danger');
@@ -35,25 +26,16 @@ class HorizontalFormErrorRender extends AbstractErrorRender implements ErrorRend
         return $div;
     }
 
-    /**
-     * @param DOMElement $helpBlock
-     * @param FieldInterface $field
-     * @return DOMElement
-     */
-    private function addCustomErrorMessage(DOMElement $helpBlock, FieldInterface $field)
+    private function addCustomErrorMessage(DOMElement $helpBlock, FieldInterface $field): DOMElement
     {
         $message = $field->getCustomErrorMessage();
         $text = $this->createText($message);
         $helpBlock->appendChild($text);
+
         return $helpBlock;
     }
 
-    /**
-     * @param DOMElement $helpBlock
-     * @param FieldInterface $field
-     * @return DOMElement
-     */
-    private function addErrorMessages(DOMElement $helpBlock, FieldInterface $field)
+    private function addErrorMessages(DOMElement $helpBlock, FieldInterface $field): DOMElement
     {
         $messages = $field->getMessages();
 
@@ -63,12 +45,7 @@ class HorizontalFormErrorRender extends AbstractErrorRender implements ErrorRend
         return $helpBlock;
     }
 
-    /**
-     * @param DOMElement $helpBlock
-     * @param $message
-     * @return DOMElement
-     */
-    private function appendMessage(DOMElement $helpBlock, $message)
+    private function appendMessage(DOMElement $helpBlock, string $message): DOMElement
     {
         $text = $this->createText($message);
         $br = $this->createLineBreak();
@@ -76,5 +53,4 @@ class HorizontalFormErrorRender extends AbstractErrorRender implements ErrorRend
         $helpBlock->appendChild($br);
         return $helpBlock;
     }
-
 }

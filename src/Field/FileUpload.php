@@ -8,7 +8,7 @@ use Del\Form\Renderer\Field\FileUploadRender;
 use InvalidArgumentException;
 use LogicException;
 
-class FileUpload extends FieldAbstract implements FieldInterface
+class FileUpload extends FieldAbstract
 {
     private ?string $uploadDirectory = null;
     private array $files = [];
@@ -73,8 +73,7 @@ class FileUpload extends FieldAbstract implements FieldInterface
 
         $tmp = $this->files[$this->getName()]['tmp_name'];
         $destination = $this->getUploadDirectory() . DIRECTORY_SEPARATOR . $this->files[$this->getName()]['name'];
-        $success = \move_uploaded_file($tmp, $destination);
 
-        return $success;
+        return \move_uploaded_file($tmp, $destination);
     }
 }
