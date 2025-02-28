@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Del\Form\Filter\Adapter;
 
 use Del\Form\Filter\FilterInterface;
@@ -17,11 +19,7 @@ class FilterAdapterZf implements FilterInterface
         $this->filter = $filter;
     }
 
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
-    public function filter($value)
+    public function filter(mixed $value): mixed
     {
         return $this->filter->filter($value);
     }

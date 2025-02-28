@@ -1,23 +1,15 @@
 <?php
-/**
- * User: delboy1978uk
- * Date: 29/11/2016
- * Time: 19:44
- */
+
+declare(strict_types=1);
 
 namespace Del\Form\Renderer;
 
-use Del\Form\Field\CheckBox;
-use Del\Form\Field\Radio;
 use DOMElement;
 use DOMText;
 
-class FormRenderer extends AbstractFormRenderer implements FormRendererInterface
+class FormRenderer extends AbstractFormRenderer
 {
-    /**
-     * @return DOMElement
-     */
-    public function renderFieldLabel()
+    public function renderFieldLabel(): DOMElement
     {
         $label = $this->createLabelElement();
         $text = new DOMText($this->field->getLabel() ?? '');
@@ -25,10 +17,7 @@ class FormRenderer extends AbstractFormRenderer implements FormRendererInterface
         return $label;
     }
 
-    /**
-     * @return DomElement
-     */
-    public function renderFieldBlock()
+    public function renderFieldBlock(): DomElement
     {
         // Set form group div properties
         $formGroup = $this->block;
@@ -44,8 +33,6 @@ class FormRenderer extends AbstractFormRenderer implements FormRendererInterface
             $formGroup->appendChild($this->errors);
         }
 
-        // Field rendered! Pass it back!
         return $formGroup;
     }
-
 }

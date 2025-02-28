@@ -1,24 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Del\Form\Validator;
 
 class FloatValidator implements ValidatorInterface
 {
-    /**
-     * @param  mixed $value
-     * @return bool
-     */
-    public function isValid($value)
+    public function isValid($value): bool
     {
         return (bool) \filter_var($value, FILTER_VALIDATE_FLOAT);
     }
 
-    /**
-     * @return array
-     */
-    public function getMessages()
+    public function getMessages(): array
     {
         return ['Value is not a float.'];
     }
-
 }

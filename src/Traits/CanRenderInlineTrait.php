@@ -1,34 +1,20 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: DM0C60544
- * Date: 15/12/2016
- * Time: 12:32 PM
- */
+
+declare(strict_types=1);
 
 namespace Del\Form\Traits;
 
-
 trait CanRenderInlineTrait
 {
-    /** @var bool $renderInline */
-    private $renderInline;
+    private bool $renderInline = false;
 
-    /**
-     * @return boolean
-     */
-    public function isRenderInline()
+    public function isRenderInline(): bool
     {
         return $this->renderInline;
     }
 
-    /**
-     * @param boolean $renderInline
-     * @return $this
-     */
-    public function setRenderInline($renderInline)
+    public function setRenderInline($renderInline): void
     {
         $this->renderInline = $renderInline;
-        return $this;
     }
 }

@@ -7,27 +7,18 @@ use Del\Form\Field\Radio;
 use DOMDocumentFragment;
 use DOMElement;
 use DOMNode;
-use DOMText;
 use InvalidArgumentException;
 use LogicException;
 
 class RadioRender extends AbstractFieldRender
 {
-    /** @var DOMDocumentFragment $div */
-    private $fragment;
+    private DOMDocumentFragment $fragment;
+    private int $counter = 0;
 
-    private $counter = 0;
-
-    /**
-     * @param FieldInterface $field
-     * @param DOMElement $element
-     * @return DOMNode
-     */
-    public function renderBlock(FieldInterface $field, DOMElement $element)
+    public function renderBlock(FieldInterface $field, DOMElement $element): DOMNode
     {
         // We don't really want a containing div, so we'll ignore $element
         // and instead create a DOMDocumentFragment
-        unset($element);
         $this->fragment = $this->getDom()->createDocumentFragment();
 
         // Make sure the FieldInterface is actually a Radio
@@ -36,8 +27,8 @@ class RadioRender extends AbstractFieldRender
         }
 
         $inline = $field->isRenderInline();
-
         $options = $field->getOptions();
+
         if (empty($options)) {
             throw new LogicException('You must set at least one option.');
         }
@@ -51,14 +42,7 @@ class RadioRender extends AbstractFieldRender
         return $this->fragment;
     }
 
-    /**
-     * @param FieldInterface $field
-     * @param $value
-     * @param $labelText
-     * @param $inline
-     * @return DOMElement
-     */
-    private function renderRadio(FieldInterface $field, $value, $labelText, $inline)
+    private function renderRadio(FieldInterface $field, $value, $labelText, $inline): DOMElement
     {
         $div = $this->createElement('div');
         $class = $inline ? 'form-check-inline' : 'form-check';
@@ -71,11 +55,6 @@ class RadioRender extends AbstractFieldRender
         return $div;
     }
 
-    /**
-     * @param FieldInterface $field
-     * @param string $labelText
-     * @return DOMElement
-     */
     private function getLabel(FieldInterface $field, string $labelText): DOMElement
     {
         $this->counter ++;
@@ -88,19 +67,14 @@ class RadioRender extends AbstractFieldRender
         return $label;
     }
 
-    /**
-     * @param FieldInterface $field
-     * @param $value
-     * @param $labelText
-     * @return DOMElement
-     */
-    private function renderRadioInline(FieldInterface $field, $value, $labelText)
+    private function renderRadioInline(FieldInterface $field, $value, $labelText): DOMElement
     {
         $radio = $this->createElement('input');
         $radio->setAttribute('class', 'form-check-input');
         $radio->setAttribute('type', 'radio');
         $radio->setAttribute('name', $field->getName());
         $radio->setAttribute('value', $value);
+        /** @todo label? do we eed this? */
         $text = $this->createText($labelText);
 
         if ($field->getValue() == $radio->getAttribute('value')) {

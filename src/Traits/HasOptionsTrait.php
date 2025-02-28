@@ -1,53 +1,30 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: DM0C60544
- * Date: 15/12/2016
- * Time: 10:41 AM
- */
+
+declare(strict_types=1);
 
 namespace Del\Form\Traits;
 
-
 trait HasOptionsTrait
 {
-    /** @var array $options */
-    private $options = [];
+    private array $options = [];
 
-    /**
-     * @return array
-     */
-    public function getOptions()
+    public function getOptions(): array
     {
         return $this->options;
     }
 
-    /**
-     * @param array $options
-     * @return $this
-     */
-    public function setOptions($options)
+    public function setOptions($options): void
     {
         $this->options = $options;
-        return $this;
     }
 
-    /**
-     * @return array
-     */
-    public function getOption($key)
+    public function getOption($key): mixed
     {
         return $this->options[$key];
     }
 
-    /**
-     * @param $key
-     * @param $value
-     * @return $this
-     */
-    public function setOption($key, $value)
+    public function setOption($key, $value): void
     {
         $this->options[$key] = $value;
-        return $this;
     }
 }

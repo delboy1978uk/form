@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Del\Form\Renderer\Field;
 
 use Del\Form\Field\FieldInterface;
@@ -11,13 +13,7 @@ use InvalidArgumentException;
 
 class FileUploadRender extends AbstractFieldRender
 {
-
-    /**
-     * @param FieldInterface $field
-     * @param DOMElement $element
-     * @return DOMNode
-     */
-    public function renderBlock(FieldInterface $field, DOMElement $element): DOMElement
+    public function renderBlock(FieldInterface $field, DOMElement $element): DOMNode
     {
         // Make sure the FieldInterface is actually a Radio
         if (!$field instanceof FileUpload) {

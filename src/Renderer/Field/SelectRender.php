@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Del\Form\Renderer\Field;
 
@@ -10,11 +12,6 @@ use InvalidArgumentException;
 
 class SelectRender extends AbstractFieldRender
 {
-    /**
-     * @param FieldInterface $field
-     * @param DOMElement $element
-     * @return DOMElement
-     */
     public function renderBlock(FieldInterface $field, DOMElement $element): DOMElement
     {
         if (!$field instanceof Select && !$field instanceof MultiSelect) {
@@ -33,12 +30,6 @@ class SelectRender extends AbstractFieldRender
         return $element;
     }
 
-    /**
-     * @param FieldInterface $field
-     * @param string $value
-     * @param string $label
-     * @return DOMElement
-     */
     private function processOption(FieldInterface $field, $value, $label): DOMElement
     {
         $option = $this->createElement('option');

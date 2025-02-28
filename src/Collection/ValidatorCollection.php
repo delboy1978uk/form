@@ -1,9 +1,6 @@
 <?php
-/**
- * User: delboy1978uk
- * Date: 27/11/2016
- * Time: 13:41
- */
+
+declare(strict_types=1);
 
 namespace Del\Form\Collection;
 
@@ -12,10 +9,6 @@ use InvalidArgumentException;
 
 class ValidatorCollection extends AbstractCollection implements CollectionInterface
 {
-    /**
-     * @param ValidatorInterface $validator Pass in a validator
-     * @return $this
-     */
     public function append(mixed $validator): void
     {
         if (!$validator instanceof ValidatorInterface) {
@@ -24,9 +17,6 @@ class ValidatorCollection extends AbstractCollection implements CollectionInterf
         parent::append($validator);
     }
 
-    /**
-     * @return ValidatorInterface
-     */
     public function current(): mixed
     {
         return parent::current();

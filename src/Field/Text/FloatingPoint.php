@@ -1,15 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Del\Form\Field\Text;
 
 use Del\Form\Field\Text;
-use Del\Form\Filter\Adapter\FilterAdapterZf;
 use Del\Form\Validator\FloatValidator;
-use Laminas\Filter\ToFloat;
 
 class FloatingPoint extends Text
 {
-    public function init()
+    public function init(): void
     {
         parent::init();
         $this->setAttribute('type', 'number');

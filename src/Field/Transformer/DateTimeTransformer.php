@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Del\Form\Field\Transformer;
 
 use DateTime;
@@ -7,35 +9,20 @@ use Del\Form\Field\TransformerInterface;
 
 class DateTimeTransformer implements TransformerInterface
 {
-    /** @var string $dateFormat */
-    private $dateFormat;
+    public function __construct(
+        private string $dateFormat
+    ) {}
 
-    /**
-     * DateTimeTransformer constructor.
-     * @param string $dateFormat
-     */
-    public function __construct(string $dateFormat)
+    public function input(mixed $data): string
     {
-        $this->dateFormat = $dateFormat;
-    }
-
-    /**
-     * @param mixed $value
-     * @return string
-     */
-    public function input($value): string
-    {
-        if ($value instanceof DateTime) {
-            return $value->format($this->dateFormat);
+        if ($data instanceof DateTime) {
+            return $data->format($this->dateFormat);
         }
 
-        return $value;
+        return $data;
     }
 
-    /**
-     * @return DateTime
-     */
-    public function output(string $value)
+    public function output(string $value): DateTime
     {
         return DateTime::createFromFormat($this->dateFormat, $value);
     }

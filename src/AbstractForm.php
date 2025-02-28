@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Del\Form;
 
 use Del\Form\Collection\FieldCollection;
@@ -19,24 +21,13 @@ abstract class AbstractForm implements FormInterface
     const METHOD_POST = 'post';
     const METHOD_GET = 'get';
 
-    /** @var FieldCollection $fieldCollection */
-    private $fieldCollection;
-
-    /** @var FormRendererInterface  */
-    private $formRenderer;
-
-    /** @var array $errorMessages */
-    private $errorMessages;
-
-    /** @var bool $displayErrors */
-    private $displayErrors;
+    private FieldCollection $fieldCollection;
+    private FormRendererInterface $formRenderer;
+    private array $errorMessages;
+    private bool $displayErrors;
 
     use HasAttributesTrait;
 
-    /**
-     * AbstractForm constructor.
-     * @param $name
-     */
     public function __construct(string $name)
     {
         $this->fieldCollection = new FieldCollection();
@@ -49,12 +40,8 @@ abstract class AbstractForm implements FormInterface
         $this->init();
     }
 
-    abstract public function init();
+    abstract public function init(): void;
 
-    /**
-     * @return bool
-     * @throws \Exception
-     */
     public function isValid(): bool
     {
         $this->errorMessages = [];
@@ -62,9 +49,11 @@ abstract class AbstractForm implements FormInterface
         $this->validateFields($fields);
         $count = count($this->errorMessages);
         $valid = ($count == 0);
+
         if ($valid) {
             $this->moveUploadedFiles();
         }
+
         return $valid;
     }
 
@@ -73,25 +62,19 @@ abstract class AbstractForm implements FormInterface
         return $this->errorMessages;
     }
 
-    /**
-     * @param FieldCollection $fields
-     * @throws \Exception
-     */
     private function validateFields(FieldCollection $fields): void
     {
         $fields->rewind();
+
         while ($fields->valid()) {
             $this->checkFieldForErrors($fields->current());
             $this->checkDynamicFormsForErrors($fields->current());
             $fields->next();
         }
+
         $fields->rewind();
     }
 
-    /**
-     * @param FieldInterface $field
-     * @throws \Exception
-     */
     private function checkFieldForErrors(FieldInterface $field): void
     {
         if (!$field->isValid()) {
@@ -99,14 +82,12 @@ abstract class AbstractForm implements FormInterface
         }
     }
 
-    /**
-     * @param FieldInterface $field
-     */
     public function checkDynamicFormsForErrors(FieldInterface $field): void
     {
         if ($field->hasDynamicForms()) {
             $forms = $field->getDynamicForms();
             $value = $field->getValue();
+
             if (isset($forms[$value])) {
                 $form = $forms[$value];
                 $fields = $form->getFields();
@@ -115,25 +96,15 @@ abstract class AbstractForm implements FormInterface
         }
     }
 
-    /**
-     * @param bool $transform
-     * @return array
-     */
     public function getValues(bool $transform = false): array
     {
         $values = [];
         $fields = $this->fieldCollection;
         $values = $this->getFieldValues($fields, $values, $transform);
-        
+
         return $values;
     }
 
-    /**
-     * @param FieldCollection $fields
-     * @param array $values
-     * @param bool $transform
-     * @return array
-     */
     private function getFieldValues(FieldCollection $fields, array $values, bool $transform): array
     {
         $fields->rewind();
@@ -166,20 +137,13 @@ abstract class AbstractForm implements FormInterface
         return $values;
     }
 
-    /**
-     * @param array $data
-     */
-    public function populate(array $data): void
+    public function populate(array $values): void
     {
         $fields = $this->fieldCollection;
-        $this->populateFields($fields, $data);
+        $this->populateFields($fields, $values);
         $this->displayErrors = true;
     }
 
-    /**
-     * @param array $dynamicForms
-     * @param array $data
-     */
     private function populateDynamicForms(array $dynamicForms, array $data): void
     {
         /** @var FormInterface $form **/
@@ -189,25 +153,19 @@ abstract class AbstractForm implements FormInterface
         }
     }
 
-    /**
-     * @param FieldCollection $fields
-     * @param array $data
-     */
     private function populateFields(FieldCollection $fields, array $data): void
     {
         $fields->rewind();
+
         while ($fields->valid()) {
             $field = $fields->current();
             $this->populateField($field, $data);
             $fields->next();
         }
+
         $fields->rewind();
     }
 
-    /**
-     * @param FieldInterface $field
-     * @param array $data
-     */
     private function populateField(FieldInterface $field, array $data): void
     {
         $name = $field->getName();
@@ -227,140 +185,86 @@ abstract class AbstractForm implements FormInterface
         }
     }
 
-    /**
-     * @param string $name
-     * @return FieldInterface|null
-     */
     public function getField(string $name): ?FieldInterface
     {
         return $this->fieldCollection->findByName($name);
     }
 
-    /**
-     * @return FieldCollection
-     */
     public function getFields(): FieldCollection
     {
         return $this->fieldCollection;
     }
 
-    /**
-     * @param FieldInterface $field
-     */
     public function addField(FieldInterface $field): void
     {
         $this->fieldCollection->append($field);
     }
 
-    /**
-     * @return string
-     */
     public function render(): string
     {
         return $this->formRenderer->render($this, $this->isDisplayErrors());
     }
 
-    /**
-     * @param $url
-     */
     public function setAction(string $url): void
     {
         $this->setAttribute('action', $url);
     }
 
-    /**
-     * @return string
-     */
     public function getAction(): string
     {
         return $this->getAttribute('action');
     }
 
-    /**
-     * @return string
-     */
     public function getId(): ?string
     {
         return $this->getAttribute('id');
     }
 
-    /**
-     * @param string $id
-     */
     public function setId(string $id): void
     {
         $this->setAttribute('id', $id);
     }
 
-    /**
-     * @param $encType
-     */
     public function setEncType(string $encType): void
     {
         $this->setAttribute('enctype', $encType);
     }
 
-    /**
-     * @return string
-     */
     public function getEncType(): string
     {
         return $this->getAttribute('enctype');
     }
 
-    /**
-     * @param string $method
-     * @return FormInterface
-     */
     public function setMethod(string $method): void
     {
         $this->setAttribute('method', $method);
     }
 
-    /**
-     * @return string
-     */
     public function getMethod(): string
     {
         return $this->getAttribute('method');
     }
 
-    /**
-     * @param $class
-     */
     public function setClass(string $class): void
     {
         $this->setAttribute('class', $class);
     }
 
-    /**
-     * @return string
-     */
     public function getClass(): string
     {
         return $this->getAttribute('class');
     }
 
-    /**
-     * @return boolean
-     */
     public function isDisplayErrors(): bool
     {
         return $this->displayErrors;
     }
 
-    /**
-     * @param boolean $displayError
-     */
     public function setDisplayErrors(bool $displayErrors): void
     {
         $this->displayErrors = $displayErrors;
     }
 
-    /**
-     * @param FormRendererInterface $renderer
-     * @return AbstractForm
-     */
     public function setFormRenderer(FormRendererInterface $renderer): AbstractForm
     {
         $this->formRenderer = $renderer;
@@ -371,6 +275,7 @@ abstract class AbstractForm implements FormInterface
     public function moveUploadedFiles(): void
     {
         $this->fieldCollection->rewind();
+
         while ($this->fieldCollection->valid()) {
             $current = $this->fieldCollection->current();
             $this->moveFileIfUploadField($current);
@@ -378,10 +283,6 @@ abstract class AbstractForm implements FormInterface
         }
     }
 
-    /**
-     * @param FieldInterface $field
-     * @return bool
-     */
     public function moveFileIfUploadField(FieldInterface $field): bool
     {
         if ($field instanceof FileUpload) {

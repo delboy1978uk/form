@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Del\Form\Field;
 
 use Del\Form\Filter\Adapter\FilterAdapterZf;
@@ -9,14 +11,10 @@ use Laminas\Filter\StripTags;
 
 class TextArea extends FieldAbstract
 {
-    /**
-     * @return string
-     */
     public function getTag(): string
     {
         return 'textarea';
     }
-
 
     public function init()
     {
@@ -29,17 +27,11 @@ class TextArea extends FieldAbstract
         $this->setRenderer(new TextAreaRender());
     }
 
-    /**
-     * @return string
-     */
     public function getPlaceholder(): string
     {
         return $this->getAttribute('placeholder');
     }
 
-    /**
-     * @param string $placeholder
-     */
     public function setPlaceholder(string $placeholder): void
     {
         $this->setAttribute('placeholder', $placeholder);

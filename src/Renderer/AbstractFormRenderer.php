@@ -1,9 +1,6 @@
 <?php
-/**
- * User: delboy1978uk
- * Date: 07/12/2016
- * Time: 01:54
- */
+
+declare(strict_types=1);
 
 namespace Del\Form\Renderer;
 
@@ -21,63 +18,32 @@ abstract class AbstractFormRenderer implements FormRendererInterface
 {
     use HasDomTrait;
 
-    /** @var DOMElement $form */
-    protected $form;
-
-    /** @var bool $displayErrors */
-    protected $displayErrors;
-
-    /** @var ErrorRendererInterface $errorRenderer */
-    protected $errorRenderer;
-
-    /** @var DOMElement $label The label element */
-    protected $label;
-
-    /** @var DOMElement $element the field element */
-    protected $element;
-
-    /** @var null|\DOMElement $errors The error block html */
-    protected $errors;
-
-    /** @var DOMElement $block The containing html block */
-    protected $block;
-
-    /** @var DOMElement $dynamicContainerBlock */
-    protected $dynamicContainerBlock;
-
-    /** @var FieldInterface $field The current field being processed */
-    protected $field;
-
-    /** @var bool $includeDynamicFormJavascript */
-    private $includeDynamicFormJavascript = false;
-
-    /** @var string $dynamicFormParentName */
-    private $dynamicFormParentName = '';
-
-    /** @var bool $dynamicFormVisible */
-    private $dynamicFormVisible = false;
+    protected DOMElement $form;
+    protected bool $displayErrors;
+    protected ErrorRendererInterface $errorRenderer;
+    protected DOMElement $label;
+    protected mixed $element;
+    protected ?DOMElement $errors = null;
+    protected DOMElement $block;
+    protected DOMElement $dynamicContainerBlock;
+    protected FieldInterface $field;
+    private bool $includeDynamicFormJavascript = false;
+    private string $dynamicFormParentName = '';
+    private bool $dynamicFormVisible = false;
 
     public function __construct()
     {
         $this->resetDom();
     }
 
-    /**
-     *  resets dom
-     */
-    private function resetDom()
+    private function resetDom(): void
     {
         $this->setDom(new DOMDocument());
         $this->form = $this->getDom()->createElement('form');
         $this->errorRenderer = new DefaultErrorRender($this->dom);
     }
 
-    /**
-     * @param FormInterface $form
-     * @param bool $displayErrors
-     * @return string
-     */
-    public function render(FormInterface $form, $displayErrors = true)
+    public function render(FormInterface $form, $displayErrors = true): string
     {
         $this->displayErrors = $displayErrors;
         $this->setFormAttributes($form);
@@ -90,13 +56,11 @@ abstract class AbstractFormRenderer implements FormRendererInterface
         $this->resetDom();
 
         $html .= $this->addDynamicFormJavascript();
+
         return $html;
     }
 
-    /**
-     * @param FormInterface $form
-     */
-    private function setFormAttributes(FormInterface $form)
+    private function setFormAttributes(FormInterface $form): void
     {
         $attributes = $form->getAttributes();
         foreach ($attributes as $key => $value) {
@@ -111,33 +75,22 @@ abstract class AbstractFormRenderer implements FormRendererInterface
         $this->form->setAttribute('method', $method);
     }
 
-    /**
-     * @param FormInterface $form
-     * @return string
-     */
-    private function getMethod(FormInterface $form)
+    private function getMethod(FormInterface $form): string
     {
         return $form->getMethod() ?: AbstractForm::METHOD_POST;
     }
 
-    /**
-     * @param FormInterface $form
-     * @return string
-     */
-    private function getId(FormInterface $form)
+    private function getId(FormInterface $form): string
     {
         return $form->getId() ?: $this->form->getAttribute('name');
     }
 
-    /**
-     * @param FieldCollection $fields
-     * @param string $dynamicTriggerValue
-     */
-    private function processFields(FieldCollection $fields, $dynamicTriggerValue = null)
+    private function processFields(FieldCollection $fields, $dynamicTriggerValue = null): void
     {
         $count = $fields->count();
         $x = 1;
         $fields->rewind();
+
         while ($fields->valid()) {
             $this->field = $fields->current();
             $finaliseDynamicBlock = ($x == $count) ? true : false;
@@ -145,14 +98,11 @@ abstract class AbstractFormRenderer implements FormRendererInterface
             $x++;
             $fields->next();
         }
+
         $fields->rewind();
     }
 
-    /**
-     * @param string $dynamicTriggerValue
-     * @param bool $finaliseDynamicBlock
-     */
-    public function renderField($dynamicTriggerValue = null, $finaliseDynamicBlock = false)
+    public function renderField($dynamicTriggerValue = null, $finaliseDynamicBlock = false): void
     {
         $this->createNewDynamicContainerBlockIfNeeded($dynamicTriggerValue);
 
@@ -170,16 +120,12 @@ abstract class AbstractFormRenderer implements FormRendererInterface
         $this->finaliseDynamicBlockIfNeeded($finaliseDynamicBlock);
     }
 
-    /**
-     * This creates a containing div for dynamic fields which appear only on another fields value
-     * @param null|string $dynamicTriggerValue
-     */
-    private function createNewDynamicContainerBlockIfNeeded($dynamicTriggerValue)
+    private function createNewDynamicContainerBlockIfNeeded($dynamicTriggerValue): void
     {
         if (!isset($this->dynamicContainerBlock) && $dynamicTriggerValue !== null) {
             $this->dynamicContainerBlock = $this->createElement('div');
             $this->dynamicContainerBlock->setAttribute('data-dynamic-form', $this->dynamicFormParentName);
-            $this->dynamicContainerBlock->setAttribute('data-dynamic-form-trigger-value', $dynamicTriggerValue);
+            $this->dynamicContainerBlock->setAttribute('data-dynamic-form-trigger-value', (string) $dynamicTriggerValue);
             $this->dynamicContainerBlock->setAttribute('class', 'dynamic-form-block trigger'.$this->dynamicFormParentName);
             $this->dynamicContainerBlock->setAttribute('id', $this->dynamicFormParentName.$dynamicTriggerValue);
             $this->dynamicFormVisible === false ? $this->dynamicContainerBlock->setAttribute('style', 'display: none;') : null;
@@ -189,7 +135,7 @@ abstract class AbstractFormRenderer implements FormRendererInterface
     /**
      *  Checks current field being processed for dynamic sub forms
      */
-    private function dynamicFormCheck()
+    private function dynamicFormCheck(): void
     {
         if ($this->field->hasDynamicForms()) {
             $this->dynamicFormParentName = $this->field->getName();
@@ -205,10 +151,7 @@ abstract class AbstractFormRenderer implements FormRendererInterface
         }
     }
 
-    /**
-     * @param bool $finaliseDynamicBlock
-     */
-    private function finaliseDynamicBlockIfNeeded($finaliseDynamicBlock)
+    private function finaliseDynamicBlockIfNeeded(bool $finaliseDynamicBlock)
     {
         if (isset($this->dynamicContainerBlock) && $finaliseDynamicBlock === true) {
             $this->form->appendChild($this->dynamicContainerBlock);
@@ -216,24 +159,19 @@ abstract class AbstractFormRenderer implements FormRendererInterface
         }
     }
 
-
-    /**
-     * @return DOMElement|null
-     */
-    public function renderError()
+    public function renderError(): ?DOMElement
     {
         $errorBlock = null;
+
         if ($this->errorRenderer->shouldRender($this->field) && $this->displayErrors === true) {
             $this->block->setAttribute('class', 'has-error ');
             $errorBlock = $this->errorRenderer->render($this->field);
         }
+
         return $errorBlock;
     }
 
-    /**
-     * @return \DOMElement
-     */
-    protected function createLabelElement()
+    protected function createLabelElement(): DOMElement
     {
         $label = $this->createElement('label');
         $label->setAttribute('for', $this->field->getId() ?? '');
@@ -243,11 +181,7 @@ abstract class AbstractFormRenderer implements FormRendererInterface
         return $label;
     }
 
-    /**
-     * @param DomElement $label
-     * @return DomElement
-     */
-    public function addRequiredAsterisk(DomElement $label)
+    public function addRequiredAsterisk(DomElement $label): DomElement
     {
         $span = $this->createElement('span');
         $span->setAttribute('class', 'text-danger');
@@ -257,10 +191,7 @@ abstract class AbstractFormRenderer implements FormRendererInterface
         return $label;
     }
 
-    /**
-     * @return string
-     */
-    private function addDynamicFormJavascript()
+    private function addDynamicFormJavascript(): string
     {
         if ($this->includeDynamicFormJavascript === true) {
             return "<script type=\"text/javascript\">

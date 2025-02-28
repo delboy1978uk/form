@@ -1,14 +1,7 @@
 <?php
-/**
- * User: delboy1978uk
- * Date: 18/12/2016
- * Time: 17:20
- */
+
+declare(strict_types=1);
 
 namespace Del\Form\Field;
 
-
-interface ArrayValueInterface
-{
-
-}
+interface ArrayValueInterface {}

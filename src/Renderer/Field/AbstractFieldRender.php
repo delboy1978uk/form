@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Del\Form\Renderer\Field;
 
@@ -7,16 +9,13 @@ use Del\Form\Field\FieldInterface;
 use Del\Form\Traits\HasDomTrait;
 use DOMDocument;
 use DOMElement;
+use DOMNode;
 
 abstract class AbstractFieldRender implements FieldRendererInterface
 {
     use HasDomTrait;
 
-    /**
-     * @param DOMDocument $dom
-     * @return DOMElement
-     */
-    public function render(DOMDocument $dom, FieldInterface $field)
+    public function render(DOMDocument $dom, FieldInterface $field): DOMNode
     {
         $this->setDom($dom);
         $element = $this->createElementFromField($field);
@@ -24,11 +23,7 @@ abstract class AbstractFieldRender implements FieldRendererInterface
         return $this->renderBlock($field, $element);
     }
 
-    /**
-     * @param FieldInterface $field
-     * @return DOMElement
-     */
-    public function createElementFromField(FieldInterface $field): DOMElement
+    public function createElementFromField(FieldInterface $field): DOMNode
     {
         $element = $this->createElement($field->getTag());
 
@@ -39,14 +34,7 @@ abstract class AbstractFieldRender implements FieldRendererInterface
         return $element;
     }
 
-    /**
-     * @param FieldInterface $field
-     * @param DOMElement $element
-     * @param $key
-     * @param $value
-     * @return DOMElement
-     */
-    private function setAttribute(FieldInterface $field, DOMElement $element, $key, $value): DOMElement
+    private function setAttribute(FieldInterface $field, DOMElement $element, $key, $value): DOMNode
     {
         if ($field instanceof ArrayValueInterface && $key === 'value') {
             return $element;
@@ -57,10 +45,5 @@ abstract class AbstractFieldRender implements FieldRendererInterface
         return $element;
     }
 
-    /**
-     * @param FieldInterface $field
-     * @param DOMElement $element
-     * @return DOMElement
-     */
-    abstract public function renderBlock(FieldInterface $field, DOMElement $element);
+    abstract public function renderBlock(FieldInterface $field, DOMElement $element): DOMNode;
 }
