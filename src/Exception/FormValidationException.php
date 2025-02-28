@@ -1,7 +1,0 @@
-<?php
-
-declare(strict_types=1);
-
-namespace Del\Form\Exception;
-
-class FormValidationException {}
