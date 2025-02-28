@@ -18,7 +18,7 @@ trait HasOptionsTrait
         $this->options = $options;
     }
 
-    public function getOption($key): array
+    public function getOption($key): mixed
     {
         return $this->options[$key];
     }

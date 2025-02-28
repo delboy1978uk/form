@@ -82,7 +82,7 @@ class CheckboxRender extends AbstractFieldRender
         $checkbox->setAttribute('type', 'checkbox');
         $fieldName = $this->isMultiCheckbox ? $field->getName() . '[]' : $field->getName();
         $checkbox->setAttribute('name', $fieldName);
-        $checkbox->setAttribute('value', $value);
+        $checkbox->setAttribute('value', (string) $value);
         $fieldValue = $field->getValue();
 
         if ($fieldValue === true || $fieldValue == $value || (is_array($fieldValue) && in_array($value, $fieldValue, true))) {

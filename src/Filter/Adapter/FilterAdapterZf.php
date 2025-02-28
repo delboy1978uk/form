@@ -19,11 +19,7 @@ class FilterAdapterZf implements FilterInterface
         $this->filter = $filter;
     }
 
-    /**
-     * @param mixed $value
-     * @return mixed
-     */
-    public function filter($value)
+    public function filter(mixed $value): mixed
     {
         return $this->filter->filter($value);
     }

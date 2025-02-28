@@ -22,7 +22,7 @@ abstract class AbstractFormRenderer implements FormRendererInterface
     protected bool $displayErrors;
     protected ErrorRendererInterface $errorRenderer;
     protected DOMElement $label;
-    protected DOMElement $element;
+    protected mixed $element;
     protected ?DOMElement $errors = null;
     protected DOMElement $block;
     protected DOMElement $dynamicContainerBlock;
@@ -56,6 +56,7 @@ abstract class AbstractFormRenderer implements FormRendererInterface
         $this->resetDom();
 
         $html .= $this->addDynamicFormJavascript();
+
         return $html;
     }
 
@@ -84,11 +85,12 @@ abstract class AbstractFormRenderer implements FormRendererInterface
         return $form->getId() ?: $this->form->getAttribute('name');
     }
 
-    private function processFields(FieldCollection $fields, $dynamicTriggerValue = null): string
+    private function processFields(FieldCollection $fields, $dynamicTriggerValue = null): void
     {
         $count = $fields->count();
         $x = 1;
         $fields->rewind();
+
         while ($fields->valid()) {
             $this->field = $fields->current();
             $finaliseDynamicBlock = ($x == $count) ? true : false;
@@ -96,6 +98,7 @@ abstract class AbstractFormRenderer implements FormRendererInterface
             $x++;
             $fields->next();
         }
+
         $fields->rewind();
     }
 
@@ -122,7 +125,7 @@ abstract class AbstractFormRenderer implements FormRendererInterface
         if (!isset($this->dynamicContainerBlock) && $dynamicTriggerValue !== null) {
             $this->dynamicContainerBlock = $this->createElement('div');
             $this->dynamicContainerBlock->setAttribute('data-dynamic-form', $this->dynamicFormParentName);
-            $this->dynamicContainerBlock->setAttribute('data-dynamic-form-trigger-value', $dynamicTriggerValue);
+            $this->dynamicContainerBlock->setAttribute('data-dynamic-form-trigger-value', (string) $dynamicTriggerValue);
             $this->dynamicContainerBlock->setAttribute('class', 'dynamic-form-block trigger'.$this->dynamicFormParentName);
             $this->dynamicContainerBlock->setAttribute('id', $this->dynamicFormParentName.$dynamicTriggerValue);
             $this->dynamicFormVisible === false ? $this->dynamicContainerBlock->setAttribute('style', 'display: none;') : null;

@@ -42,7 +42,7 @@ class HorizontalFormRenderer extends AbstractFormRenderer
         return $this->block;
     }
 
-    private function processField(DOMElement $div): DOMElement
+    private function processField(DOMElement $div): void
     {
         switch (get_class($this->field)) {
             case 'Del\Form\Field\Submit':
