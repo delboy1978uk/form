@@ -1,6 +1,6 @@
 <?php
 
-namespace DelTesting\Form;
+namespace Del\Test\Form;
 
 use Codeception\Test\Unit;
 use Del\Form\Collection\FilterCollection;

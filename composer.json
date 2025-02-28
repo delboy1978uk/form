@@ -23,7 +23,7 @@
   "autoload": {
     "psr-4": {
       "Del\\Form\\": "src/",
-      "DelTesting\\Form\\": "tests/unit/Del/"
+      "Del\\Test\\": "tests/unit/"
     }
   },
   "suggest": {
