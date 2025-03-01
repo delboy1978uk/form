@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DelTesting\Form\Field;
+namespace Del\Test\Form\Field;
 
 use Codeception\Test\Unit;
 use Del\Form\Field\Text;

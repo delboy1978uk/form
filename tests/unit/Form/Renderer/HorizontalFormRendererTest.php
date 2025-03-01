@@ -1,6 +1,6 @@
 <?php
 
-namespace DelTesting\Form\Renderer;
+namespace Del\Test\Form\Renderer;
 
 use Codeception\Test\Unit;
 

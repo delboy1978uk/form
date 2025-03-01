@@ -22,6 +22,7 @@ interface FormInterface
     public function setId(string $id): void;
     public function setEncType(string $encType): void;
     public function getEncType(): string;
+    public function getErrorMessages(): array;
     public function setMethod(string $method): void;
     public function getMethod(): string;
     public function setClass(string $class): void;
