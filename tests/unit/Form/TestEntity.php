@@ -11,9 +11,9 @@ class TestEntity
     #[Field('integer|required')]
     public int $id = 6;
 
-    #[Field('text|required|min:2|max:50')]
+    #[Field('email|required|min:2|max:50')]
     public string $email = 'man@work.com';
 
-    #[Field('email|required|min:2|max:50')]
+    #[Field('password|required|min:2|max:50')]
     public string $password = 'xxxx';
 }

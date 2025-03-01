@@ -4,16 +4,14 @@ declare(strict_types=1);
 
 namespace Del\Form\Validator;
 
+use function mime_content_type;
+
 class MimeTypeValidator implements ValidatorInterface
 {
-    private array $validMimeTypes;
-    private string $name = '';
-
-    public function __construct(array $validMimeTypes, string $name)
-    {
-        $this->validMimeTypes = $validMimeTypes;
-        $this->name = $name;
-    }
+    public function __construct(
+        private array $validMimeTypes,
+        private string $name
+    ) {}
 
     public function isValid(mixed $value): bool
     {

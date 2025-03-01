@@ -6,7 +6,7 @@ namespace Del\Form\Field\Attributes;
 
 use Attribute;
 
-#[Attribute]
+#[Attribute()]
 class Field
 {
     public function __construct(
