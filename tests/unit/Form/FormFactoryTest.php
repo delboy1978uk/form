@@ -16,10 +16,11 @@ class FormFactoryTest extends Unit
         $form = $factory->createFromEntity('user', $user);
         $this->assertInstanceOf(FormInterface::class, $form);
         $fields = $form->getFields();
-        $this->assertCount(3, $fields);
+        $this->assertCount(4, $fields);
         $this->assertInstanceOf(FieldInterface::class, $form->getField('id'));
         $this->assertInstanceOf(FieldInterface::class, $form->getField('email'));
         $this->assertInstanceOf(FieldInterface::class, $form->getField('password'));
+        $this->assertInstanceOf(FieldInterface::class, $form->getField('submit'));
         $this->assertTrue($form->isValid());
     }
 }

@@ -12,6 +12,7 @@ use Del\Form\Field\Hidden;
 use Del\Form\Field\MultiSelect;
 use Del\Form\Field\Radio;
 use Del\Form\Field\Select;
+use Del\Form\Field\Submit;
 use Del\Form\Field\Text;
 use Del\Form\Field\Text\EmailAddress;
 use Del\Form\Field\Text\FloatingPoint;
@@ -64,6 +65,8 @@ class FormFactory
                 $this->form->addField($field);
             }
         }
+
+        $this->form->addField(new Submit('submit'));
 
         return $this->form;
     }
