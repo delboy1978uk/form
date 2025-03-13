@@ -40,7 +40,7 @@ abstract class AbstractForm implements FormInterface
         $this->init();
     }
 
-    abstract public function init(): void;
+    abstract public function init();
 
     public function isValid(): bool
     {
