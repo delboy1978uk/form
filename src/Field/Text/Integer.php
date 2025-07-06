@@ -12,8 +12,8 @@ class Integer extends Text
     public function init(): void
     {
         parent::init();
-        $this->setAttribute('type', 'email');
-        $this->setAttribute('placeholder', 'Enter an email address..');
+        $this->setAttribute('type', 'number');
+        $this->setAttribute('placeholder', 'Enter a number');
         $toIntegerValidator = new IntegerValidator();
         $this->addValidator($toIntegerValidator);
     }

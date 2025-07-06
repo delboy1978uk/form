@@ -22,8 +22,6 @@ use Del\Form\Field\TextArea;
 use Del\Form\Form;
 use Del\Form\FormInterface;
 use Del\Form\Validator\FileExtensionValidator;
-use Del\Form\Validator\FloatValidator;
-use Del\Form\Validator\IntegerValidator;
 use Del\Form\Validator\MaxLength;
 use Del\Form\Validator\MimeTypeValidator;
 use Del\Form\Validator\MinLength;
@@ -128,15 +126,9 @@ class FormFactory
             }
 
             switch ($rule) {
-                case 'file':
+                case 'file_ext':
                     $extensions = explode(',', $arg);
                     $field->addValidator(new FileExtensionValidator($extensions));
-                    break;
-                case 'float':
-                    $field->addValidator(new FloatValidator());
-                    break;
-                case 'integer':
-                    $field->addValidator(new IntegerValidator());
                     break;
                 case 'max':
                     $field->addValidator(new MaxLength((int) $arg));
