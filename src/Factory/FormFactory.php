@@ -61,6 +61,10 @@ class FormFactory
                 $value = $property->getValue($entity);
                 $this->setValue($field, $value);
                 $this->form->addField($field);
+
+                if ($field instanceof FileUpload) {
+                    $this->form->setEncType(Form::ENC_TYPE_MULTIPART_FORM_DATA);
+                }
             }
         }
 
@@ -72,6 +76,8 @@ class FormFactory
     private function createField(string $fieldName, string $fieldType): FieldInterface
     {
         switch ($fieldType) {
+            case 'bool':
+            case 'boolean':
             case 'checkbox':
                 $field = new CheckBox($fieldName);
                 break;
@@ -105,6 +111,7 @@ class FormFactory
             case 'textarea':
                 $field = new TextArea($fieldName);
                 break;
+            case 'string':
             case 'text':
             default:
                 $field = new Text($fieldName);
@@ -142,6 +149,11 @@ class FormFactory
                     break;
                 case 'required':
                     $field->setRequired(true);
+                    break;
+                case 'upload':
+                    if ($field instanceof FileUpload) {
+                        $field->setUploadDirectory($arg);
+                    }
                     break;
             }
         }

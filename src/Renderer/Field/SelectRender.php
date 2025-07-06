@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Del\Form\Renderer\Field;
 
 use Del\Form\Field\FieldInterface;
-use Del\Form\Field\MultiSelect;
 use Del\Form\Field\Select;
 use DOMElement;
 use InvalidArgumentException;
@@ -14,12 +13,8 @@ class SelectRender extends AbstractFieldRender
 {
     public function renderBlock(FieldInterface $field, DOMElement $element): DOMElement
     {
-        if (!$field instanceof Select && !$field instanceof MultiSelect) {
-            throw new InvalidArgumentException('Must be a Del\Form\Field\Select or Del\Form\Field\MultiSelect');
-        }
-
-        if ($field instanceof MultiSelect) {
-            $element->setAttribute('name', $field->getName() . '[]');
+        if (!$field instanceof Select) {
+            throw new InvalidArgumentException('Must be a Del\Form\Field\Select');
         }
 
         foreach ($field->getOptions() as $value => $label) {
