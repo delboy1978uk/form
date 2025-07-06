@@ -5,16 +5,17 @@ A super easy Bootstrap ready HTML form generator for PHP
 
 ![An example generated form](https://raw.githubusercontent.com/delboy1978uk/form/master/tests/_data/form.png)
 
-v2.0.0 has been upgraded for PHP 7.1+ and now has 'Field Transformer' functionality. You can add data transformers to fields to have them convert objects 
-into form data, and vice versa. See the [Transformers](#transformers) section of this readme. 
-
 ## Installation
  Install via composer
  ```
  composer require delboy1978uk/form
  ```
 ## Usage
-Firstly, "use" all the classes you'll need for your form. Then create your form and fields.
+There are several ways too use this library, dependimng on your style. You can build everything up yourself by adding
+fields to your form instance, or you can extend the form and define it there, or you can add a trait to your object and 
+add attributes to your properties, which you can pass into the form factory.
+
+Here's the 'long way'. Firstly, "use" all the classes you'll need for your form. Then create your form and fields.
 ```php
 <?php
 
@@ -46,7 +47,7 @@ $form->addField($userName)
 // Render the form
 echo $form->render();
 ```
-## FormFactory
+### FormFactory
 As of v2.6.0, you can create and populate a form by passing in an object that has `#[Field]` attributes on the properties:
 ```php
 <?php
@@ -57,7 +58,7 @@ namespace Del\Test\Form;
 
 use Del\Form\Field\Attributes\Field;
 
-class TestEntity
+class SomeEntity
 {
     #[Field('integer|required')]
     public int $id;
@@ -101,7 +102,7 @@ $form = $factory->createFromEntity('user', $user);
 $form->populate($postOrPatchData);
 ```
 ## Creating Custom Forms
-Of course, it's nicer to create your own form than build one up every time, so just create a class and extend 
+Of course, it's also nice to create your own form than build one up every time, so just create a class and extend 
 `Del\Form\AbstractForm` and add your fields in the init() function:
 ```php
 <?php
