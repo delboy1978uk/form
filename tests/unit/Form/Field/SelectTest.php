@@ -3,6 +3,7 @@
 namespace Del\Test\Form\Field;
 
 use Codeception\Test\Unit;
+use Del\Form\Field\MultiSelect;
 use Del\Form\Field\Submit;
 use Del\Form\Field\Text;
 use Del\Form\Field\Select;
@@ -35,6 +36,14 @@ class SelectTest extends Unit
         $form->addField($text);
         $this->expectException('InvalidArgumentException');
         $form->render();
+    }
+
+    public function testSelectRendererWithMultiselect()
+    {
+        $form = new Form('dropdown');
+        $select = new MultiSelect('selection');
+        $form->addField($select);
+        $this->assertIsString($form->render());
     }
 
 

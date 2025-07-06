@@ -7,6 +7,7 @@ use Del\Form\Field\MultiSelect;
 use Del\Form\Field\Submit;
 use Del\Form\Field\Text;
 use Del\Form\Form;
+use Del\Form\Renderer\Field\MultiSelectRender;
 use Del\Form\Renderer\Field\SelectRender;
 
 class MultiSelectTest extends Unit
@@ -32,6 +33,15 @@ class MultiSelectTest extends Unit
         $form->render();
     }
 
+    public function testMultiSelectRendererThrowsException()
+    {
+        $form = new Form('dropdown');
+        $text = new Text('selection');
+        $text->setRenderer(new MultiSelectRender());
+        $form->addField($text);
+        $this->expectException('InvalidArgumentException');
+        $form->render();
+    }
 
     public function testGetSetOptions()
     {
