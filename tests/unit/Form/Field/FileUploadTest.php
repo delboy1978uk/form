@@ -10,6 +10,7 @@ use Del\Form\Form;
 use Del\Form\Field\FileUpload;
 use Del\Form\Renderer\Field\FileUploadRender;
 use Del\Form\Renderer\Field\TextRender;
+use function realpath;
 
 class FileUploadTest extends Unit
 {
@@ -93,7 +94,7 @@ class FileUploadTest extends Unit
 
     public function testMovingUploadsDoesntWorkWithFakeUploadArray()
     {
-        $image = \realpath(__DIR__ . '/../../../_data/fol.gif');
+        $image = realpath(__DIR__ . '/../../../_data/fol.gif');
         $_POST = [
             'photo' => $image,
             'submit' => 'submit',
@@ -124,7 +125,7 @@ class FileUploadTest extends Unit
 
     public function testExceptionWhenDestinationNotSet()
     {
-        $image = \realpath(__DIR__ . '/../../../_data/fol.gif');
+        $image = realpath(__DIR__ . '/../../../_data/fol.gif');
         $_POST = [
             'photo' => $image,
             'submit' => 'submit',
@@ -149,7 +150,7 @@ class FileUploadTest extends Unit
 
     public function testSetUploadDirectoryThrowsException()
     {
-        $image = \realpath(__DIR__ . '/../../../_data/fol.gif');
+        $image = realpath(__DIR__ . '/../../../_data/fol.gif');
         $pic = new FileUpload('photo');
         $this->expectException('InvalidArgumentException');
         $pic->setUploadDirectory($image);
