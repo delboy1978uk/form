@@ -13,6 +13,7 @@ class FloatingPoint extends Text
     {
         parent::init();
         $this->setAttribute('type', 'number');
+        $this->setAttribute('step', '0.01');
         $this->setAttribute('placeholder', 'Enter a numeric value..');
         $toFloatValidator = new FloatValidator();
         $this->addValidator($toFloatValidator);

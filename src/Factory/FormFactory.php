@@ -118,6 +118,12 @@ class FormFactory
                 break;
         }
 
+        $field->setLabel($fieldName);
+
+        if ($field->getAttribute('placeholder') === null) {
+            $field->setAttribute('placeholder', 'Enter ' . $fieldName . '...');
+        }
+
         return $field;
     }
 

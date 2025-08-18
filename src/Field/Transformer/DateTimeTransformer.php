@@ -20,10 +20,10 @@ class DateTimeTransformer implements TransformerInterface
             return $data->format($this->dateFormat);
         }
 
-        return $data;
+        return $data !== null ? $data->format($this->dateFormat) : '';
     }
 
-    public function output(string $value): DateTimeInterface
+    public function output(string $value): ?DateTimeInterface
     {
         return DateTime::createFromFormat($this->dateFormat, $value);
     }

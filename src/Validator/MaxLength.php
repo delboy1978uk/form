@@ -14,7 +14,7 @@ class MaxLength implements ValidatorInterface
 
     public function isValid(mixed $value): bool
     {
-        return strlen($value) <= $this->maxLength;
+        return strlen((string) $value) <= $this->maxLength;
     }
 
     public function getMessages(): array

@@ -10,7 +10,9 @@ class FloatValidator implements ValidatorInterface
 {
     public function isValid($value): bool
     {
-        return (bool) filter_var($value, FILTER_VALIDATE_FLOAT);
+        $float = filter_var($value, FILTER_VALIDATE_FLOAT);
+
+        return is_float($float);
     }
 
     public function getMessages(): array
