@@ -20,7 +20,7 @@ class DateTimeTransformer implements TransformerInterface
             return $data->format($this->dateFormat);
         }
 
-        return $data !== null ? $data->format($this->dateFormat) : '';
+        return $data !== null ? $data : '';
     }
 
     public function output(string $value): ?DateTimeInterface
