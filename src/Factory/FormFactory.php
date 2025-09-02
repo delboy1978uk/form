@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Del\Form\Factory;
 
+use DateTimeInterface;
 use Del\Form\Field\Attributes\Field;
 use Del\Form\Field\CheckBox;
 use Del\Form\Field\FieldInterface;
@@ -46,7 +47,9 @@ class FormFactory
             $attributes = $property->getAttributes(Field::class);
 
             if (count($attributes) > 0) {
-                $rules = $attributes[0]->newInstance()->rules;
+                $instance = $attributes[0]->newInstance();
+                $rules = $instance->rules;
+                $fieldClass = $instance->fieldClass;
 
                 if (strpos($rules, '|') !== false) {
                     $rules = explode('|', $rules);
@@ -56,9 +59,17 @@ class FormFactory
                     $rules = [];
                 }
 
-                $field = $this->createField($fieldName, $fieldType);
+                if (strpos($fieldType, 'date_format') !== false) {
+                    $fieldType = strpos($fieldType, 'H:i') !== false
+                        ? 'datetime'
+                        : 'date';
+                }
+
+                $field = $this->createField($fieldName, $fieldType, $fieldClass);
                 $this->addValidators($field, $rules);
-                $value = $property->getValue($entity);
+                $value = $property->isInitialized($entity)
+                    ? $property->getValue($entity)
+                    : null;
                 $this->setValue($field, $value);
                 $this->form->addField($field);
 
@@ -73,13 +84,26 @@ class FormFactory
         return $this->form;
     }
 
-    private function createField(string $fieldName, string $fieldType): FieldInterface
+    private function createField(string $fieldName, string $fieldType, string $fieldClass = null): FieldInterface
     {
         switch ($fieldType) {
             case 'bool':
             case 'boolean':
             case 'checkbox':
                 $field = new CheckBox($fieldName);
+                break;
+            case 'custom':
+                if ($fieldClass === null) {
+                    throw new \Exception('You must set a field class for a custom type');
+                }
+
+                $field = new $fieldClass($fieldName);
+                break;
+            case 'date':
+                $field = new Text\Date($fieldName);
+                break;
+            case 'datetime':
+                $field = new Text\DateTime($fieldName);
                 break;
             case 'email':
                 $field = new EmailAddress($fieldName);
@@ -167,6 +191,11 @@ class FormFactory
 
     private function setValue(FieldInterface $field, mixed $value): void
     {
+        if ($value instanceof DateTimeInterface) {
+//            die(var_dump($field));
+            $value = $value->format('');
+        }
+
         if ($value !== null) {
             $field->setValue($value);
         }

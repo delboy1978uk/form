@@ -10,6 +10,7 @@ use Attribute;
 class Field
 {
     public function __construct(
-        public readonly string $rules
+        public readonly string $rules,
+        public readonly ?string $fieldClass = null
     ) {}
 }

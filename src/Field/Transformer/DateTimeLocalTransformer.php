@@ -9,7 +9,7 @@ use DateTimeInterface;
 use DateTimeZone;
 use Del\Form\Field\TransformerInterface;
 
-class DateTimeTransformer implements TransformerInterface
+class DateTimeLocalTransformer implements TransformerInterface
 {
     public function __construct(
         private string $dateFormat
@@ -26,11 +26,8 @@ class DateTimeTransformer implements TransformerInterface
 
     public function output(string $value): ?DateTimeInterface
     {
-        $date =  DateTime::createFromFormat($this->dateFormat, $value, new DateTimeZone('UTC'));
-
-        if (!$date) {
-            $date = new DateTime($value, new DateTimeZone('UTC'));
-        }
+        /** @@todo local timezone? */
+        $date = new DateTime($value, new DateTimeZone('UTC'));
 
         return $date ?: null;
     }

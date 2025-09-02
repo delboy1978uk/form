@@ -10,13 +10,14 @@ use ReflectionClass;
 use function array_shift;
 use function count;
 use function explode;
+use function str_contains;
 use function ucfirst;
 
 trait HasFormFields
 {
     public function populate(FormInterface $form): void
     {
-        $data = $form->getValues();
+        $data = $form->getValues(true);
         $mirror = new ReflectionClass($this);
         $properties = $mirror->getProperties();
 
@@ -27,12 +28,18 @@ trait HasFormFields
             if (count($attributes) > 0) {
                 $rules = $attributes[0]->newInstance()->rules;
 
-                if (strpos($rules, '|') !== false) {
+                if (str_contains($rules, '|')) {
                     $rules = explode('|', $rules);
                     $fieldType = array_shift($rules);
                 } else {
                     $fieldType = $rules;
                     $rules = [];
+                }
+
+                if (str_contains($fieldType, 'date_format')) {
+                    $fieldType = str_contains($fieldType, 'H:i')
+                        ? 'datetime'
+                        : 'date';
                 }
 
                 $value = $data[$fieldName];
@@ -64,6 +71,8 @@ trait HasFormFields
             case 'float':
                 $this->$setter((float) $value);
                 break;
+            case 'date':
+            case 'datetime':
             case 'multiselect':
             case 'radio':
             case 'select':

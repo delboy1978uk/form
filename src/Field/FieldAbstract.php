@@ -4,7 +4,6 @@ namespace Del\Form\Field;
 
 use Del\Form\Collection\FilterCollection;
 use Del\Form\Collection\ValidatorCollection;
-use Del\Form\Filter\Adapter\FilterAdapterZf;
 use Del\Form\Filter\FilterInterface;
 use Del\Form\FormInterface;
 use Del\Form\Renderer\Field\FieldRendererInterface;
@@ -13,7 +12,6 @@ use Del\Form\Traits\HasAttributesTrait;
 use Del\Form\Validator\NotEmpty;
 use Del\Form\Validator\ValidatorInterface;
 use Exception;
-use Laminas\Filter\ToNull;
 
 abstract class FieldAbstract implements FieldInterface
 {
@@ -27,7 +25,7 @@ abstract class FieldAbstract implements FieldInterface
     /**  @var ValidatorCollection $validatorCollection */
     private $validatorCollection;
 
-    /**  @var ValidatorCollection $validatorCollection */
+    /**  @var TransformerInterface $transformer */
     private $transformer;
 
     /** @var FieldRendererInterface $renderer  */
@@ -62,7 +60,7 @@ abstract class FieldAbstract implements FieldInterface
         $this->validatorCollection = new ValidatorCollection();
         $this->renderer = new TextRender();
         $this->setName($name);
-        $value === null ? null : $this->setValue($value);
+        $value === null ?: $this->setValue($value);
         $this->init();
     }
 
@@ -343,10 +341,7 @@ abstract class FieldAbstract implements FieldInterface
         }
     }
 
-    /**
-     * @param FormInterface $form
-     * @param string $triggerValue
-     */
+
     public function addDynamicForm(FormInterface $form, string $triggerValue): void
     {
         $this->dynamicFormCollection[$triggerValue] = $form;
