@@ -17,14 +17,9 @@ class Submit extends FieldAbstract
         $this->setAttribute('type', 'submit');
     }
 
-    /**
-     * Submit constructor.
-     * @param $name
-     * @param null $value
-     */
-    public function __construct(string $name, string $value = null)
+    public function __construct(string $name, ?string $value = null)
     {
-        $value = is_null($value) ? $name : $value;
+        $value = $value === null ? $name : $value;
         parent::__construct($name, $value);
         $this->setClass('btn btn-primary');
     }
