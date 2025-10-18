@@ -84,7 +84,7 @@ class FormFactory
         return $this->form;
     }
 
-    private function createField(string $fieldName, string $fieldType, string $fieldClass = null): FieldInterface
+    private function createField(string $fieldName, string $fieldType, ?string $fieldClass = null): FieldInterface
     {
         switch ($fieldType) {
             case 'bool':
@@ -192,7 +192,6 @@ class FormFactory
     private function setValue(FieldInterface $field, mixed $value): void
     {
         if ($value instanceof DateTimeInterface) {
-//            die(var_dump($field));
             $value = $value->format('');
         }
 
