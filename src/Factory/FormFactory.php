@@ -192,7 +192,7 @@ class FormFactory
     private function setValue(FieldInterface $field, mixed $value): void
     {
         if ($value instanceof DateTimeInterface) {
-            $value = $value->format('');
+            $value = $value->format('Y-m-d H:i:s');
         }
 
         if ($value !== null) {
