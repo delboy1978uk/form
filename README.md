@@ -320,6 +320,12 @@ $drinkForm->addField($drinkRadio);
 $drinkForm->addField($moreText);
 $radio->addDynamicForm($drinkForm, 2);
 ```
+### Sub Forms
+You can now have an entire form as a field. Useful for related entities , such as a user object with a related person 
+object. As an example:
+```php
+
+```
 ### Transformers
 You can create an object implementing `De\Form\Field\TransformerInterface` to take in input and convert to a form value.
 Do the opposite in the output method and return the object representation.

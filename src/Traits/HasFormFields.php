@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Del\Form\Traits;
 
+use Closure;
 use Del\Form\Field\Attributes\Field;
 use Del\Form\FormInterface;
 use ReflectionClass;
@@ -15,6 +16,13 @@ use function ucfirst;
 
 trait HasFormFields
 {
+    private ?Closure $findEntity = null;
+
+    public function setFindEntity(?Closure $findEntity): void
+    {
+        $this->findEntity = $findEntity;
+    }
+
     public function populate(FormInterface $form): void
     {
         $data = $form->getValues(true);
@@ -26,7 +34,9 @@ trait HasFormFields
             $attributes = $property->getAttributes(Field::class);
 
             if (count($attributes) > 0) {
-                $rules = $attributes[0]->newInstance()->rules;
+                $instance = $attributes[0]->newInstance();
+                $rules = $instance->rules;
+                $fieldClass = $instance->fieldClass;
 
                 if (str_contains($rules, '|')) {
                     $rules = explode('|', $rules);
@@ -43,12 +53,12 @@ trait HasFormFields
                 }
 
                 $value = $data[$fieldName];
-                $this->setField($fieldName, $fieldType, $value);
+                $this->setField($form, $fieldName, $fieldType, $value, $fieldClass);
             }
         }
     }
 
-    private function setField(string $fieldName, string $fieldType, mixed $value): void
+    private function setField(FormInterface $form, string $fieldName, string $fieldType, mixed $value, ?string $fieldClass = null): void
     {
         $setter = 'set' . ucfirst($fieldName);
 
@@ -57,8 +67,24 @@ trait HasFormFields
                 $this->$setter((bool) $value);
                 break;
             case 'email':
+                $this->$setter((string) $value);
+                break;
+            case 'entity':
+                $entityForm= $form->getField($fieldName)->getValue();
+                $values = $entityForm->getValues();
+
+                if (isset($values['id']) && $this->findEntity !== null) {
+                    $finder = $this->findEntity;
+                    $entity = $finder($values['id']);
+                } else {
+                    $entity = new $fieldClass();
+                    $entity->populate($entityForm);
+                }
+
+                $this->$setter($entity);
+
+                break;
             case 'file':
-            case 'hidden':
             case 'password':
             case 'string':
             case 'text':

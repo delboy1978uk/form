@@ -13,6 +13,7 @@ use Del\Form\Field\Hidden;
 use Del\Form\Field\MultiSelect;
 use Del\Form\Field\Radio;
 use Del\Form\Field\Select;
+use Del\Form\Field\SubForm;
 use Del\Form\Field\Submit;
 use Del\Form\Field\Text;
 use Del\Form\Field\Text\EmailAddress;
@@ -107,6 +108,12 @@ class FormFactory
                 break;
             case 'email':
                 $field = new EmailAddress($fieldName);
+                break;
+            case 'entity':
+                $subFormFactory = clone $this;
+                $entity = new $fieldClass();
+                $subForm = $subFormFactory->createFromEntity($fieldName, $entity);
+                $field = new SubForm($fieldName, $subForm);
                 break;
             case 'file':
                 $field = new FileUpload($fieldName);
