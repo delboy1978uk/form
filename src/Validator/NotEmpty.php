@@ -6,4 +6,25 @@ namespace Del\Form\Validator;
 
 use Laminas\Validator\NotEmpty as ZfNotEmpty;
 
-class NotEmpty extends ZfNotEmpty implements ValidatorInterface {}
+class NotEmpty implements ValidatorInterface
+{
+    private array $messages = [];
+
+    public function isValid(mixed $value): bool
+    {
+        $validator = new  ZfNotEmpty();
+
+        if ($validator->isValid($value)) {
+            return true;
+        }
+
+        $this->messages = $validator->getMessages();
+
+        return false;
+    }
+
+    public function getMessages(): array
+    {
+        return $this->messages;
+    }
+}

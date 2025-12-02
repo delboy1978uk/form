@@ -4,7 +4,7 @@
   "license": "MIT",
   "authors": [
     {
-      "name": "Derek McLean",
+      "name": "Derek Stephen McLean",
       "email": "delboy1978uk@gmail.com"
     }
   ],
@@ -12,11 +12,11 @@
     "php": "^8.2",
     "ext-dom": "*",
     "ext-fileinfo": "*",
-    "laminas/laminas-validator": "^2.52",
-    "laminas/laminas-filter": "^2.34"
+    "laminas/laminas-validator": "^3.11",
+    "laminas/laminas-filter": "^3.4"
   },
   "require-dev": {
-    "roave/security-advisories": "dev-master",
+    "roave/security-advisories": "dev-latest",
     "codeception/codeception": "^5.1",
     "codeception/module-asserts": "^3.0"
   },

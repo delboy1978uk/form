@@ -8,6 +8,6 @@ use Laminas\Validator\ValidatorInterface as LaminasValidatorInterface;
 
 interface ValidatorInterface extends LaminasValidatorInterface
 {
-    public function isValid(mixed $value);
+    public function isValid(mixed $value): bool;
     public function getMessages();
 }

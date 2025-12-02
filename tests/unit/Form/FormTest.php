@@ -238,9 +238,10 @@ class FormTest extends Unit
 
         $notEmpty = new ValidatorAdapterZf(new NotEmpty());
 
-        $stringLength = new StringLength();
-        $stringLength->setMax(10);
-        $stringLength->setMin(2);
+        $stringLength = new StringLength([
+            'min' => 2,
+            'max' => 10,
+        ]);
         $length = new ValidatorAdapterZf($stringLength);
 
         $text->setId('user');
@@ -258,9 +259,10 @@ class FormTest extends Unit
         $form = new Form('test');
         $text = new Text('username');
 
-        $stringLength = new StringLength();
-        $stringLength->setMax(10);
-        $stringLength->setMin(2);
+        $stringLength = new StringLength([
+            'min' => 2,
+            'max' => 10,
+        ]);
         $length = new ValidatorAdapterZf($stringLength);
 
         $text->setId('user');
