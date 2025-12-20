@@ -8,34 +8,32 @@ use Del\Form\Field\Transformer\DateTimeTransformer;
 use Del\Form\Form;
 use Del\Form\Field\Text;
 
-class DateTimeTransformerTest extends Unit
+class DateTransformerTest extends Unit
 {
     public function testPlainText()
     {
         $format = 'Y-m-d';
         $form = new Form('required-text-form');
-        $date = new Text('date');
-        $date->setTransformer(new DateTimeTransformer($format));
+        $date = new Text\Date('date');
         $form->addField($date);
-        $form->populate(['date' => '2014-09-18 10:00:00']);
+        $form->populate(['date' => '2014-09-18']);
         $data = $form->getValues(true);
         $value = $data['date'];
 
         $this->assertInstanceOf(DateTime::class, $value);
-        $this->assertEquals('2014-09-18 10:00:00', $value->format($format));
+        $this->assertEquals('2014-09-18', $value->format($format));
 
         $data = $form->getValues();
         $value = $data['date'];
 
-        $this->assertEquals('2014-09-18 10:00:00', $value);
+        $this->assertEquals('2014-09-18', $value);
     }
 
     public function testDateTime()
     {
         $format = 'Y-m-d';
         $form = new Form('required-text-form');
-        $date = new Text('date');
-        $date->setTransformer(new DateTimeTransformer($format));
+        $date = new Text\Date('date');
         $form->addField($date);
         $form->populate(['date' => new DateTime('2014-09-18')]);
         $data = $form->getValues(true);
