@@ -47,6 +47,6 @@ class DateTimeTransformerTest extends Unit
         $data = $form->getValues();
         $value = $data['date'];
 
-        $this->assertEquals('2014-09-18', $value);
+        $this->assertEquals('2014-09-18 10:00:00', $value);
     }
 }
