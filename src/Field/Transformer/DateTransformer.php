@@ -9,7 +9,7 @@ use DateTimeInterface;
 use DateTimeZone;
 use Del\Form\Field\TransformerInterface;
 
-class DateTimeTransformer implements TransformerInterface
+class DateTransformer implements TransformerInterface
 {
     public function __construct(
         private string $dateFormat
@@ -18,7 +18,7 @@ class DateTimeTransformer implements TransformerInterface
     public function input(mixed $data): string
     {
         if ($data instanceof DateTimeInterface) {
-            return $data->format('Y-m-d H:i:s');
+            return $data->format('Y-m-d');
         }
 
         return $data !== null ? $data : '';
