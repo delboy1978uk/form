@@ -37,7 +37,7 @@ class DateTimeTransformerTest extends Unit
         $date = new Text('date');
         $date->setTransformer(new DateTimeTransformer($format));
         $form->addField($date);
-        $form->populate(['date' => new DateTime('2014-09-18')]);
+        $form->populate(['date' => new DateTime('2014-09-18 10:00:00')]);
         $data = $form->getValues(true);
         $value = $data['date'];
 
