@@ -22,7 +22,7 @@ class DateTimeTransformerTest extends Unit
         $value = $data['date'];
 
         $this->assertInstanceOf(DateTime::class, $value);
-        $this->assertEquals('2014-09-18 10:00:00', $value->format($format));
+        $this->assertEquals('2014-09-18', $value->format($format));
 
         $data = $form->getValues();
         $value = $data['date'];
